@@ -18,6 +18,7 @@ import { NgxGalleryAction } from './ngx-gallery-action.model';
                     <span class="ngx-gallery-remaining-count">+{{remainingCountValue}}</span>
                 </div>
             </a>
+            <p>Khanh Ne</p>
         </div>
     </div>
     <ngx-gallery-arrows *ngIf="canShowArrows()" (onPrevClick)="moveLeft()" (onNextClick)="moveRight()" [prevDisabled]="!canMoveLeft()" [nextDisabled]="!canMoveRight()" [arrowPrevIcon]="arrowPrevIcon" [arrowNextIcon]="arrowNextIcon"></ngx-gallery-arrows>
