@@ -10,6 +10,7 @@ export declare class NgxGalleryThumbnailsComponent implements OnChanges {
     thumbnailsMarginLeft: string;
     mouseenter: boolean;
     remainingCountValue: number;
+    firstImg: any;
     minStopIndex: number;
     images: string[] | SafeResourceUrl[];
     links: string[];
@@ -39,6 +40,7 @@ export declare class NgxGalleryThumbnailsComponent implements OnChanges {
     onMouseLeave(): void;
     reset(index: number): void;
     getImages(): string[] | SafeResourceUrl[];
+    getImages2(): string[] | SafeResourceUrl[];
     handleClick(event: Event, index: number): void;
     hasLinks(): boolean;
     moveRight(): void;
@@ -57,6 +59,7 @@ export declare class NgxGalleryThumbnailsComponent implements OnChanges {
     private getThumbnailPosition(index, count);
     private getThumbnailDimension(count);
     private getMaxIndex();
+    private isEven(n);
     private getVisibleCount();
     private getSafeStyle(value);
 }

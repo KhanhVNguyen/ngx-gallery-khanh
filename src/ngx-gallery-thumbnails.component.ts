@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener, OnChanges, SimpleChanges, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, OnChanges, SimpleChanges, ElementRef, OnInit } from '@angular/core';
 import { DomSanitizer, SafeStyle, SafeResourceUrl } from '@angular/platform-browser';
 
 import { NgxGalleryHelperService } from './ngx-gallery-helper.service';
@@ -9,8 +9,18 @@ import { NgxGalleryAction } from './ngx-gallery-action.model';
     selector: 'ngx-gallery-thumbnails',
     template: `
     <div class="ngx-gallery-thumbnails-wrapper ngx-gallery-thumbnail-size-{{size}}">
-        <div class="ngx-gallery-thumbnails" [style.transform]="'translateX(' + thumbnailsLeft + ')'" [style.marginLeft]="thumbnailsMarginLeft">
-            <a [href]="hasLinks() ? links[i] : '#'" [target]="linkTarget" class="ngx-gallery-thumbnail" *ngFor="let image of getImages(); let i = index;" [style.background-image]="getSafeUrl(image)" (click)="handleClick($event, i)" [style.width]="getThumbnailWidth()" [style.height]="getThumbnailHeight()" [style.left]="getThumbnailLeft(i)" [style.top]="getThumbnailTop(i)" [ngClass]="{ 'ngx-gallery-active': i == selectedIndex, 'ngx-gallery-clickable': clickable }" [attr.aria-label]="labels[i]">
+        <div class="ngx-gallery-thumbnails ngx-gallery-thumbnails-lg" [style.transform]="'translateX(' + thumbnailsLeft + ')'" [style.marginLeft]="thumbnailsMarginLeft">
+            <a [href]="hasLinks() ? links[0] : '#'" [target]="linkTarget" class="ngx-gallery-thumbnail" [style.background-image]="getSafeUrl(firstImg)" (click)="handleClick($event, 0)" [style.width]="getThumbnailWidth()" [style.height]="getThumbnailHeight()" [style.left]="getThumbnailLeft(0)" [style.top]="getThumbnailTop(0)" [ngClass]="{ 'ngx-gallery-active': 0 == selectedIndex, 'ngx-gallery-clickable': clickable }" [attr.aria-label]="labels[0]">
+                <div class="ngx-gallery-icons-wrapper">
+                    <ngx-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled" [titleText]="action.titleText" (onClick)="action.onClick($event, 0)"></ngx-gallery-action>
+                </div>
+                <div class="ngx-gallery-remaining-count-overlay" *ngIf="remainingCount && remainingCountValue && (0 == (rows * columns) - 1)">
+                    <span class="ngx-gallery-remaining-count">+{{remainingCountValue}}</span>
+                </div>
+            </a>
+        </div>
+        <div class="ngx-gallery-thumbnails ngx-gallery-thumbnails-sm" [style.transform]="'translateX(' + thumbnailsLeft + ')'" [style.marginLeft]="thumbnailsMarginLeft">
+            <a [href]="hasLinks() ? links[i] : '#'" [target]="linkTarget" class="ngx-gallery-thumbnail" *ngFor="let image of getImages2(); let i = index;" [style.background-image]="getSafeUrl(image)" (click)="handleClick($event, i+1)" [style.width]="getThumbnailWidth()" [style.height]="getThumbnailHeight()" [style.left]="getThumbnailLeft(i)" [style.top]="getThumbnailTop(i)" [ngClass]="{ 'ngx-gallery-active': i == selectedIndex, 'ngx-gallery-clickable': clickable }" [attr.aria-label]="labels[i]">
                 <div class="ngx-gallery-icons-wrapper">
                     <ngx-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled" [titleText]="action.titleText" (onClick)="action.onClick($event, i)"></ngx-gallery-action>
                 </div>
@@ -18,7 +28,6 @@ import { NgxGalleryAction } from './ngx-gallery-action.model';
                     <span class="ngx-gallery-remaining-count">+{{remainingCountValue}}</span>
                 </div>
             </a>
-            <p>Khanh Ne</p>
         </div>
     </div>
     <ngx-gallery-arrows *ngIf="canShowArrows()" (onPrevClick)="moveLeft()" (onNextClick)="moveRight()" [prevDisabled]="!canMoveLeft()" [nextDisabled]="!canMoveRight()" [arrowPrevIcon]="arrowPrevIcon" [arrowNextIcon]="arrowNextIcon"></ngx-gallery-arrows>
@@ -31,6 +40,7 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
     thumbnailsMarginLeft: string;
     mouseenter: boolean;
     remainingCountValue: number;
+    firstImg: any;
 
     minStopIndex = 0;
 
@@ -60,7 +70,10 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
     private index = 0;
 
     constructor(private sanitization: DomSanitizer, private elementRef: ElementRef,
-        private helperService: NgxGalleryHelperService) {}
+        private helperService: NgxGalleryHelperService) {
+            console.log('ahahaha');
+            
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['selectedIndex']) {
@@ -69,7 +82,7 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
 
         if (changes['swipe']) {
             this.helperService.manageSwipe(this.swipe, this.elementRef,
-            'thumbnails', () => this.moveRight(), () => this.moveLeft());
+                'thumbnails', () => this.moveRight(), () => this.moveLeft());
         }
 
         if (this.images) {
@@ -113,6 +126,12 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
         } else {
             return this.images;
         }
+    }
+
+    getImages2(): string[] | SafeResourceUrl[] {
+        let imgs = this.getImages();
+        this.firstImg = imgs[0];
+        return imgs.slice(1);
     }
 
     handleClick(event: Event, index: number): void {
@@ -198,7 +217,7 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
         this.thumbnailsLeft = - ((100 / this.columns) * this.index) + '%'
 
         this.thumbnailsMarginLeft = - ((this.margin - (((this.columns - 1)
-        * this.margin) / this.columns)) * this.index) + 'px';
+            * this.margin) / this.columns)) * this.index) + 'px';
     }
 
     setDefaultPosition(): void {
@@ -257,7 +276,15 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
     }
 
     private getMaxIndex(): number {
-        return Math.ceil(this.images.length / this.rows);
+        if (this.isEven(this.images.length)) {
+            return Math.ceil(this.images.length / this.rows) + (this.images.length / 4);
+        } else {
+            return Math.ceil(this.images.length / this.rows) + ((this.images.length / 4) - 1);
+        }
+    }
+
+    private isEven(n) {
+        return n % 2 == 0;
     }
 
     private getVisibleCount(): number {
