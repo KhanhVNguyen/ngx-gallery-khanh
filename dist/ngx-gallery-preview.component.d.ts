@@ -17,7 +17,9 @@ export declare class NgxGalleryPreviewComponent implements OnChanges {
     loading: boolean;
     rotateValue: number;
     index: number;
+    tab: number;
     images: string[] | SafeResourceUrl[];
+    smallImages: string[] | SafeResourceUrl[];
     descriptions: string[];
     showDescription: boolean;
     swipe: boolean;
@@ -76,6 +78,7 @@ export declare class NgxGalleryPreviewComponent implements OnChanges {
     canShowPrev(): boolean;
     manageFullscreen(): void;
     getSafeUrl(image: string): SafeUrl;
+    getSafeUrl2(image: string): SafeUrl;
     zoomIn(): void;
     zoomOut(): void;
     rotateLeft(): void;
@@ -98,4 +101,12 @@ export declare class NgxGalleryPreviewComponent implements OnChanges {
     private show(first?);
     private _show();
     private isLoaded(img);
+    handleClick(event: Event): void;
+    getThumbnailLeft(index: number): SafeStyle;
+    getThumbnailTop(index: number): SafeStyle;
+    private getThumbnailPosition(index, count);
+    getThumbnailWidth(): SafeStyle;
+    getThumbnailHeight(): SafeStyle;
+    private getThumbnailDimension(count);
+    private getSafeStyle(value);
 }

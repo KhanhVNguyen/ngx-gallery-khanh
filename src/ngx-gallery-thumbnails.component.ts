@@ -20,7 +20,9 @@ import { NgxGalleryAction } from './ngx-gallery-action.model';
             </a>
         </div>
         <div class="ngx-gallery-thumbnails ngx-gallery-thumbnails-sm" [style.transform]="'translateX(' + thumbnailsLeft + ')'" [style.marginLeft]="thumbnailsMarginLeft">
-            <a [href]="hasLinks() ? links[i] : '#'" [target]="linkTarget" class="ngx-gallery-thumbnail" *ngFor="let image of getImages2(); let i = index;" [style.background-image]="getSafeUrl(image)" (click)="handleClick($event, i+1)" [style.width]="getThumbnailWidth()" [style.height]="getThumbnailHeight()" [style.left]="getThumbnailLeft(i)" [style.top]="getThumbnailTop(i)" [ngClass]="{ 'ngx-gallery-active': i == selectedIndex, 'ngx-gallery-clickable': clickable }" [attr.aria-label]="labels[i]">
+            <a [href]="hasLinks() ? links[i] : '#'" [target]="linkTarget" class="ngx-gallery-thumbnail" 
+            *ngFor="let image of getImages2(); let i = index;" [style.background-image]="getSafeUrl(image)" 
+            (click)="handleClick($event, i+1)" [style.width]="getThumbnailWidth()" [style.height]="getThumbnailHeight()" [style.left]="getThumbnailLeft(i)" [style.top]="getThumbnailTop(i)" [ngClass]="{ 'ngx-gallery-active': i == selectedIndex, 'ngx-gallery-clickable': clickable }" [attr.aria-label]="labels[i]">
                 <div class="ngx-gallery-icons-wrapper">
                     <ngx-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled" [titleText]="action.titleText" (onClick)="action.onClick($event, i)"></ngx-gallery-action>
                 </div>
@@ -70,10 +72,7 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
     private index = 0;
 
     constructor(private sanitization: DomSanitizer, private elementRef: ElementRef,
-        private helperService: NgxGalleryHelperService) {
-            console.log('ahahaha');
-            
-    }
+        private helperService: NgxGalleryHelperService) {}
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['selectedIndex']) {

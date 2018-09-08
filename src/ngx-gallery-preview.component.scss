@@ -19,8 +19,9 @@
 
 .ngx-gallery-preview-img {
     opacity: 0;
-    max-width: 90%;
-    max-height: 90%;
+    max-width: 72%;
+    max-height: 80%;
+    top: 5.8rem !important;
     user-select: none;
     transition: transform .5s;
 
@@ -79,7 +80,6 @@
 }
 
 .ngx-gallery-center {
-    position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
@@ -98,14 +98,130 @@
     z-index: 10;
 }
 
+ngx-gallery-preview {
+    ngx-gallery-arrows {
+        .ngx-gallery-arrow-wrapper {
+            .ngx-gallery-icon {
+                background-color: transparent !important;
+            }
+        }
+    }
+}
+
 .ngx-gallery-preview-wrapper {
     width: 100%;
     height: 100%;
     display: flex;
     flex-flow: column;
+    overflow: scroll;
+
+    .ngx-gallery-preview-img-wrapper {
+        flex: 1 1 auto;
+        position: relative;
+
+        .ngx-gallery-preview-image {
+            position: relative;
+            text-align: center;
+            padding-top: 15px;
+            padding-bottom: 40px;
+        }
+
+        .ngx-gallery-preview-tab {
+            .ngx-gallery-preview-menu {
+                text-align: center;
+                padding-bottom: 10px;
+
+                .ngx-gallery-preview-menu-navbar {
+                    color: white;
+                    display: inline-flex;
+                    list-style-type: none;
+                    border-bottom: 1px solid #ffffff;
+
+                    .active {
+                        border-bottom: 2px solid #e4375c;
+                    }
+
+                    li {
+                        padding: 0px 25px 25px 25px;
+                        display: inline-block;
+                        margin: 0 auto;
+                    }
+                }
+            }
+
+            .ngx-gallery-preview-img-list {
+                .row {
+                    padding-left: 7em;
+                    padding-right: 7em;
+                }
+
+                .img-item {
+                    width: 100%;
+                    height: 100%;
+                    background-repeat: no-repeat;
+                    padding: 5px;
+
+                    .img-thumnails {
+                        background-size: cover;
+                        width: 100%;
+                        height: 110px;
+                    }
+                }
+            }
+        }
+
+        .ngx-gallery-preview-agent-navbar {
+            text-align: center;
+        }
+
+        .ngx-gallery-preview-agent-info {
+            display: inline-flex;
+            border-bottom: 1px solid white;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            list-style-type: none;
+
+            .ngx-gallery-preview-nav-item {
+                .ngx-gallery-preview-company-name {
+                    color: white;
+                    padding-left: 10px;
+                    font-weight: 700;
+                    font-size: 18px;
+                }
+
+                &.agent-info {
+                    padding-left: 250px;
+                    padding-right: 250px;
+                }
+
+                .agent-avatar-bg {
+                    background-image: url(/assets/images/user.png);
+                    background-repeat: no-repeat;
+                    padding-left: 70px;
+                    height: 100%;
+                    text-align: left;
+                    color: white;
+
+                    .agent-name {
+                        font-size: 22px;
+                    }
+
+                    .agent-position {
+                        font-size: 12px;
+                    }
+                }
+
+                .btn-call {
+                    margin-right: 15px;
+                }
+            }
+        }
+    }
 }
 
-.ngx-gallery-preview-img-wrapper {
-    flex: 1 1 auto;
-    position: relative;
+@media (min-width: 768px) {
+    .col-md-1 {
+        flex: 0 0 10%;
+        max-width: 10%;
+    }
 }

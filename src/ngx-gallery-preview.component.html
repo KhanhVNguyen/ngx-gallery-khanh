@@ -1,23 +1,7 @@
 <ngx-gallery-arrows (onPrevClick)="showPrev()" (onNextClick)="showNext()" [prevDisabled]="!canShowPrev()"
     [nextDisabled]="!canShowNext()" [arrowPrevIcon]="arrowPrevIcon" [arrowNextIcon]="arrowNextIcon"></ngx-gallery-arrows>
 <div class="ngx-gallery-preview-top">
-    <div class="ngx-gallery-preview-agent-navbar">
-        <ul class="ngx-gallery-preview-agent">
-            <li class="ngx-gallery-preview-nav-item">
-                <img class="ngx-gallery-preview-company-avatar" [src]="src" alt="" style="width: 70px; height:70px">
-                <span class="ngx-gallery-preview-company-name">MEKONG REALITY</span>
-            </li>
-            <li class="ngx-gallery-preview-nav-item">
-                <img class="ngx-gallery-preview-agent-avatar" src="/assets/images/user.png" style="width: 79px; height:79px">
-                <p class="ngx-gallery-preview-agent-name">Hoang Phi Yen</p>
-                <p class="ngx-gallery-preview-agent-position">Independent agent</p>
-            </li>
-            <li class="ngx-gallery-preview-nav-item">
-                <button class="btn-call">Call</button>
-                <button class="btn-message">Message</button>
-            </li>
-        </ul>
-    </div>
+
     <div class="ngx-gallery-preview-icons">
         <ngx-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled"
             [titleText]="action.titleText" (onClick)="action.onClick($event, index)"></ngx-gallery-action>
@@ -38,11 +22,65 @@
 <div class="ngx-gallery-preview-wrapper" (click)="closeOnClick && close()" (mouseup)="mouseUpHandler($event)"
     (mousemove)="mouseMoveHandler($event)" (touchend)="mouseUpHandler($event)" (touchmove)="mouseMoveHandler($event)">
     <div class="ngx-gallery-preview-img-wrapper">
-        <img *ngIf="src" #previewImage class="ngx-gallery-preview-img ngx-gallery-center" [src]="src" (click)="$event.stopPropagation()"
-            (mouseenter)="imageMouseEnter()" (mouseleave)="imageMouseLeave()" (mousedown)="mouseDownHandler($event)"
-            (touchstart)="mouseDownHandler($event)" [class.ngx-gallery-active]="!loading" [class.animation]="animation"
-            [class.ngx-gallery-grab]="canDragOnZoom()" [style.transform]="getTransform()" [style.left]="positionLeft + 'px'"
-            [style.top]="positionTop + 'px'" />
+        <div class="ngx-gallery-preview-agent-navbar">
+            <ul class="ngx-gallery-preview-agent-info">
+                <li class="ngx-gallery-preview-nav-item">
+                    <img class="ngx-gallery-preview-company-avatar" [src]="src" alt="" style="width: 70px; height:70px">
+                    <span class="ngx-gallery-preview-company-name">MEKONG REALITY</span>
+                </li>
+                <li class="ngx-gallery-preview-nav-item agent-info">
+                    <div class="agent-avatar-bg">
+                        <p class="agent-name">Hoang Phi Yen</p>
+                        <p class="agent-position">Independent agent</p>
+                    </div>
+                </li>
+                <li class="ngx-gallery-preview-nav-item">
+                    <button class="btn btn-primary btn-call">Call</button>
+                    <button class="btn btn-primary btn-message">Message</button>
+                </li>
+            </ul>
+        </div>
+        <div class="ngx-gallery-preview-image">
+            <img *ngIf="src" #previewImage class="ngx-gallery-preview-img ngx-gallery-center" [src]="src" (click)="$event.stopPropagation()"
+                (mouseenter)="imageMouseEnter()" (mouseleave)="imageMouseLeave()" (mousedown)="mouseDownHandler($event)"
+                (touchstart)="mouseDownHandler($event)" [class.ngx-gallery-active]="!loading" [class.animation]="animation"
+                [class.ngx-gallery-grab]="canDragOnZoom()" [style.transform]="getTransform()" [style.left]="positionLeft + 'px'"
+                [style.top]="positionTop + 'px'" />
+        </div>
+
+        <div class="ngx-gallery-preview-tab">
+            <div class="ngx-gallery-preview-menu">
+                <ul class="ngx-gallery-preview-menu-navbar">
+                    <li [class.active]="tab == 1" (click)="tab = 1">
+                        <span>All (30)</span>
+                    </li>
+                    <li [class.active]="tab == 2" (click)="tab = 2">
+                        <span>Rooms (10)</span>
+                    </li>
+                    <li [class.active]="tab == 3" (click)="tab = 3">
+                        <span>Property view (5)</span>
+                    </li>
+                    <li [class.active]="tab == 4" (click)="tab = 4">
+                        <span>Facilities (5)</span>
+                    </li>
+                    <li [class.active]="tab == 5" (click)="tab = 5">
+                        <span>Dining (5)</span>
+                    </li>
+                    <li [class.active]="tab == 6" (click)="tab = 6">
+                        <span>Other (5)</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="ngx-gallery-preview-img-list">
+                <div class="row">
+                    <div class="col-3 col-md-1 col-sm-2 img-item" *ngFor="let image of smallImages; let i = index;"
+                        (click)="handleClick($event)">
+                        <div class="img-thumnails" [style.background-image]="getSafeUrl2(image)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="ngx-gallery-preview-text" *ngIf="showDescription && description" [innerHTML]="description"></div>
 </div>

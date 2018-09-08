@@ -3,6 +3,7 @@ import { SafeResourceUrl, DomSanitizer, SafeUrl, SafeStyle } from '@angular/plat
 
 import { NgxGalleryAction } from './ngx-gallery-action.model';
 import { NgxGalleryHelperService } from './ngx-gallery-helper.service';
+import { NgxGalleryOrder } from 'ngx-gallery-order.model';
 
 @Component({
     selector: 'ngx-gallery-preview',
@@ -21,8 +22,10 @@ export class NgxGalleryPreviewComponent implements OnChanges {
     loading = false;
     rotateValue = 0;
     index = 0;
-
+    tab = 1;
+    
     @Input() images: string[] | SafeResourceUrl[];
+    @Input() smallImages: string[] | SafeResourceUrl[];
     @Input() descriptions: string[];
     @Input() showDescription: boolean;
     @Input() swipe: boolean;
@@ -71,12 +74,12 @@ export class NgxGalleryPreviewComponent implements OnChanges {
     private keyDownListener: Function;
 
     constructor(private sanitization: DomSanitizer, private elementRef: ElementRef,
-        private helperService: NgxGalleryHelperService, private renderer: Renderer) {}
+        private helperService: NgxGalleryHelperService, private renderer: Renderer) { }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['swipe']) {
             this.helperService.manageSwipe(this.swipe, this.elementRef,
-            'preview', () => this.showNext(), () => this.showPrev());
+                'preview', () => this.showNext(), () => this.showPrev());
         }
     }
 
@@ -221,6 +224,10 @@ export class NgxGalleryPreviewComponent implements OnChanges {
     getSafeUrl(image: string): SafeUrl {
         return image.substr(0, 10) === 'data:image' ?
             image : this.sanitization.bypassSecurityTrustUrl(image);
+    }
+
+    getSafeUrl2(image: string): SafeUrl {
+        return this.sanitization.bypassSecurityTrustStyle(this.helperService.getBackgroundUrl(image));
     }
 
     zoomIn(): void {
@@ -403,5 +410,56 @@ export class NgxGalleryPreviewComponent implements OnChanges {
         }
 
         return true;
+    }
+
+    handleClick(event: Event) {
+        console.log('Click small image');
+    }
+
+    getThumbnailLeft(index: number): SafeStyle {
+        let calculatedIndex;
+        let rows = Math.floor(this.smallImages.length / 6);
+        // if (this.order === NgxGalleryOrder.Column) {
+        //     calculatedIndex = Math.floor(index / rows);
+        // } else {
+        calculatedIndex = index % Math.ceil(this.images.length / rows);
+        // }
+
+        return this.getThumbnailPosition(calculatedIndex, 6);
+    }
+
+    getThumbnailTop(index: number): SafeStyle {
+        let calculatedIndex;
+        let rows = Math.floor(this.smallImages.length / 6);
+        // if (this.order === NgxGalleryOrder.Column) {
+        //     calculatedIndex = index % rows;
+        // } else {
+        calculatedIndex = Math.floor(index / Math.ceil(this.images.length / rows));
+        // }
+
+        return this.getThumbnailPosition(calculatedIndex, rows);
+    }
+
+    private getThumbnailPosition(index: number, count: number): SafeStyle {
+        return this.getSafeStyle('calc(' + ((100 / count) * index) + '% + '
+            + ((10 - (((count - 1) * 10) / count)) * index) + 'px)');
+    }
+
+    getThumbnailWidth(): SafeStyle {
+        return this.getThumbnailDimension(6);
+    }
+
+    getThumbnailHeight(): SafeStyle {
+        return this.getThumbnailDimension(Math.floor(this.smallImages.length / 6));
+    }
+
+    private getThumbnailDimension(count: number): SafeStyle {
+        return this.getSafeStyle('calc(' + (100 / count) + '% - '
+            + (((count - 1) * 10) / count) + 'px)');
+
+    }
+
+    private getSafeStyle(value: string): SafeStyle {
+        return this.sanitization.bypassSecurityTrustStyle(value);
     }
 }
