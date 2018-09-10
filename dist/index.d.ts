@@ -1,8 +1,10 @@
 import { HammerGestureConfig } from '@angular/platform-browser';
 export * from './ngx-gallery.component';
+export * from './gocodee-gallery.component';
 export * from './ngx-gallery-action.component';
 export * from './ngx-gallery-image.component';
 export * from './ngx-gallery-thumbnails.component';
+export * from './ngx-gallery-thumbnails-mobile.component';
 export * from './ngx-gallery-preview.component';
 export * from './ngx-gallery-arrows.component';
 export * from './ngx-gallery-options.model';
@@ -17,5 +19,5 @@ export * from './ngx-gallery-action.model';
 export declare class CustomHammerConfig extends HammerGestureConfig {
     overrides: any;
 }
-export declare class NgxGalleryModule {
+export declare class NgxGalleryModuleGoCodee {
 }

@@ -191,12 +191,12 @@ You can read more about this issue [here](https://github.com/angular/material2/i
 # Usage
 ````ts
 // app.module.ts
-import { NgxGalleryModule } from 'ngx-gallery';
+import { NgxGalleryModuleGoCodee } from 'ngx-gallery';
 ...
 @NgModule({
     imports: [
         ...
-        NgxGalleryModule
+        NgxGalleryModuleGoCodee
         ...
     ],
     ...
