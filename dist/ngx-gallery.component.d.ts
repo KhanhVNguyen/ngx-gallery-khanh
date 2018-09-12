@@ -10,6 +10,7 @@ export declare class NgxGalleryComponent implements OnInit, DoCheck, AfterViewIn
     private myElement;
     options: NgxGalleryOptions[];
     images: NgxGalleryImage[];
+    data: any;
     imagesReady: EventEmitter<{}>;
     change: EventEmitter<{
         index: number;

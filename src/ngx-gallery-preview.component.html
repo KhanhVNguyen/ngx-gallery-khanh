@@ -23,7 +23,7 @@
     (mousemove)="mouseMoveHandler($event)" (touchend)="mouseUpHandler($event)" (touchmove)="mouseMoveHandler($event)">
     <div class="ngx-gallery-preview-img-wrapper">
         <div class="ngx-gallery-preview-agent-navbar">
-            <ul class="ngx-gallery-preview-agent-info">
+            <ul *ngIf="!isProject" class="ngx-gallery-preview-agent-info">
                 <li class="ngx-gallery-preview-nav-item">
                     <img class="ngx-gallery-preview-company-avatar" [src]="src" alt="" style="width: 70px; height:70px">
                     <span class="ngx-gallery-preview-company-name">MEKONG REALITY</span>
@@ -39,6 +39,65 @@
                     <button class="btn btn-primary btn-message">Message</button>
                 </li>
             </ul>
+
+            <div *ngIf="isProject" class="ngx-gallery-preview-project">
+                <div class="row pt-3">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-3">
+                                <button class="btn btn-primary">Listing for sale</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-primary">Listing for rent</button>
+                            </div>
+                            <div class="border-right"></div>
+                            <div class="col-md-2">
+                                <form class="rating">
+                                    <label>
+                                        <input type="radio" name="stars" value="1" (click)="setStar(1)" [checked]="star == 1"
+                                            [disabled]="!editable" />
+                                        <i class="far fa-star"></i>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="stars" value="2" (click)="setStar(2)" [checked]="star == 2"
+                                            [disabled]="!editable" />
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="stars" value="3" (click)="setStar(3)" [checked]="star == 3"
+                                            [disabled]="!editable" />
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="stars" value="4" (click)="setStar(4)" [checked]="star == 4"
+                                            [disabled]="!editable" />
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="stars" value="5" (click)="setStar(5)" [checked]="star >= 5"
+                                            [disabled]="!editable" />
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </label>
+                                </form>
+                                <p class="">From 12 views</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown-divider"></div>
+            </div>
         </div>
         <div class="ngx-gallery-preview-image">
             <img *ngIf="src" #previewImage class="ngx-gallery-preview-img ngx-gallery-center" [src]="src" (click)="$event.stopPropagation()"

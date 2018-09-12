@@ -8,8 +8,8 @@ import { NgxGalleryImageComponent } from './ngx-gallery-image.component';
 import { NgxGalleryThumbnailsComponent } from './ngx-gallery-thumbnails.component';
 import { NgxGalleryPreviewComponent } from './ngx-gallery-preview.component';
 import { NgxGalleryComponent } from './ngx-gallery.component';
-import { NgxGalleryThumbnailsMobileComponent } from 'ngx-gallery-thumbnails-mobile.component';
-import { GocodeeGalleryComponent } from 'gocodee-gallery.component';
+import { NgxGalleryThumbnailsMobileComponent } from './ngx-gallery-thumbnails-mobile.component';
+import { GocodeeGalleryComponent } from './gocodee-gallery.component';
 
 export * from './ngx-gallery.component';
 export * from './gocodee-gallery.component';

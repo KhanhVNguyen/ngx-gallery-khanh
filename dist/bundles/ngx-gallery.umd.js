@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/platform-browser'), require('ngx-gallery-thumbnails-mobile.component'), require('gocodee-gallery.component')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/platform-browser', 'ngx-gallery-thumbnails-mobile.component', 'gocodee-gallery.component'], factory) :
-	(factory((global['ngx-gallery'] = {}),global.core,global.common,global.platformBrowser,global.ngxGalleryThumbnailsMobile_component,global.gocodeeGallery_component));
-}(this, (function (exports,core,common,platformBrowser,ngxGalleryThumbnailsMobile_component,gocodeeGallery_component) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/platform-browser')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/platform-browser'], factory) :
+	(factory((global['ngx-gallery'] = {}),global.core,global.common,global.platformBrowser));
+}(this, (function (exports,core,common,platformBrowser) { 'use strict';
 
 var NgxGalleryActionComponent = /** @class */ (function () {
     function NgxGalleryActionComponent() {
@@ -770,6 +770,7 @@ var NgxGalleryPreviewComponent = /** @class */ (function () {
         this.rotateValue = 0;
         this.index = 0;
         this.tab = 1;
+        this.star = 0;
         this.onOpen = new core.EventEmitter();
         this.onClose = new core.EventEmitter();
         this.onActiveChange = new core.EventEmitter();
@@ -1276,8 +1277,8 @@ var NgxGalleryPreviewComponent = /** @class */ (function () {
     NgxGalleryPreviewComponent.decorators = [
         { type: core.Component, args: [{
                     selector: 'ngx-gallery-preview',
-                    template: "<ngx-gallery-arrows (onPrevClick)=\"showPrev()\" (onNextClick)=\"showNext()\" [prevDisabled]=\"!canShowPrev()\" [nextDisabled]=\"!canShowNext()\" [arrowPrevIcon]=\"arrowPrevIcon\" [arrowNextIcon]=\"arrowNextIcon\"></ngx-gallery-arrows> <div class=\"ngx-gallery-preview-top\"> <div class=\"ngx-gallery-preview-icons\"> <ngx-gallery-action *ngFor=\"let action of actions\" [icon]=\"action.icon\" [disabled]=\"action.disabled\" [titleText]=\"action.titleText\" (onClick)=\"action.onClick($event, index)\"></ngx-gallery-action> <a *ngIf=\"download && src\" [href]=\"src\" class=\"ngx-gallery-icon\" aria-hidden=\"true\" download> <i class=\"ngx-gallery-icon-content {{ downloadIcon }}\"></i> </a> <ngx-gallery-action *ngIf=\"zoom\" [icon]=\"zoomOutIcon\" [disabled]=\"!canZoomOut()\" (onClick)=\"zoomOut()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"zoom\" [icon]=\"zoomInIcon\" [disabled]=\"!canZoomIn()\" (onClick)=\"zoomIn()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"rotate\" [icon]=\"rotateLeftIcon\" (onClick)=\"rotateLeft()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"rotate\" [icon]=\"rotateRightIcon\" (onClick)=\"rotateRight()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"fullscreen\" [icon]=\"'ngx-gallery-fullscreen ' + fullscreenIcon\" (onClick)=\"manageFullscreen()\"></ngx-gallery-action> <ngx-gallery-action [icon]=\"'ngx-gallery-close ' + closeIcon\" (onClick)=\"close()\"></ngx-gallery-action> </div> </div> <div class=\"ngx-spinner-wrapper ngx-gallery-center\" [class.ngx-gallery-active]=\"showSpinner\"> <i class=\"ngx-gallery-icon ngx-gallery-spinner {{spinnerIcon}}\" aria-hidden=\"true\"></i> </div> <div class=\"ngx-gallery-preview-wrapper\" (click)=\"closeOnClick && close()\" (mouseup)=\"mouseUpHandler($event)\" (mousemove)=\"mouseMoveHandler($event)\" (touchend)=\"mouseUpHandler($event)\" (touchmove)=\"mouseMoveHandler($event)\"> <div class=\"ngx-gallery-preview-img-wrapper\"> <div class=\"ngx-gallery-preview-agent-navbar\"> <ul class=\"ngx-gallery-preview-agent-info\"> <li class=\"ngx-gallery-preview-nav-item\"> <img class=\"ngx-gallery-preview-company-avatar\" [src]=\"src\" alt=\"\" style=\"width: 70px; height:70px\"> <span class=\"ngx-gallery-preview-company-name\">MEKONG REALITY</span> </li> <li class=\"ngx-gallery-preview-nav-item agent-info\"> <div class=\"agent-avatar-bg\"> <p class=\"agent-name\">Hoang Phi Yen</p> <p class=\"agent-position\">Independent agent</p> </div> </li> <li class=\"ngx-gallery-preview-nav-item\"> <button class=\"btn btn-primary btn-call\">Call</button> <button class=\"btn btn-primary btn-message\">Message</button> </li> </ul> </div> <div class=\"ngx-gallery-preview-image\"> <img *ngIf=\"src\" #previewImage class=\"ngx-gallery-preview-img ngx-gallery-center\" [src]=\"src\" (click)=\"$event.stopPropagation()\" (mouseenter)=\"imageMouseEnter()\" (mouseleave)=\"imageMouseLeave()\" (mousedown)=\"mouseDownHandler($event)\" (touchstart)=\"mouseDownHandler($event)\" [class.ngx-gallery-active]=\"!loading\" [class.animation]=\"animation\" [class.ngx-gallery-grab]=\"canDragOnZoom()\" [style.transform]=\"getTransform()\" [style.left]=\"positionLeft + 'px'\" [style.top]=\"positionTop + 'px'\" /> </div> <div class=\"ngx-gallery-preview-tab\"> <div class=\"ngx-gallery-preview-menu\"> <ul class=\"ngx-gallery-preview-menu-navbar\"> <li [class.active]=\"tab == 1\" (click)=\"tab = 1\"> <span>All (30)</span> </li> <li [class.active]=\"tab == 2\" (click)=\"tab = 2\"> <span>Rooms (10)</span> </li> <li [class.active]=\"tab == 3\" (click)=\"tab = 3\"> <span>Property view (5)</span> </li> <li [class.active]=\"tab == 4\" (click)=\"tab = 4\"> <span>Facilities (5)</span> </li> <li [class.active]=\"tab == 5\" (click)=\"tab = 5\"> <span>Dining (5)</span> </li> <li [class.active]=\"tab == 6\" (click)=\"tab = 6\"> <span>Other (5)</span> </li> </ul> </div> <div class=\"ngx-gallery-preview-img-list\"> <div class=\"row\"> <div class=\"col-3 col-md-1 col-sm-2 img-item\" *ngFor=\"let image of smallImages; let i = index;\" (click)=\"handleClick($event)\"> <div class=\"img-thumnails\" [style.background-image]=\"getSafeUrl2(image)\"> </div> </div> </div> </div> </div> </div> <div class=\"ngx-gallery-preview-text\" *ngIf=\"showDescription && description\" [innerHTML]=\"description\"></div> </div> ",
-                    styles: [":host(.ngx-gallery-active) { width: 100%; height: 100%; position: fixed; left: 0; top: 0; background: rgba(0, 0, 0, 0.7); z-index: 10000; display: inline-block; } :host { display: none; } :host /deep/ .ngx-gallery-arrow { font-size: 50px; } .ngx-gallery-preview-img { opacity: 0; max-width: 72%; max-height: 80%; top: 5.8rem !important; user-select: none; transition: transform .5s; } .ngx-gallery-preview-img.animation { transition: opacity 0.5s linear, transform .5s; } .ngx-gallery-preview-img.ngx-gallery-active { opacity: 1; } .ngx-gallery-preview-img.ngx-gallery-grab { cursor: grab; cursor: -webkit-grab; } .ngx-gallery-icon.ngx-gallery-spinner { font-size: 50px; left: 0; display: inline-block; } :host /deep/ .ngx-gallery-preview-top { position: absolute; width: 100%; user-select: none; } :host /deep/ .ngx-gallery-preview-icons { float: right; } :host /deep/ .ngx-gallery-preview-icons .ngx-gallery-icon { position: relative; margin-right: 10px; margin-top: 10px; font-size: 25px; cursor: pointer; text-decoration: none; } :host /deep/ .ngx-gallery-preview-icons .ngx-gallery-icon.ngx-gallery-icon-disabled { cursor: default; opacity: 0.4; } .ngx-spinner-wrapper { width: 50px; height: 50px; display: none; } .ngx-spinner-wrapper.ngx-gallery-active { display: inline-block; } .ngx-gallery-center { left: 0; right: 0; bottom: 0; margin: auto; top: 0; } .ngx-gallery-preview-text { width: 100%; background: rgba(0, 0, 0, 0.7); padding: 10px; text-align: center; color: white; font-size: 16px; flex: 0 1 auto; z-index: 10; } ngx-gallery-preview ngx-gallery-arrows .ngx-gallery-arrow-wrapper .ngx-gallery-icon { background-color: transparent !important; } .ngx-gallery-preview-wrapper { width: 100%; height: 100%; display: flex; flex-flow: column; overflow: scroll; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper { flex: 1 1 auto; position: relative; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-image { position: relative; text-align: center; padding-top: 15px; padding-bottom: 40px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-menu { text-align: center; padding-bottom: 10px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-menu .ngx-gallery-preview-menu-navbar { color: white; display: inline-flex; list-style-type: none; border-bottom: 1px solid #ffffff; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-menu .ngx-gallery-preview-menu-navbar .active { border-bottom: 2px solid #e4375c; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-menu .ngx-gallery-preview-menu-navbar li { padding: 0px 25px 25px 25px; display: inline-block; margin: 0 auto; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-img-list .row { padding-left: 7em; padding-right: 7em; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-img-list .img-item { width: 100%; height: 100%; background-repeat: no-repeat; padding: 5px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-img-list .img-item .img-thumnails { background-size: cover; width: 100%; height: 110px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-navbar { text-align: center; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info { display: inline-flex; border-bottom: 1px solid white; padding-top: 15px; padding-bottom: 15px; list-style-type: none; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .ngx-gallery-preview-company-name { color: white; padding-left: 10px; font-weight: 700; font-size: 18px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item.agent-info { padding-left: 250px; padding-right: 250px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .agent-avatar-bg { background-image: url(/assets/images/user.png); background-repeat: no-repeat; padding-left: 70px; height: 100%; text-align: left; color: white; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .agent-avatar-bg .agent-name { font-size: 22px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .agent-avatar-bg .agent-position { font-size: 12px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .btn-call { margin-right: 15px; } @media (min-width: 768px) { .col-md-1 { flex: 0 0 10%; max-width: 10%; } } "]
+                    template: "<ngx-gallery-arrows (onPrevClick)=\"showPrev()\" (onNextClick)=\"showNext()\" [prevDisabled]=\"!canShowPrev()\" [nextDisabled]=\"!canShowNext()\" [arrowPrevIcon]=\"arrowPrevIcon\" [arrowNextIcon]=\"arrowNextIcon\"></ngx-gallery-arrows> <div class=\"ngx-gallery-preview-top\"> <div class=\"ngx-gallery-preview-icons\"> <ngx-gallery-action *ngFor=\"let action of actions\" [icon]=\"action.icon\" [disabled]=\"action.disabled\" [titleText]=\"action.titleText\" (onClick)=\"action.onClick($event, index)\"></ngx-gallery-action> <a *ngIf=\"download && src\" [href]=\"src\" class=\"ngx-gallery-icon\" aria-hidden=\"true\" download> <i class=\"ngx-gallery-icon-content {{ downloadIcon }}\"></i> </a> <ngx-gallery-action *ngIf=\"zoom\" [icon]=\"zoomOutIcon\" [disabled]=\"!canZoomOut()\" (onClick)=\"zoomOut()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"zoom\" [icon]=\"zoomInIcon\" [disabled]=\"!canZoomIn()\" (onClick)=\"zoomIn()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"rotate\" [icon]=\"rotateLeftIcon\" (onClick)=\"rotateLeft()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"rotate\" [icon]=\"rotateRightIcon\" (onClick)=\"rotateRight()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"fullscreen\" [icon]=\"'ngx-gallery-fullscreen ' + fullscreenIcon\" (onClick)=\"manageFullscreen()\"></ngx-gallery-action> <ngx-gallery-action [icon]=\"'ngx-gallery-close ' + closeIcon\" (onClick)=\"close()\"></ngx-gallery-action> </div> </div> <div class=\"ngx-spinner-wrapper ngx-gallery-center\" [class.ngx-gallery-active]=\"showSpinner\"> <i class=\"ngx-gallery-icon ngx-gallery-spinner {{spinnerIcon}}\" aria-hidden=\"true\"></i> </div> <div class=\"ngx-gallery-preview-wrapper\" (click)=\"closeOnClick && close()\" (mouseup)=\"mouseUpHandler($event)\" (mousemove)=\"mouseMoveHandler($event)\" (touchend)=\"mouseUpHandler($event)\" (touchmove)=\"mouseMoveHandler($event)\"> <div class=\"ngx-gallery-preview-img-wrapper\"> <div class=\"ngx-gallery-preview-agent-navbar\"> <ul *ngIf=\"!isProject\" class=\"ngx-gallery-preview-agent-info\"> <li class=\"ngx-gallery-preview-nav-item\"> <img class=\"ngx-gallery-preview-company-avatar\" [src]=\"src\" alt=\"\" style=\"width: 70px; height:70px\"> <span class=\"ngx-gallery-preview-company-name\">MEKONG REALITY</span> </li> <li class=\"ngx-gallery-preview-nav-item agent-info\"> <div class=\"agent-avatar-bg\"> <p class=\"agent-name\">Hoang Phi Yen</p> <p class=\"agent-position\">Independent agent</p> </div> </li> <li class=\"ngx-gallery-preview-nav-item\"> <button class=\"btn btn-primary btn-call\">Call</button> <button class=\"btn btn-primary btn-message\">Message</button> </li> </ul> <div *ngIf=\"isProject\" class=\"ngx-gallery-preview-project\"> <div class=\"row pt-3\"> <div class=\"col-md-6\"></div> <div class=\"col-md-6\"> <div class=\"row\"> <div class=\"col-md-1\"></div> <div class=\"col-md-3\"> <button class=\"btn btn-primary\">Listing for sale</button> </div> <div class=\"col-md-3\"> <button class=\"btn btn-primary\">Listing for rent</button> </div> <div class=\"border-right\"></div> <div class=\"col-md-2\"> <form class=\"rating\"> <label> <input type=\"radio\" name=\"stars\" value=\"1\" (click)=\"setStar(1)\" [checked]=\"star == 1\" [disabled]=\"!editable\" /> <i class=\"far fa-star\"></i> </label> <label> <input type=\"radio\" name=\"stars\" value=\"2\" (click)=\"setStar(2)\" [checked]=\"star == 2\" [disabled]=\"!editable\" /> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> </label> <label> <input type=\"radio\" name=\"stars\" value=\"3\" (click)=\"setStar(3)\" [checked]=\"star == 3\" [disabled]=\"!editable\" /> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> </label> <label> <input type=\"radio\" name=\"stars\" value=\"4\" (click)=\"setStar(4)\" [checked]=\"star == 4\" [disabled]=\"!editable\" /> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> </label> <label> <input type=\"radio\" name=\"stars\" value=\"5\" (click)=\"setStar(5)\" [checked]=\"star >= 5\" [disabled]=\"!editable\" /> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> </label> </form> <p class=\"\">From 12 views</p> </div> </div> </div> </div> <div class=\"dropdown-divider\"></div> </div> </div> <div class=\"ngx-gallery-preview-image\"> <img *ngIf=\"src\" #previewImage class=\"ngx-gallery-preview-img ngx-gallery-center\" [src]=\"src\" (click)=\"$event.stopPropagation()\" (mouseenter)=\"imageMouseEnter()\" (mouseleave)=\"imageMouseLeave()\" (mousedown)=\"mouseDownHandler($event)\" (touchstart)=\"mouseDownHandler($event)\" [class.ngx-gallery-active]=\"!loading\" [class.animation]=\"animation\" [class.ngx-gallery-grab]=\"canDragOnZoom()\" [style.transform]=\"getTransform()\" [style.left]=\"positionLeft + 'px'\" [style.top]=\"positionTop + 'px'\" /> </div> <div class=\"ngx-gallery-preview-tab\"> <div class=\"ngx-gallery-preview-menu\"> <ul class=\"ngx-gallery-preview-menu-navbar\"> <li [class.active]=\"tab == 1\" (click)=\"tab = 1\"> <span>All (30)</span> </li> <li [class.active]=\"tab == 2\" (click)=\"tab = 2\"> <span>Rooms (10)</span> </li> <li [class.active]=\"tab == 3\" (click)=\"tab = 3\"> <span>Property view (5)</span> </li> <li [class.active]=\"tab == 4\" (click)=\"tab = 4\"> <span>Facilities (5)</span> </li> <li [class.active]=\"tab == 5\" (click)=\"tab = 5\"> <span>Dining (5)</span> </li> <li [class.active]=\"tab == 6\" (click)=\"tab = 6\"> <span>Other (5)</span> </li> </ul> </div> <div class=\"ngx-gallery-preview-img-list\"> <div class=\"row\"> <div class=\"col-3 col-md-1 col-sm-2 img-item\" *ngFor=\"let image of smallImages; let i = index;\" (click)=\"handleClick($event)\"> <div class=\"img-thumnails\" [style.background-image]=\"getSafeUrl2(image)\"> </div> </div> </div> </div> </div> </div> <div class=\"ngx-gallery-preview-text\" *ngIf=\"showDescription && description\" [innerHTML]=\"description\"></div> </div> ",
+                    styles: [":host(.ngx-gallery-active) { width: 100%; height: 100%; position: fixed; left: 0; top: 0; background: rgba(0, 0, 0, 0.7); z-index: 10000; display: inline-block; } :host { display: none; } :host /deep/ .ngx-gallery-arrow { font-size: 50px; } .ngx-gallery-preview-img { opacity: 0; max-width: 72%; max-height: 80%; top: 5.8rem !important; user-select: none; transition: transform .5s; } .ngx-gallery-preview-img.animation { transition: opacity 0.5s linear, transform .5s; } .ngx-gallery-preview-img.ngx-gallery-active { opacity: 1; } .ngx-gallery-preview-img.ngx-gallery-grab { cursor: grab; cursor: -webkit-grab; } .ngx-gallery-icon.ngx-gallery-spinner { font-size: 50px; left: 0; display: inline-block; } :host /deep/ .ngx-gallery-preview-top { position: absolute; width: 100%; user-select: none; } :host /deep/ .ngx-gallery-preview-icons { float: right; } :host /deep/ .ngx-gallery-preview-icons .ngx-gallery-icon { position: relative; margin-right: 10px; margin-top: 10px; font-size: 25px; cursor: pointer; text-decoration: none; } :host /deep/ .ngx-gallery-preview-icons .ngx-gallery-icon.ngx-gallery-icon-disabled { cursor: default; opacity: 0.4; } .ngx-spinner-wrapper { width: 50px; height: 50px; display: none; } .ngx-spinner-wrapper.ngx-gallery-active { display: inline-block; } .ngx-gallery-center { left: 0; right: 0; bottom: 0; margin: auto; top: 0; } .ngx-gallery-preview-text { width: 100%; background: rgba(0, 0, 0, 0.7); padding: 10px; text-align: center; color: white; font-size: 16px; flex: 0 1 auto; z-index: 10; } ngx-gallery-preview ngx-gallery-arrows .ngx-gallery-arrow-wrapper .ngx-gallery-icon { background-color: transparent !important; } .ngx-gallery-preview-wrapper { width: 100%; height: 100%; display: flex; flex-flow: column; overflow: scroll; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper { flex: 1 1 auto; position: relative; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-image { position: relative; text-align: center; padding-top: 15px; padding-bottom: 40px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-menu { text-align: center; padding-bottom: 10px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-menu .ngx-gallery-preview-menu-navbar { color: white; display: inline-flex; list-style-type: none; border-bottom: 1px solid #ffffff; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-menu .ngx-gallery-preview-menu-navbar .active { border-bottom: 2px solid #e4375c; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-menu .ngx-gallery-preview-menu-navbar li { padding: 0px 25px 25px 25px; display: inline-block; margin: 0 auto; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-img-list .row { padding-left: 7em; padding-right: 7em; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-img-list .img-item { width: 100%; height: 100%; background-repeat: no-repeat; padding: 5px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-img-list .img-item .img-thumnails { background-size: cover; width: 100%; height: 110px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-navbar { text-align: center; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-project .col-md-2 { flex: 0 0 20% !important; max-width: 20% !important; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-project p { color: #ffffff; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-project .btn { width: 140px !important; border-radius: 0 !important; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info { display: inline-flex; border-bottom: 1px solid white; padding-top: 15px; padding-bottom: 15px; list-style-type: none; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .ngx-gallery-preview-company-name { color: white; padding-left: 10px; font-weight: 700; font-size: 18px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item.agent-info { padding-left: 250px; padding-right: 250px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .agent-avatar-bg { background-image: url(/assets/images/user.png); background-repeat: no-repeat; padding-left: 70px; height: 100%; text-align: left; color: white; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .agent-avatar-bg .agent-name { font-size: 22px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .agent-avatar-bg .agent-position { font-size: 12px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .btn-call { margin-right: 15px; } @media (min-width: 768px) { .col-md-1 { flex: 0 0 10%; max-width: 10%; } } .rating { display: inline-block; position: relative; height: 30px; font-size: 14px; margin-right: 10px; } .rating label { position: absolute; top: 0; left: 0; height: 100%; cursor: pointer; } .rating label:last-child { position: static; } .rating label:nth-child(1) { z-index: 5; } .rating label:nth-child(2) { z-index: 4; } .rating label:nth-child(3) { z-index: 3; } .rating label:nth-child(4) { z-index: 2; } .rating label:nth-child(5) { z-index: 1; } .rating label input { position: absolute; top: 0; left: 0; opacity: 0; } .rating label .icon { float: left; color: transparent; } .rating label .far { color: #3acaaa; } .rating:not(:hover) label input:checked ~ .far, .rating:hover label:hover input ~ .far { font-weight: 900; color: #3acaaa; } .rating label input:focus:not(:checked) ~ .far:last-child { color: #3acaaa; text-shadow: 0 0 5px #3acaaa; } "]
                 },] },
     ];
     /**
@@ -1290,6 +1291,8 @@ var NgxGalleryPreviewComponent = /** @class */ (function () {
         { type: core.Renderer, },
     ]; };
     NgxGalleryPreviewComponent.propDecorators = {
+        'star': [{ type: core.Input },],
+        'isProject': [{ type: core.Input },],
         'images': [{ type: core.Input },],
         'smallImages': [{ type: core.Input },],
         'descriptions': [{ type: core.Input },],
@@ -1440,6 +1443,7 @@ var NgxGalleryOptions = /** @class */ (function () {
         this.rotateLeftIcon = use(obj.rotateLeftIcon, 'fa fa-undo');
         this.rotateRightIcon = use(obj.rotateRightIcon, 'fa fa-repeat');
         this.downloadIcon = use(obj.downloadIcon, 'fa fa-arrow-circle-down');
+        this.project = use(obj.project, false);
         if (obj && obj.actions && obj.actions.length) {
             obj.actions = obj.actions.map(function (action) { return new NgxGalleryAction(action); });
         }
@@ -1762,8 +1766,8 @@ var NgxGalleryComponent = /** @class */ (function () {
     NgxGalleryComponent.decorators = [
         { type: core.Component, args: [{
                     selector: 'ngx-gallery-gocodee',
-                    template: "\n    <div class=\"ngx-gallery-layout {{currentOptions?.layout}}\">\n        <ngx-gallery-image *ngIf=\"currentOptions?.image\" [style.height]=\"getImageHeight()\" [images]=\"mediumImages\" [clickable]=\"currentOptions?.preview\" [selectedIndex]=\"selectedIndex\" [arrows]=\"currentOptions?.imageArrows\" [arrowsAutoHide]=\"currentOptions?.imageArrowsAutoHide\" [arrowPrevIcon]=\"currentOptions?.arrowPrevIcon\" [arrowNextIcon]=\"currentOptions?.arrowNextIcon\" [swipe]=\"currentOptions?.imageSwipe\" [animation]=\"currentOptions?.imageAnimation\" [size]=\"currentOptions?.imageSize\" [autoPlay]=\"currentOptions?.imageAutoPlay\" [autoPlayInterval]=\"currentOptions?.imageAutoPlayInterval\" [autoPlayPauseOnHover]=\"currentOptions?.imageAutoPlayPauseOnHover\" [infinityMove]=\"currentOptions?.imageInfinityMove\"  [lazyLoading]=\"currentOptions?.lazyLoading\" [actions]=\"currentOptions?.imageActions\" [descriptions]=\"descriptions\" [showDescription]=\"currentOptions?.imageDescription\" (onClick)=\"openPreview($event)\" (onActiveChange)=\"selectFromImage($event)\"></ngx-gallery-image>\n\n        <ngx-gallery-thumbnails *ngIf=\"currentOptions?.thumbnails\" [style.marginTop]=\"getThumbnailsMarginTop()\" [style.marginBottom]=\"getThumbnailsMarginBottom()\" [style.height]=\"getThumbnailsHeight()\" [images]=\"smallImages\" [links]=\"currentOptions?.thumbnailsAsLinks ? links : []\" [labels]=\"labels\" [linkTarget]=\"currentOptions?.linkTarget\" [selectedIndex]=\"selectedIndex\" [columns]=\"currentOptions?.thumbnailsColumns\" [rows]=\"currentOptions?.thumbnailsRows\" [margin]=\"currentOptions?.thumbnailMargin\" [arrows]=\"currentOptions?.thumbnailsArrows\" [arrowsAutoHide]=\"currentOptions?.thumbnailsArrowsAutoHide\" [arrowPrevIcon]=\"currentOptions?.arrowPrevIcon\" [arrowNextIcon]=\"currentOptions?.arrowNextIcon\" [clickable]=\"currentOptions?.image || currentOptions?.preview\" [swipe]=\"currentOptions?.thumbnailsSwipe\" [size]=\"currentOptions?.thumbnailSize\" [moveSize]=\"currentOptions?.thumbnailsMoveSize\" [order]=\"currentOptions?.thumbnailsOrder\" [remainingCount]=\"currentOptions?.thumbnailsRemainingCount\" [lazyLoading]=\"currentOptions?.lazyLoading\" [actions]=\"currentOptions?.thumbnailActions\"  (onActiveChange)=\"selectFromThumbnails($event)\"></ngx-gallery-thumbnails>\n\n        <ngx-gallery-preview [images]=\"bigImages\" [smallImages]=\"smallImages\" [descriptions]=\"descriptions\" [showDescription]=\"currentOptions?.previewDescription\" [arrowPrevIcon]=\"currentOptions?.arrowPrevIcon\" [arrowNextIcon]=\"currentOptions?.arrowNextIcon\" [closeIcon]=\"currentOptions?.closeIcon\" [fullscreenIcon]=\"currentOptions?.fullscreenIcon\" [spinnerIcon]=\"currentOptions?.spinnerIcon\" [swipe]=\"currentOptions?.previewSwipe\" [fullscreen]=\"currentOptions?.previewFullscreen\" [forceFullscreen]=\"currentOptions?.previewForceFullscreen\" [closeOnClick]=\"currentOptions?.previewCloseOnClick\" [closeOnEsc]=\"currentOptions?.previewCloseOnEsc\" [keyboardNavigation]=\"currentOptions?.previewKeyboardNavigation\" [animation]=\"currentOptions?.previewAnimation\" [autoPlay]=\"currentOptions?.previewAutoPlay\" [autoPlayInterval]=\"currentOptions?.previewAutoPlayInterval\" [autoPlayPauseOnHover]=\"currentOptions?.previewAutoPlayPauseOnHover\" [infinityMove]=\"currentOptions?.previewInfinityMove\" [zoom]=\"currentOptions?.previewZoom\" [zoomStep]=\"currentOptions?.previewZoomStep\" [zoomMax]=\"currentOptions?.previewZoomMax\" [zoomMin]=\"currentOptions?.previewZoomMin\" [zoomInIcon]=\"currentOptions?.zoomInIcon\" [zoomOutIcon]=\"currentOptions?.zoomOutIcon\" [actions]=\"currentOptions?.actions\" [rotate]=\"currentOptions?.previewRotate\" [rotateLeftIcon]=\"currentOptions?.rotateLeftIcon\" [rotateRightIcon]=\"currentOptions?.rotateRightIcon\" [download]=\"currentOptions?.previewDownload\" [downloadIcon]=\"currentOptions?.downloadIcon\" (onClose)=\"onPreviewClose()\" (onOpen)=\"onPreviewOpen()\" (onActiveChange)=\"previewSelect($event)\" [class.ngx-gallery-active]=\"previewEnabled\"></ngx-gallery-preview>\n    </div>\n    ",
-                    styles: [":host { display: inline-block; } :host > * { float: left; } :host /deep/ * { box-sizing: border-box; } :host /deep/ .ngx-gallery-icon { color: white; font-size: 25px; position: absolute; z-index: 2000; display: inline-block; } :host /deep/ .ngx-gallery-icon .ngx-gallery-icon-content { display: block; } :host /deep/ .ngx-gallery-clickable { cursor: pointer; } :host /deep/ .ngx-gallery-icons-wrapper .ngx-gallery-icon { position: relative; margin-right: 5px; margin-top: 5px; font-size: 20px; cursor: pointer; } :host /deep/ .ngx-gallery-icons-wrapper { float: right; } :host .ngx-gallery-layout { width: 100%; height: 100%; display: flex; flex-direction: column; } :host .ngx-gallery-layout.thumbnails-top ngx-gallery-image { order: 2; } :host .ngx-gallery-layout.thumbnails-top ngx-gallery-thumbnails { order: 1; } :host .ngx-gallery-layout.thumbnails-bottom ngx-gallery-image { order: 1; } :host .ngx-gallery-layout.thumbnails-bottom ngx-gallery-thumbnails { order: 2; } "],
+                    template: "\n    <div class=\"ngx-gallery-layout {{currentOptions?.layout}}\">\n        <ngx-gallery-image *ngIf=\"currentOptions?.image\" [style.height]=\"getImageHeight()\" [images]=\"mediumImages\" [clickable]=\"currentOptions?.preview\" [selectedIndex]=\"selectedIndex\" [arrows]=\"currentOptions?.imageArrows\" [arrowsAutoHide]=\"currentOptions?.imageArrowsAutoHide\" [arrowPrevIcon]=\"currentOptions?.arrowPrevIcon\" [arrowNextIcon]=\"currentOptions?.arrowNextIcon\" [swipe]=\"currentOptions?.imageSwipe\" [animation]=\"currentOptions?.imageAnimation\" [size]=\"currentOptions?.imageSize\" [autoPlay]=\"currentOptions?.imageAutoPlay\" [autoPlayInterval]=\"currentOptions?.imageAutoPlayInterval\" [autoPlayPauseOnHover]=\"currentOptions?.imageAutoPlayPauseOnHover\" [infinityMove]=\"currentOptions?.imageInfinityMove\"  [lazyLoading]=\"currentOptions?.lazyLoading\" [actions]=\"currentOptions?.imageActions\" [descriptions]=\"descriptions\" [showDescription]=\"currentOptions?.imageDescription\" (onClick)=\"openPreview($event)\" (onActiveChange)=\"selectFromImage($event)\"></ngx-gallery-image>\n\n        <ngx-gallery-thumbnails *ngIf=\"currentOptions?.thumbnails\" [style.marginTop]=\"getThumbnailsMarginTop()\" [style.marginBottom]=\"getThumbnailsMarginBottom()\" [style.height]=\"getThumbnailsHeight()\" [images]=\"smallImages\" [links]=\"currentOptions?.thumbnailsAsLinks ? links : []\" [labels]=\"labels\" [linkTarget]=\"currentOptions?.linkTarget\" [selectedIndex]=\"selectedIndex\" [columns]=\"currentOptions?.thumbnailsColumns\" [rows]=\"currentOptions?.thumbnailsRows\" [margin]=\"currentOptions?.thumbnailMargin\" [arrows]=\"currentOptions?.thumbnailsArrows\" [arrowsAutoHide]=\"currentOptions?.thumbnailsArrowsAutoHide\" [arrowPrevIcon]=\"currentOptions?.arrowPrevIcon\" [arrowNextIcon]=\"currentOptions?.arrowNextIcon\" [clickable]=\"currentOptions?.image || currentOptions?.preview\" [swipe]=\"currentOptions?.thumbnailsSwipe\" [size]=\"currentOptions?.thumbnailSize\" [moveSize]=\"currentOptions?.thumbnailsMoveSize\" [order]=\"currentOptions?.thumbnailsOrder\" [remainingCount]=\"currentOptions?.thumbnailsRemainingCount\" [lazyLoading]=\"currentOptions?.lazyLoading\" [actions]=\"currentOptions?.thumbnailActions\"  (onActiveChange)=\"selectFromThumbnails($event)\"></ngx-gallery-thumbnails>\n\n        <ngx-gallery-preview [star]=\"data?.star\" [isProject]=\"currentOptions?.project\" [images]=\"bigImages\" [smallImages]=\"smallImages\" [descriptions]=\"descriptions\" [showDescription]=\"currentOptions?.previewDescription\" [arrowPrevIcon]=\"currentOptions?.arrowPrevIcon\" [arrowNextIcon]=\"currentOptions?.arrowNextIcon\" [closeIcon]=\"currentOptions?.closeIcon\" [fullscreenIcon]=\"currentOptions?.fullscreenIcon\" [spinnerIcon]=\"currentOptions?.spinnerIcon\" [swipe]=\"currentOptions?.previewSwipe\" [fullscreen]=\"currentOptions?.previewFullscreen\" [forceFullscreen]=\"currentOptions?.previewForceFullscreen\" [closeOnClick]=\"currentOptions?.previewCloseOnClick\" [closeOnEsc]=\"currentOptions?.previewCloseOnEsc\" [keyboardNavigation]=\"currentOptions?.previewKeyboardNavigation\" [animation]=\"currentOptions?.previewAnimation\" [autoPlay]=\"currentOptions?.previewAutoPlay\" [autoPlayInterval]=\"currentOptions?.previewAutoPlayInterval\" [autoPlayPauseOnHover]=\"currentOptions?.previewAutoPlayPauseOnHover\" [infinityMove]=\"currentOptions?.previewInfinityMove\" [zoom]=\"currentOptions?.previewZoom\" [zoomStep]=\"currentOptions?.previewZoomStep\" [zoomMax]=\"currentOptions?.previewZoomMax\" [zoomMin]=\"currentOptions?.previewZoomMin\" [zoomInIcon]=\"currentOptions?.zoomInIcon\" [zoomOutIcon]=\"currentOptions?.zoomOutIcon\" [actions]=\"currentOptions?.actions\" [rotate]=\"currentOptions?.previewRotate\" [rotateLeftIcon]=\"currentOptions?.rotateLeftIcon\" [rotateRightIcon]=\"currentOptions?.rotateRightIcon\" [download]=\"currentOptions?.previewDownload\" [downloadIcon]=\"currentOptions?.downloadIcon\" (onClose)=\"onPreviewClose()\" (onOpen)=\"onPreviewOpen()\" (onActiveChange)=\"previewSelect($event)\" [class.ngx-gallery-active]=\"previewEnabled\"></ngx-gallery-preview>\n    </div>\n    ",
+                    styles: [":host { display: inline-block; } :host > * { float: left; } :host /deep/ * { box-sizing: border-box; } :host /deep/ .ngx-gallery-icon { color: white; font-size: 25px; position: absolute; z-index: 2000; display: inline-block; } :host /deep/ .ngx-gallery-icon .ngx-gallery-icon-content { display: block; } :host /deep/ .ngx-gallery-clickable { cursor: pointer; } :host /deep/ .ngx-gallery-icons-wrapper .ngx-gallery-icon { position: relative; margin-right: 5px; margin-top: 5px; font-size: 20px; cursor: pointer; } :host /deep/ .ngx-gallery-icons-wrapper { float: right; } :host .ngx-gallery-layout { width: 100%; height: 100%; display: flex; flex-direction: column; } :host .ngx-gallery-layout.thumbnails-top ngx-gallery-image { order: 2; } :host .ngx-gallery-layout.thumbnails-top ngx-gallery-thumbnails { order: 1; } :host .ngx-gallery-layout.thumbnails-top ngx-gallery-thumbnails-mobile { order: 1; } :host .ngx-gallery-layout.thumbnails-bottom ngx-gallery-image { order: 1; } :host .ngx-gallery-layout.thumbnails-bottom ngx-gallery-thumbnails { order: 2; } :host .ngx-gallery-layout.thumbnails-bottom ngx-gallery-thumbnails-mobile { order: 2; } "],
                     providers: [NgxGalleryHelperService]
                 },] },
     ];
@@ -1776,6 +1780,7 @@ var NgxGalleryComponent = /** @class */ (function () {
     NgxGalleryComponent.propDecorators = {
         'options': [{ type: core.Input },],
         'images': [{ type: core.Input },],
+        'data': [{ type: core.Input },],
         'imagesReady': [{ type: core.Output },],
         'change': [{ type: core.Output },],
         'previewOpen': [{ type: core.Output },],
@@ -1792,13 +1797,13 @@ var NgxGalleryComponent = /** @class */ (function () {
     return NgxGalleryComponent;
 }());
 
-var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
+var NgxGalleryThumbnailsMobileComponent = /** @class */ (function () {
     /**
      * @param {?} sanitization
      * @param {?} elementRef
      * @param {?} helperService
      */
-    function NgxGalleryThumbnailsMobileComponent$$1(sanitization, elementRef, helperService) {
+    function NgxGalleryThumbnailsMobileComponent(sanitization, elementRef, helperService) {
         this.sanitization = sanitization;
         this.elementRef = elementRef;
         this.helperService = helperService;
@@ -1810,7 +1815,7 @@ var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
      * @param {?} changes
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.ngOnChanges = function (changes) {
+    NgxGalleryThumbnailsMobileComponent.prototype.ngOnChanges = function (changes) {
         var _this = this;
         if (changes['selectedIndex']) {
             this.validateIndex();
@@ -1825,20 +1830,20 @@ var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.onMouseEnter = function () {
+    NgxGalleryThumbnailsMobileComponent.prototype.onMouseEnter = function () {
         this.mouseenter = true;
     };
     /**
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.onMouseLeave = function () {
+    NgxGalleryThumbnailsMobileComponent.prototype.onMouseLeave = function () {
         this.mouseenter = false;
     };
     /**
      * @param {?} index
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.reset = function (index) {
+    NgxGalleryThumbnailsMobileComponent.prototype.reset = function (index) {
         this.selectedIndex = index;
         this.setDefaultPosition();
         this.index = 0;
@@ -1847,7 +1852,7 @@ var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.getImages = function () {
+    NgxGalleryThumbnailsMobileComponent.prototype.getImages = function () {
         if (this.remainingCount) {
             return this.images.slice(0, this.rows * this.columns);
         }
@@ -1873,7 +1878,7 @@ var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
      * @param {?} index
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.handleClick = function (event, index) {
+    NgxGalleryThumbnailsMobileComponent.prototype.handleClick = function (event, index) {
         if (!this.hasLinks()) {
             this.selectedIndex = index;
             this.onActiveChange.emit(index);
@@ -1884,14 +1889,14 @@ var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.hasLinks = function () {
+    NgxGalleryThumbnailsMobileComponent.prototype.hasLinks = function () {
         if (this.links && this.links.length)
             return true;
     };
     /**
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.moveRight = function () {
+    NgxGalleryThumbnailsMobileComponent.prototype.moveRight = function () {
         if (this.canMoveRight()) {
             this.index += this.moveSize;
             var /** @type {?} */ maxIndex = this.getMaxIndex() - this.columns;
@@ -1904,7 +1909,7 @@ var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.moveLeft = function () {
+    NgxGalleryThumbnailsMobileComponent.prototype.moveLeft = function () {
         if (this.canMoveLeft()) {
             this.index -= this.moveSize;
             if (this.index < 0) {
@@ -1916,20 +1921,20 @@ var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.canMoveRight = function () {
+    NgxGalleryThumbnailsMobileComponent.prototype.canMoveRight = function () {
         return this.index + this.columns < this.getMaxIndex() ? true : false;
     };
     /**
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.canMoveLeft = function () {
+    NgxGalleryThumbnailsMobileComponent.prototype.canMoveLeft = function () {
         return this.index !== 0 ? true : false;
     };
     /**
      * @param {?} index
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.getThumbnailLeft = function (index) {
+    NgxGalleryThumbnailsMobileComponent.prototype.getThumbnailLeft = function (index) {
         var /** @type {?} */ calculatedIndex;
         if (this.order === NgxGalleryOrder.Column) {
             calculatedIndex = Math.floor(index / this.rows);
@@ -1943,7 +1948,7 @@ var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
      * @param {?} index
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.getThumbnailTop = function (index) {
+    NgxGalleryThumbnailsMobileComponent.prototype.getThumbnailTop = function (index) {
         var /** @type {?} */ calculatedIndex;
         if (this.order === NgxGalleryOrder.Column) {
             calculatedIndex = index % this.rows;
@@ -1956,19 +1961,19 @@ var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.getThumbnailWidth = function () {
+    NgxGalleryThumbnailsMobileComponent.prototype.getThumbnailWidth = function () {
         return this.getThumbnailDimension(this.columns);
     };
     /**
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.getThumbnailHeight = function () {
+    NgxGalleryThumbnailsMobileComponent.prototype.getThumbnailHeight = function () {
         return this.getThumbnailDimension(this.rows);
     };
     /**
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.setThumbnailsPosition = function () {
+    NgxGalleryThumbnailsMobileComponent.prototype.setThumbnailsPosition = function () {
         this.thumbnailsLeft = -((100 / this.columns) * this.index) + '%';
         this.thumbnailsMarginLeft = -((this.margin - (((this.columns - 1)
             * this.margin) / this.columns)) * this.index) + 'px';
@@ -1976,14 +1981,14 @@ var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.setDefaultPosition = function () {
+    NgxGalleryThumbnailsMobileComponent.prototype.setDefaultPosition = function () {
         this.thumbnailsLeft = '0px';
         this.thumbnailsMarginLeft = '0px';
     };
     /**
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.canShowArrows = function () {
+    NgxGalleryThumbnailsMobileComponent.prototype.canShowArrows = function () {
         if (this.remainingCount) {
             return false;
         }
@@ -1998,7 +2003,7 @@ var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.validateIndex = function () {
+    NgxGalleryThumbnailsMobileComponent.prototype.validateIndex = function () {
         var /** @type {?} */ newIndex;
         if (this.order === NgxGalleryOrder.Column) {
             newIndex = Math.floor(this.selectedIndex / this.rows);
@@ -2019,7 +2024,7 @@ var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
      * @param {?} image
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.getSafeUrl = function (image) {
+    NgxGalleryThumbnailsMobileComponent.prototype.getSafeUrl = function (image) {
         return this.sanitization.bypassSecurityTrustStyle(this.helperService.getBackgroundUrl(image));
     };
     /**
@@ -2027,7 +2032,7 @@ var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
      * @param {?} count
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.getThumbnailPosition = function (index, count) {
+    NgxGalleryThumbnailsMobileComponent.prototype.getThumbnailPosition = function (index, count) {
         return this.getSafeStyle('calc(' + ((100 / count) * index) + '% + '
             + ((this.margin - (((count - 1) * this.margin) / count)) * index) + 'px)');
     };
@@ -2035,7 +2040,7 @@ var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
      * @param {?} count
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.getThumbnailDimension = function (count) {
+    NgxGalleryThumbnailsMobileComponent.prototype.getThumbnailDimension = function (count) {
         if (this.margin !== 0) {
             return this.getSafeStyle('calc(' + (100 / count) + '% - '
                 + (((count - 1) * this.margin) / count) + 'px)');
@@ -2047,23 +2052,23 @@ var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.getMaxIndex = function () {
+    NgxGalleryThumbnailsMobileComponent.prototype.getMaxIndex = function () {
         return Math.ceil(this.images.length / this.rows);
     };
     /**
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.getVisibleCount = function () {
+    NgxGalleryThumbnailsMobileComponent.prototype.getVisibleCount = function () {
         return this.columns * this.rows;
     };
     /**
      * @param {?} value
      * @return {?}
      */
-    NgxGalleryThumbnailsMobileComponent$$1.prototype.getSafeStyle = function (value) {
+    NgxGalleryThumbnailsMobileComponent.prototype.getSafeStyle = function (value) {
         return this.sanitization.bypassSecurityTrustStyle(value);
     };
-    NgxGalleryThumbnailsMobileComponent$$1.decorators = [
+    NgxGalleryThumbnailsMobileComponent.decorators = [
         { type: core.Component, args: [{
                     selector: 'ngx-gallery-thumbnails-mobile',
                     template: "\n    <div class=\"ngx-gallery-thumbnails-wrapper ngx-gallery-thumbnail-size-{{size}}\">\n        <div class=\"ngx-gallery-thumbnails\" [style.transform]=\"'translateX(' + thumbnailsLeft + ')'\" [style.marginLeft]=\"thumbnailsMarginLeft\">\n            <a [href]=\"hasLinks() ? links[i] : '#'\" [target]=\"linkTarget\" class=\"ngx-gallery-thumbnail\" *ngFor=\"let image of getImages(); let i = index;\" [style.background-image]=\"getSafeUrl(image)\" (click)=\"handleClick($event, i)\" [style.width]=\"getThumbnailWidth()\" [style.height]=\"getThumbnailHeight()\" [style.left]=\"getThumbnailLeft(i)\" [style.top]=\"getThumbnailTop(i)\" [ngClass]=\"{ 'ngx-gallery-active': i == selectedIndex, 'ngx-gallery-clickable': clickable }\" [attr.aria-label]=\"labels[i]\">\n                <div class=\"ngx-gallery-icons-wrapper\">\n                    <ngx-gallery-action *ngFor=\"let action of actions\" [icon]=\"action.icon\" [disabled]=\"action.disabled\" [titleText]=\"action.titleText\" (onClick)=\"action.onClick($event, i)\"></ngx-gallery-action>\n                </div>\n                <div class=\"ngx-gallery-remaining-count-overlay\" *ngIf=\"remainingCount && remainingCountValue && (i == (rows * columns) - 1)\">\n                    <span class=\"ngx-gallery-remaining-count\">+{{remainingCountValue}}</span>\n                </div>\n            </a>\n        </div>\n    </div>\n    <ngx-gallery-arrows *ngIf=\"canShowArrows()\" (onPrevClick)=\"moveLeft()\" (onNextClick)=\"moveRight()\" [prevDisabled]=\"!canMoveLeft()\" [nextDisabled]=\"!canMoveRight()\" [arrowPrevIcon]=\"arrowPrevIcon\" [arrowNextIcon]=\"arrowNextIcon\"></ngx-gallery-arrows>\n    ",
@@ -2073,12 +2078,12 @@ var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
     /**
      * @nocollapse
      */
-    NgxGalleryThumbnailsMobileComponent$$1.ctorParameters = function () { return [
+    NgxGalleryThumbnailsMobileComponent.ctorParameters = function () { return [
         { type: platformBrowser.DomSanitizer, },
         { type: core.ElementRef, },
         { type: NgxGalleryHelperService, },
     ]; };
-    NgxGalleryThumbnailsMobileComponent$$1.propDecorators = {
+    NgxGalleryThumbnailsMobileComponent.propDecorators = {
         'images': [{ type: core.Input },],
         'links': [{ type: core.Input },],
         'labels': [{ type: core.Input },],
@@ -2103,14 +2108,14 @@ var NgxGalleryThumbnailsMobileComponent$1 = /** @class */ (function () {
         'onMouseEnter': [{ type: core.HostListener, args: ['mouseenter',] },],
         'onMouseLeave': [{ type: core.HostListener, args: ['mouseleave',] },],
     };
-    return NgxGalleryThumbnailsMobileComponent$$1;
+    return NgxGalleryThumbnailsMobileComponent;
 }());
 
-var GocodeeGalleryComponent$1 = /** @class */ (function () {
+var GocodeeGalleryComponent = /** @class */ (function () {
     /**
      * @param {?} myElement
      */
-    function GocodeeGalleryComponent$$1(myElement) {
+    function GocodeeGalleryComponent(myElement) {
         this.myElement = myElement;
         this.imagesReady = new core.EventEmitter();
         this.change = new core.EventEmitter();
@@ -2125,7 +2130,7 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.ngOnInit = function () {
+    GocodeeGalleryComponent.prototype.ngOnInit = function () {
         this.options = this.options.map(function (opt) { return new NgxGalleryOptions(opt); });
         this.sortOptions();
         this.setBreakpoint();
@@ -2138,7 +2143,7 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.ngDoCheck = function () {
+    GocodeeGalleryComponent.prototype.ngDoCheck = function () {
         if (this.images !== undefined && (this.images.length !== this.oldImagesLength)
             || (this.images !== this.oldImages)) {
             this.oldImagesLength = this.images.length;
@@ -2156,13 +2161,13 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.ngAfterViewInit = function () {
+    GocodeeGalleryComponent.prototype.ngAfterViewInit = function () {
         this.checkFullWidth();
     };
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.onResize = function () {
+    GocodeeGalleryComponent.prototype.onResize = function () {
         var _this = this;
         this.setBreakpoint();
         if (this.prevBreakpoint !== this.breakpoint) {
@@ -2181,14 +2186,14 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.getImageHeight = function () {
+    GocodeeGalleryComponent.prototype.getImageHeight = function () {
         return (this.currentOptions && this.currentOptions.thumbnails) ?
             this.currentOptions.imagePercent + '%' : '100%';
     };
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.getThumbnailsHeight = function () {
+    GocodeeGalleryComponent.prototype.getThumbnailsHeight = function () {
         if (this.currentOptions && this.currentOptions.image) {
             return 'calc(' + this.currentOptions.thumbnailsPercent + '% - '
                 + this.currentOptions.thumbnailsMargin + 'px)';
@@ -2200,7 +2205,7 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.getThumbnailsMarginTop = function () {
+    GocodeeGalleryComponent.prototype.getThumbnailsMarginTop = function () {
         if (this.currentOptions && this.currentOptions.layout === NgxGalleryLayout.ThumbnailsBottom) {
             return this.currentOptions.thumbnailsMargin + 'px';
         }
@@ -2211,7 +2216,7 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.getThumbnailsMarginBottom = function () {
+    GocodeeGalleryComponent.prototype.getThumbnailsMarginBottom = function () {
         if (this.currentOptions && this.currentOptions.layout === NgxGalleryLayout.ThumbnailsTop) {
             return this.currentOptions.thumbnailsMargin + 'px';
         }
@@ -2223,7 +2228,7 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
      * @param {?} index
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.openPreview = function (index) {
+    GocodeeGalleryComponent.prototype.openPreview = function (index) {
         if (this.currentOptions.previewCustom) {
             this.currentOptions.previewCustom(index);
         }
@@ -2235,7 +2240,7 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.onPreviewOpen = function () {
+    GocodeeGalleryComponent.prototype.onPreviewOpen = function () {
         this.previewOpen.emit();
         if (this.image && this.image.autoPlay) {
             this.image.stopAutoPlay();
@@ -2244,7 +2249,7 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.onPreviewClose = function () {
+    GocodeeGalleryComponent.prototype.onPreviewClose = function () {
         this.previewEnabled = false;
         this.previewClose.emit();
         if (this.image && this.image.autoPlay) {
@@ -2255,14 +2260,14 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
      * @param {?} index
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.selectFromImage = function (index) {
+    GocodeeGalleryComponent.prototype.selectFromImage = function (index) {
         this.select(index);
     };
     /**
      * @param {?} index
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.selectFromThumbnails = function (index) {
+    GocodeeGalleryComponent.prototype.selectFromThumbnails = function (index) {
         this.select(index);
         if (this.currentOptions && this.currentOptions.thumbnails && this.currentOptions.preview
             && (!this.currentOptions.image || this.currentOptions.thumbnailsRemainingCount)) {
@@ -2273,25 +2278,25 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
      * @param {?} index
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.show = function (index) {
+    GocodeeGalleryComponent.prototype.show = function (index) {
         this.select(index);
     };
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.showNext = function () {
+    GocodeeGalleryComponent.prototype.showNext = function () {
         this.image.showNext();
     };
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.showPrev = function () {
+    GocodeeGalleryComponent.prototype.showPrev = function () {
         this.image.showPrev();
     };
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.canShowNext = function () {
+    GocodeeGalleryComponent.prototype.canShowNext = function () {
         if (this.images && this.currentOptions) {
             return (this.currentOptions.imageInfinityMove || this.selectedIndex < this.images.length - 1)
                 ? true : false;
@@ -2303,7 +2308,7 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.canShowPrev = function () {
+    GocodeeGalleryComponent.prototype.canShowPrev = function () {
         if (this.images && this.currentOptions) {
             return (this.currentOptions.imageInfinityMove || this.selectedIndex > 0) ? true : false;
         }
@@ -2315,13 +2320,13 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
      * @param {?} index
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.previewSelect = function (index) {
+    GocodeeGalleryComponent.prototype.previewSelect = function (index) {
         this.previewChange.emit({ index: index, image: this.images[index] });
     };
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.resetThumbnails = function () {
+    GocodeeGalleryComponent.prototype.resetThumbnails = function () {
         if (this.thubmnails) {
             this.thubmnails.reset(/** @type {?} */ (this.currentOptions.startIndex));
         }
@@ -2330,7 +2335,7 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
      * @param {?} index
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.select = function (index) {
+    GocodeeGalleryComponent.prototype.select = function (index) {
         this.selectedIndex = index;
         this.change.emit({
             index: index,
@@ -2340,7 +2345,7 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.checkFullWidth = function () {
+    GocodeeGalleryComponent.prototype.checkFullWidth = function () {
         if (this.currentOptions && this.currentOptions.fullWidth) {
             this.width = document.body.clientWidth + 'px';
             this.left = (-(document.body.clientWidth -
@@ -2350,7 +2355,7 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.setImages = function () {
+    GocodeeGalleryComponent.prototype.setImages = function () {
         this.smallImages = this.images.map(function (img) { /** @type {?} */ return (img.small); });
         this.mediumImages = this.images.map(function (img, i) { return new NgxGalleryOrderedImage({
             src: img.medium,
@@ -2364,7 +2369,7 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.setBreakpoint = function () {
+    GocodeeGalleryComponent.prototype.setBreakpoint = function () {
         this.prevBreakpoint = this.breakpoint;
         var /** @type {?} */ breakpoints;
         if (typeof window !== 'undefined') {
@@ -2381,7 +2386,7 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.sortOptions = function () {
+    GocodeeGalleryComponent.prototype.sortOptions = function () {
         this.options = this.options.filter(function (a) { return a.breakpoint === undefined; }).concat(this.options
             .filter(function (a) { return a.breakpoint !== undefined; })
             .sort(function (a, b) { return b.breakpoint - a.breakpoint; }));
@@ -2389,7 +2394,7 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
     /**
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.setOptions = function () {
+    GocodeeGalleryComponent.prototype.setOptions = function () {
         var _this = this;
         this.currentOptions = new NgxGalleryOptions({});
         this.options
@@ -2403,24 +2408,24 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
      * @param {?} second
      * @return {?}
      */
-    GocodeeGalleryComponent$$1.prototype.combineOptions = function (first, second) {
+    GocodeeGalleryComponent.prototype.combineOptions = function (first, second) {
         Object.keys(second).map(function (val) { return first[val] = second[val] !== undefined ? second[val] : first[val]; });
     };
-    GocodeeGalleryComponent$$1.decorators = [
+    GocodeeGalleryComponent.decorators = [
         { type: core.Component, args: [{
                     selector: 'gocodee-gallery',
                     template: "\n    <div class=\"ngx-gallery-layout {{currentOptions?.layout}}\">\n        <ngx-gallery-image *ngIf=\"currentOptions?.image\" [style.height]=\"getImageHeight()\" [images]=\"mediumImages\" [clickable]=\"currentOptions?.preview\" [selectedIndex]=\"selectedIndex\" [arrows]=\"currentOptions?.imageArrows\" [arrowsAutoHide]=\"currentOptions?.imageArrowsAutoHide\" [arrowPrevIcon]=\"currentOptions?.arrowPrevIcon\" [arrowNextIcon]=\"currentOptions?.arrowNextIcon\" [swipe]=\"currentOptions?.imageSwipe\" [animation]=\"currentOptions?.imageAnimation\" [size]=\"currentOptions?.imageSize\" [autoPlay]=\"currentOptions?.imageAutoPlay\" [autoPlayInterval]=\"currentOptions?.imageAutoPlayInterval\" [autoPlayPauseOnHover]=\"currentOptions?.imageAutoPlayPauseOnHover\" [infinityMove]=\"currentOptions?.imageInfinityMove\"  [lazyLoading]=\"currentOptions?.lazyLoading\" [actions]=\"currentOptions?.imageActions\" [descriptions]=\"descriptions\" [showDescription]=\"currentOptions?.imageDescription\" (onClick)=\"openPreview($event)\" (onActiveChange)=\"selectFromImage($event)\"></ngx-gallery-image>\n\n        <ngx-gallery-thumbnails-mobile *ngIf=\"currentOptions?.thumbnails\" [style.marginTop]=\"getThumbnailsMarginTop()\" [style.marginBottom]=\"getThumbnailsMarginBottom()\" [style.height]=\"getThumbnailsHeight()\" [images]=\"smallImages\" [links]=\"currentOptions?.thumbnailsAsLinks ? links : []\" [labels]=\"labels\" [linkTarget]=\"currentOptions?.linkTarget\" [selectedIndex]=\"selectedIndex\" [columns]=\"currentOptions?.thumbnailsColumns\" [rows]=\"currentOptions?.thumbnailsRows\" [margin]=\"currentOptions?.thumbnailMargin\" [arrows]=\"currentOptions?.thumbnailsArrows\" [arrowsAutoHide]=\"currentOptions?.thumbnailsArrowsAutoHide\" [arrowPrevIcon]=\"currentOptions?.arrowPrevIcon\" [arrowNextIcon]=\"currentOptions?.arrowNextIcon\" [clickable]=\"currentOptions?.image || currentOptions?.preview\" [swipe]=\"currentOptions?.thumbnailsSwipe\" [size]=\"currentOptions?.thumbnailSize\" [moveSize]=\"currentOptions?.thumbnailsMoveSize\" [order]=\"currentOptions?.thumbnailsOrder\" [remainingCount]=\"currentOptions?.thumbnailsRemainingCount\" [lazyLoading]=\"currentOptions?.lazyLoading\" [actions]=\"currentOptions?.thumbnailActions\"  (onActiveChange)=\"selectFromThumbnails($event)\"></ngx-gallery-thumbnails-mobile>\n\n        <ngx-gallery-preview [images]=\"bigImages\" [descriptions]=\"descriptions\" [showDescription]=\"currentOptions?.previewDescription\" [arrowPrevIcon]=\"currentOptions?.arrowPrevIcon\" [arrowNextIcon]=\"currentOptions?.arrowNextIcon\" [closeIcon]=\"currentOptions?.closeIcon\" [fullscreenIcon]=\"currentOptions?.fullscreenIcon\" [spinnerIcon]=\"currentOptions?.spinnerIcon\" [swipe]=\"currentOptions?.previewSwipe\" [fullscreen]=\"currentOptions?.previewFullscreen\" [forceFullscreen]=\"currentOptions?.previewForceFullscreen\" [closeOnClick]=\"currentOptions?.previewCloseOnClick\" [closeOnEsc]=\"currentOptions?.previewCloseOnEsc\" [keyboardNavigation]=\"currentOptions?.previewKeyboardNavigation\" [animation]=\"currentOptions?.previewAnimation\" [autoPlay]=\"currentOptions?.previewAutoPlay\" [autoPlayInterval]=\"currentOptions?.previewAutoPlayInterval\" [autoPlayPauseOnHover]=\"currentOptions?.previewAutoPlayPauseOnHover\" [infinityMove]=\"currentOptions?.previewInfinityMove\" [zoom]=\"currentOptions?.previewZoom\" [zoomStep]=\"currentOptions?.previewZoomStep\" [zoomMax]=\"currentOptions?.previewZoomMax\" [zoomMin]=\"currentOptions?.previewZoomMin\" [zoomInIcon]=\"currentOptions?.zoomInIcon\" [zoomOutIcon]=\"currentOptions?.zoomOutIcon\" [actions]=\"currentOptions?.actions\" [rotate]=\"currentOptions?.previewRotate\" [rotateLeftIcon]=\"currentOptions?.rotateLeftIcon\" [rotateRightIcon]=\"currentOptions?.rotateRightIcon\" [download]=\"currentOptions?.previewDownload\" [downloadIcon]=\"currentOptions?.downloadIcon\" (onClose)=\"onPreviewClose()\" (onOpen)=\"onPreviewOpen()\" (onActiveChange)=\"previewSelect($event)\" [class.ngx-gallery-active]=\"previewEnabled\"></ngx-gallery-preview>\n    </div>\n    ",
-                    styles: [":host { display: inline-block; } :host > * { float: left; } :host /deep/ * { box-sizing: border-box; } :host /deep/ .ngx-gallery-icon { color: white; font-size: 25px; position: absolute; z-index: 2000; display: inline-block; } :host /deep/ .ngx-gallery-icon .ngx-gallery-icon-content { display: block; } :host /deep/ .ngx-gallery-clickable { cursor: pointer; } :host /deep/ .ngx-gallery-icons-wrapper .ngx-gallery-icon { position: relative; margin-right: 5px; margin-top: 5px; font-size: 20px; cursor: pointer; } :host /deep/ .ngx-gallery-icons-wrapper { float: right; } :host .ngx-gallery-layout { width: 100%; height: 100%; display: flex; flex-direction: column; } :host .ngx-gallery-layout.thumbnails-top ngx-gallery-image { order: 2; } :host .ngx-gallery-layout.thumbnails-top ngx-gallery-thumbnails { order: 1; } :host .ngx-gallery-layout.thumbnails-bottom ngx-gallery-image { order: 1; } :host .ngx-gallery-layout.thumbnails-bottom ngx-gallery-thumbnails { order: 2; } "],
+                    styles: [":host { display: inline-block; } :host > * { float: left; } :host /deep/ * { box-sizing: border-box; } :host /deep/ .ngx-gallery-icon { color: white; font-size: 25px; position: absolute; z-index: 2000; display: inline-block; } :host /deep/ .ngx-gallery-icon .ngx-gallery-icon-content { display: block; } :host /deep/ .ngx-gallery-clickable { cursor: pointer; } :host /deep/ .ngx-gallery-icons-wrapper .ngx-gallery-icon { position: relative; margin-right: 5px; margin-top: 5px; font-size: 20px; cursor: pointer; } :host /deep/ .ngx-gallery-icons-wrapper { float: right; } :host .ngx-gallery-layout { width: 100%; height: 100%; display: flex; flex-direction: column; } :host .ngx-gallery-layout.thumbnails-top ngx-gallery-image { order: 2; } :host .ngx-gallery-layout.thumbnails-top ngx-gallery-thumbnails { order: 1; } :host .ngx-gallery-layout.thumbnails-top ngx-gallery-thumbnails-mobile { order: 1; } :host .ngx-gallery-layout.thumbnails-bottom ngx-gallery-image { order: 1; } :host .ngx-gallery-layout.thumbnails-bottom ngx-gallery-thumbnails { order: 2; } :host .ngx-gallery-layout.thumbnails-bottom ngx-gallery-thumbnails-mobile { order: 2; } "],
                     providers: [NgxGalleryHelperService]
                 },] },
     ];
     /**
      * @nocollapse
      */
-    GocodeeGalleryComponent$$1.ctorParameters = function () { return [
+    GocodeeGalleryComponent.ctorParameters = function () { return [
         { type: core.ElementRef, },
     ]; };
-    GocodeeGalleryComponent$$1.propDecorators = {
+    GocodeeGalleryComponent.propDecorators = {
         'options': [{ type: core.Input },],
         'images': [{ type: core.Input },],
         'imagesReady': [{ type: core.Output },],
@@ -2430,13 +2435,13 @@ var GocodeeGalleryComponent$1 = /** @class */ (function () {
         'previewChange': [{ type: core.Output },],
         'preview': [{ type: core.ViewChild, args: [NgxGalleryPreviewComponent,] },],
         'image': [{ type: core.ViewChild, args: [NgxGalleryImageComponent,] },],
-        'thubmnails': [{ type: core.ViewChild, args: [NgxGalleryThumbnailsMobileComponent$1,] },],
+        'thubmnails': [{ type: core.ViewChild, args: [NgxGalleryThumbnailsMobileComponent,] },],
         'width': [{ type: core.HostBinding, args: ['style.width',] },],
         'height': [{ type: core.HostBinding, args: ['style.height',] },],
         'left': [{ type: core.HostBinding, args: ['style.left',] },],
         'onResize': [{ type: core.HostListener, args: ['window:resize',] },],
     };
-    return GocodeeGalleryComponent$$1;
+    return GocodeeGalleryComponent;
 }());
 
 var NgxGalleryImage = /** @class */ (function () {
@@ -2489,14 +2494,14 @@ var NgxGalleryModuleGoCodee = /** @class */ (function () {
                         NgxGalleryArrowsComponent,
                         NgxGalleryImageComponent,
                         NgxGalleryThumbnailsComponent,
-                        ngxGalleryThumbnailsMobile_component.NgxGalleryThumbnailsMobileComponent,
+                        NgxGalleryThumbnailsMobileComponent,
                         NgxGalleryPreviewComponent,
-                        gocodeeGallery_component.GocodeeGalleryComponent,
+                        GocodeeGalleryComponent,
                         NgxGalleryComponent
                     ],
                     exports: [
                         NgxGalleryComponent,
-                        gocodeeGallery_component.GocodeeGalleryComponent
+                        GocodeeGalleryComponent
                     ],
                     providers: [
                         { provide: platformBrowser.HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig }
@@ -2513,11 +2518,11 @@ var NgxGalleryModuleGoCodee = /** @class */ (function () {
 exports.CustomHammerConfig = CustomHammerConfig;
 exports.NgxGalleryModuleGoCodee = NgxGalleryModuleGoCodee;
 exports.NgxGalleryComponent = NgxGalleryComponent;
-exports.GocodeeGalleryComponent = GocodeeGalleryComponent$1;
+exports.GocodeeGalleryComponent = GocodeeGalleryComponent;
 exports.NgxGalleryActionComponent = NgxGalleryActionComponent;
 exports.NgxGalleryImageComponent = NgxGalleryImageComponent;
 exports.NgxGalleryThumbnailsComponent = NgxGalleryThumbnailsComponent;
-exports.NgxGalleryThumbnailsMobileComponent = NgxGalleryThumbnailsMobileComponent$1;
+exports.NgxGalleryThumbnailsMobileComponent = NgxGalleryThumbnailsMobileComponent;
 exports.NgxGalleryPreviewComponent = NgxGalleryPreviewComponent;
 exports.NgxGalleryArrowsComponent = NgxGalleryArrowsComponent;
 exports.NgxGalleryOptions = NgxGalleryOptions;

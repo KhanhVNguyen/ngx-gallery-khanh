@@ -1,12 +1,11 @@
 :host {
     display: inline-block;
 
-    & > * {
+    &>* {
         float: left;
     }
 
     /deep/ {
-
         * {
             box-sizing: border-box;
         }
@@ -55,6 +54,10 @@
         ngx-gallery-thumbnails {
             order: 1;
         }
+
+        ngx-gallery-thumbnails-mobile {
+            order: 1;
+        }
     }
 
     .ngx-gallery-layout.thumbnails-bottom {
@@ -63,6 +66,10 @@
         }
 
         ngx-gallery-thumbnails {
+            order: 2;
+        }
+
+        ngx-gallery-thumbnails-mobile {
             order: 2;
         }
     }

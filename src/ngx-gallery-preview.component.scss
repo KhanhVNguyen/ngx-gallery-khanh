@@ -174,6 +174,22 @@ ngx-gallery-preview {
             text-align: center;
         }
 
+        .ngx-gallery-preview-project {
+            .col-md-2 {
+                flex: 0 0 20% !important;
+                max-width: 20% !important;
+            }
+
+            p {
+                color: #ffffff;
+            }
+
+            .btn {
+                width: 140px !important;
+                border-radius: 0 !important;
+            }
+        }
+
         .ngx-gallery-preview-agent-info {
             display: inline-flex;
             border-bottom: 1px solid white;
@@ -224,4 +240,71 @@ ngx-gallery-preview {
         flex: 0 0 10%;
         max-width: 10%;
     }
+}
+
+.rating {
+    display: inline-block;
+    position: relative;
+    height: 30px;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.rating label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    cursor: pointer;
+}
+
+.rating label:last-child {
+    position: static;
+}
+
+.rating label:nth-child(1) {
+    z-index: 5;
+}
+
+.rating label:nth-child(2) {
+    z-index: 4;
+}
+
+.rating label:nth-child(3) {
+    z-index: 3;
+}
+
+.rating label:nth-child(4) {
+    z-index: 2;
+}
+
+.rating label:nth-child(5) {
+    z-index: 1;
+}
+
+.rating label input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+.rating label .icon {
+    float: left;
+    color: transparent;
+}
+
+.rating label .far {
+    color: #3acaaa;
+}
+
+.rating:not(:hover) label input:checked~.far,
+.rating:hover label:hover input~.far {
+    font-weight: 900;
+    color: #3acaaa;
+}
+
+.rating label input:focus:not(:checked)~.far:last-child {
+    color: #3acaaa;
+    text-shadow: 0 0 5px #3acaaa;
 }

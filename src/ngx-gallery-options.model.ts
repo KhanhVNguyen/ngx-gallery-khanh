@@ -72,6 +72,7 @@ export interface INgxGalleryOptions {
     rotateRightIcon?: string;
     downloadIcon?: string;
     actions?: NgxGalleryAction[];
+    project?: boolean;
 }
 
 export class NgxGalleryOptions implements INgxGalleryOptions {
@@ -142,6 +143,7 @@ export class NgxGalleryOptions implements INgxGalleryOptions {
     rotateRightIcon?: string;
     downloadIcon?: string;
     actions?: NgxGalleryAction[];
+    project?: boolean;
 
     constructor(obj: INgxGalleryOptions) {
 
@@ -227,6 +229,7 @@ export class NgxGalleryOptions implements INgxGalleryOptions {
         this.rotateLeftIcon = use(obj.rotateLeftIcon, 'fa fa-undo');
         this.rotateRightIcon = use(obj.rotateRightIcon, 'fa fa-repeat');
         this.downloadIcon = use(obj.downloadIcon, 'fa fa-arrow-circle-down');
+        this.project = use(obj.project, false);
 
         if (obj && obj.actions && obj.actions.length) {
             obj.actions = obj.actions.map(action => new NgxGalleryAction(action));

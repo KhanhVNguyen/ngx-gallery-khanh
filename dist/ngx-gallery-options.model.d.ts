@@ -68,6 +68,7 @@ export interface INgxGalleryOptions {
     rotateRightIcon?: string;
     downloadIcon?: string;
     actions?: NgxGalleryAction[];
+    project?: boolean;
 }
 export declare class NgxGalleryOptions implements INgxGalleryOptions {
     width?: string;
@@ -137,5 +138,6 @@ export declare class NgxGalleryOptions implements INgxGalleryOptions {
     rotateRightIcon?: string;
     downloadIcon?: string;
     actions?: NgxGalleryAction[];
+    project?: boolean;
     constructor(obj: INgxGalleryOptions);
 }

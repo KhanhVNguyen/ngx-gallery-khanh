@@ -23,7 +23,8 @@ export class NgxGalleryPreviewComponent implements OnChanges {
     rotateValue = 0;
     index = 0;
     tab = 1;
-    
+    @Input() star: number = 0;
+    @Input() isProject: boolean;
     @Input() images: string[] | SafeResourceUrl[];
     @Input() smallImages: string[] | SafeResourceUrl[];
     @Input() descriptions: string[];
