@@ -10,13 +10,18 @@ import { NgxGalleryAction } from './ngx-gallery-action.model';
     template: `
     <div class="ngx-gallery-thumbnails-wrapper ngx-gallery-thumbnail-size-{{size}}">
         <div class="ngx-gallery-thumbnails ngx-gallery-thumbnails-lg" [style.transform]="'translateX(' + thumbnailsLeft + ')'" [style.marginLeft]="thumbnailsMarginLeft">
-            <a [href]="hasLinks() ? links[0] : '#'" [target]="linkTarget" class="ngx-gallery-thumbnail" [style.background-image]="getSafeUrl(firstImg)" (click)="handleClick($event, 0)" [style.width]="getThumbnailWidth()" [style.height]="getThumbnailHeight()" [style.left]="getThumbnailLeft(0)" [style.top]="getThumbnailTop(0)" [ngClass]="{ 'ngx-gallery-active': 0 == selectedIndex, 'ngx-gallery-clickable': clickable }" [attr.aria-label]="labels[0]">
-                <div class="ngx-gallery-icons-wrapper">
-                    <ngx-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled" [titleText]="action.titleText" (onClick)="action.onClick($event, 0)"></ngx-gallery-action>
-                </div>
-                <div class="ngx-gallery-remaining-count-overlay" *ngIf="remainingCount && remainingCountValue && (0 == (rows * columns) - 1)">
-                    <span class="ngx-gallery-remaining-count">+{{remainingCountValue}}</span>
-                </div>
+            // <a [href]="hasLinks() ? links[0] : '#'" [target]="linkTarget" class="ngx-gallery-thumbnail" [style.background-image]="getSafeUrl(firstImg)" (click)="handleClick($event, 0)" [style.width]="getThumbnailWidth()" [style.height]="getThumbnailHeight()" [style.left]="getThumbnailLeft(0)" [style.top]="getThumbnailTop(0)" [ngClass]="{ 'ngx-gallery-active': 0 == selectedIndex, 'ngx-gallery-clickable': clickable }" [attr.aria-label]="labels[0]">
+            //     <div class="ngx-gallery-icons-wrapper">
+            //         <ngx-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled" [titleText]="action.titleText" (onClick)="action.onClick($event, 0)"></ngx-gallery-action>
+            //     </div>
+            //     <div class="ngx-gallery-remaining-count-overlay" *ngIf="remainingCount && remainingCountValue && (0 == (rows * columns) - 1)">
+            //         <span class="ngx-gallery-remaining-count">+{{remainingCountValue}}</span>
+            //     </div>
+            // </a>
+            <a class="ngx-gallery-thumbnail" [style.width]="getThumbnailWidth()" [style.height]="getThumbnailHeight()" [style.left]="getThumbnailLeft(0)" [style.top]="getThumbnailTop(0)" [ngClass]="{ 'ngx-gallery-active': 0 == selectedIndex, 'ngx-gallery-clickable': clickable }" [attr.aria-label]="labels[0]">
+            <video #media id="singleVideo" preload="auto" controls>
+                <source src="http://static.videogular.com/assets/videos/videogular.mp4" type="video/mp4">
+            </video>
             </a>
         </div>
         <div class="ngx-gallery-thumbnails ngx-gallery-thumbnails-sm" [style.transform]="'translateX(' + thumbnailsLeft + ')'" [style.marginLeft]="thumbnailsMarginLeft">
