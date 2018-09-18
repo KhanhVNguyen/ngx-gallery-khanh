@@ -1,7 +1,7 @@
 {
   "name": "ngx-gallery-gocodee",
   "description": "Responsive Angular 2 / 4 image gallery plugin",
-  "version": "1.1.55",
+  "version": "1.1.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/lukasz-galka/ngx-gallery"
