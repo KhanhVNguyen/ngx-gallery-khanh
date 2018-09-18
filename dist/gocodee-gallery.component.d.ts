@@ -1,11 +1,11 @@
 import { OnInit, DoCheck, ElementRef, AfterViewInit, EventEmitter } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { NgxGalleryPreviewComponent } from './ngx-gallery-preview.component';
 import { NgxGalleryImageComponent } from './ngx-gallery-image.component';
 import { NgxGalleryThumbnailsMobileComponent } from './ngx-gallery-thumbnails-mobile.component';
 import { NgxGalleryOptions } from './ngx-gallery-options.model';
 import { NgxGalleryImage } from './ngx-gallery-image.model';
 import { NgxGalleryOrderedImage } from './ngx-gallery-ordered-image.model';
+import { GocodeeGalleryPreviewComponent } from './gocodee-gallery-preview.component';
 export declare class GocodeeGalleryComponent implements OnInit, DoCheck, AfterViewInit {
     private myElement;
     options: NgxGalleryOptions[];
@@ -35,7 +35,7 @@ export declare class GocodeeGalleryComponent implements OnInit, DoCheck, AfterVi
     private breakpoint;
     private prevBreakpoint;
     private fullWidthTimeout;
-    preview: NgxGalleryPreviewComponent;
+    preview: GocodeeGalleryPreviewComponent;
     image: NgxGalleryImageComponent;
     thubmnails: NgxGalleryThumbnailsMobileComponent;
     width: string;

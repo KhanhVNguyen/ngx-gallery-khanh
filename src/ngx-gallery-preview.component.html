@@ -25,7 +25,7 @@
         <div class="ngx-gallery-preview-agent-navbar">
             <ul *ngIf="!isProject" class="ngx-gallery-preview-agent-info">
                 <li class="ngx-gallery-preview-nav-item">
-                    <img class="ngx-gallery-preview-company-avatar" [src]="src" alt="" style="width: 70px; height:70px">
+                    <img *ngIf="src" class="ngx-gallery-preview-company-avatar" [src]="src" alt="" style="width: 70px; height:70px">
                     <span class="ngx-gallery-preview-company-name">MEKONG REALITY</span>
                 </li>
                 <li class="ngx-gallery-preview-nav-item agent-info">

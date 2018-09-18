@@ -134,7 +134,7 @@ gulp.task('rollup:umd', function () {
       // The name to use for the module for UMD/IIFE bundles
       // (required for bundles with exports)
       // See "name" in https://rollupjs.org/#core-functionality
-      name: 'ngx-gallery',
+      name: 'ngx-gallery-gocodee',
 
       // See "globals" in https://rollupjs.org/#core-functionality
       globals: {
@@ -142,7 +142,7 @@ gulp.task('rollup:umd', function () {
       }
 
     }))
-    .pipe(rename('ngx-gallery.umd.js'))
+    .pipe(rename('ngx-gallery-gocodee.umd.js'))
     .pipe(gulp.dest(bundlesFolder));
 });
 

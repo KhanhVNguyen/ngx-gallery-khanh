@@ -21,8 +21,8 @@
     "annotateForClosureCompiler": true,
     "strictMetadataEmit": true,
     "skipTemplateCodegen": true,
-    "flatModuleOutFile": "ngx-gallery.js",
-    "flatModuleId": "ngx-gallery"
+    "flatModuleOutFile": "ngx-gallery-gocodee.js",
+    "flatModuleId": "ngx-gallery-gocodee"
   },
   "files": [
     "./index.ts"
