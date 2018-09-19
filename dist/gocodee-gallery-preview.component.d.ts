@@ -1,5 +1,5 @@
 import { EventEmitter, OnChanges, SimpleChanges, ElementRef, Renderer } from '@angular/core';
-import { SafeResourceUrl, DomSanitizer, SafeUrl, SafeStyle } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl, SafeStyle } from '@angular/platform-browser';
 import { NgxGalleryAction } from './ngx-gallery-action.model';
 import { NgxGalleryHelperService } from './ngx-gallery-helper.service';
 export declare class GocodeeGalleryPreviewComponent implements OnChanges {
@@ -17,7 +17,7 @@ export declare class GocodeeGalleryPreviewComponent implements OnChanges {
     loading: boolean;
     rotateValue: number;
     index: number;
-    images: string[] | SafeResourceUrl[];
+    images: any[];
     descriptions: string[];
     showDescription: boolean;
     swipe: boolean;
@@ -75,7 +75,7 @@ export declare class GocodeeGalleryPreviewComponent implements OnChanges {
     canShowNext(): boolean;
     canShowPrev(): boolean;
     manageFullscreen(): void;
-    getSafeUrl(image: string): SafeUrl;
+    getSafeUrl(image: any): SafeUrl;
     zoomIn(): void;
     zoomOut(): void;
     rotateLeft(): void;

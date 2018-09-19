@@ -7,38 +7,7 @@ import { NgxGalleryAction } from './ngx-gallery-action.model';
 
 @Component({
     selector: 'ngx-gallery-thumbnails',
-    template: `
-    <div class="ngx-gallery-thumbnails-wrapper ngx-gallery-thumbnail-size-{{size}}">
-        <div class="ngx-gallery-thumbnails ngx-gallery-thumbnails-lg" [style.transform]="'translateX(' + thumbnailsLeft + ')'" [style.marginLeft]="thumbnailsMarginLeft">
-            // <a [href]="hasLinks() ? links[0] : '#'" [target]="linkTarget" class="ngx-gallery-thumbnail" [style.background-image]="getSafeUrl(firstImg)" (click)="handleClick($event, 0)" [style.width]="getThumbnailWidth()" [style.height]="getThumbnailHeight()" [style.left]="getThumbnailLeft(0)" [style.top]="getThumbnailTop(0)" [ngClass]="{ 'ngx-gallery-active': 0 == selectedIndex, 'ngx-gallery-clickable': clickable }" [attr.aria-label]="labels[0]">
-            //     <div class="ngx-gallery-icons-wrapper">
-            //         <ngx-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled" [titleText]="action.titleText" (onClick)="action.onClick($event, 0)"></ngx-gallery-action>
-            //     </div>
-            //     <div class="ngx-gallery-remaining-count-overlay" *ngIf="remainingCount && remainingCountValue && (0 == (rows * columns) - 1)">
-            //         <span class="ngx-gallery-remaining-count">+{{remainingCountValue}}</span>
-            //     </div>
-            // </a>
-            <a class="ngx-gallery-thumbnail" [style.width]="getThumbnailWidth()" [style.height]="getThumbnailHeight()" [style.left]="getThumbnailLeft(0)" [style.top]="getThumbnailTop(0)" [ngClass]="{ 'ngx-gallery-active': 0 == selectedIndex, 'ngx-gallery-clickable': clickable }" [attr.aria-label]="labels[0]">
-            <video #media id="singleVideo" preload="auto" controls>
-                <source src="http://static.videogular.com/assets/videos/videogular.mp4" type="video/mp4">
-            </video>
-            </a>
-        </div>
-        <div class="ngx-gallery-thumbnails ngx-gallery-thumbnails-sm" [style.transform]="'translateX(' + thumbnailsLeft + ')'" [style.marginLeft]="thumbnailsMarginLeft">
-            <a [href]="hasLinks() ? links[i] : '#'" [target]="linkTarget" class="ngx-gallery-thumbnail" 
-            *ngFor="let image of getImages2(); let i = index;" [style.background-image]="getSafeUrl(image)" 
-            (click)="handleClick($event, i+1)" [style.width]="getThumbnailWidth()" [style.height]="getThumbnailHeight()" [style.left]="getThumbnailLeft(i)" [style.top]="getThumbnailTop(i)" [ngClass]="{ 'ngx-gallery-active': i == selectedIndex, 'ngx-gallery-clickable': clickable }" [attr.aria-label]="labels[i]">
-                <div class="ngx-gallery-icons-wrapper">
-                    <ngx-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled" [titleText]="action.titleText" (onClick)="action.onClick($event, i)"></ngx-gallery-action>
-                </div>
-                <div class="ngx-gallery-remaining-count-overlay" *ngIf="remainingCount && remainingCountValue && (i == (rows * columns) - 1)">
-                    <span class="ngx-gallery-remaining-count">+{{remainingCountValue}}</span>
-                </div>
-            </a>
-        </div>
-    </div>
-    <ngx-gallery-arrows *ngIf="canShowArrows()" (onPrevClick)="moveLeft()" (onNextClick)="moveRight()" [prevDisabled]="!canMoveLeft()" [nextDisabled]="!canMoveRight()" [arrowPrevIcon]="arrowPrevIcon" [arrowNextIcon]="arrowNextIcon"></ngx-gallery-arrows>
-    `,
+    templateUrl: './ngx-gallery-thumbnails.component.html',
     styleUrls: ['./ngx-gallery-thumbnails.component.scss']
 })
 export class NgxGalleryThumbnailsComponent implements OnChanges {
@@ -51,7 +20,7 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
 
     minStopIndex = 0;
 
-    @Input() images: string[] | SafeResourceUrl[];
+    @Input() images: any[];
     @Input() links: string[];
     @Input() labels: string[];
     @Input() linkTarget: string;
@@ -77,7 +46,7 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
     private index = 0;
 
     constructor(private sanitization: DomSanitizer, private elementRef: ElementRef,
-        private helperService: NgxGalleryHelperService) {}
+        private helperService: NgxGalleryHelperService) { }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['selectedIndex']) {
@@ -110,7 +79,7 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
         this.validateIndex();
     }
 
-    getImages(): string[] | SafeResourceUrl[] {
+    getImages() {
         if (this.remainingCount) {
             return this.images.slice(0, this.rows * this.columns);
         } else if (this.lazyLoading && this.order != NgxGalleryOrder.Row) {
@@ -132,7 +101,7 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
         }
     }
 
-    getImages2(): string[] | SafeResourceUrl[] {
+    getImages2() {
         let imgs = this.getImages();
         this.firstImg = imgs[0];
         return imgs.slice(1);

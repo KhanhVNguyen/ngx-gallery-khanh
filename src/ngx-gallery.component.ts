@@ -1,5 +1,7 @@
-import { Component, Input, HostListener, ViewChild, OnInit,
-    HostBinding, DoCheck, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import {
+    Component, Input, HostListener, ViewChild, OnInit,
+    HostBinding, DoCheck, ElementRef, AfterViewInit, Output, EventEmitter
+} from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { NgxGalleryPreviewComponent } from './ngx-gallery-preview.component';
@@ -26,7 +28,7 @@ import { NgxGalleryOrderedImage } from './ngx-gallery-ordered-image.model';
     styleUrls: ['./ngx-gallery.component.scss'],
     providers: [NgxGalleryHelperService]
 })
-export class NgxGalleryComponent implements OnInit, DoCheck, AfterViewInit   {
+export class NgxGalleryComponent implements OnInit, DoCheck, AfterViewInit {
     @Input() options: NgxGalleryOptions[];
     @Input() images: NgxGalleryImage[];
     @Input() data: any;
@@ -37,9 +39,9 @@ export class NgxGalleryComponent implements OnInit, DoCheck, AfterViewInit   {
     @Output() previewClose = new EventEmitter();
     @Output() previewChange = new EventEmitter<{ index: number; image: NgxGalleryImage; }>();
 
-    smallImages: string[] | SafeResourceUrl[];
+    smallImages: any;
     mediumImages: NgxGalleryOrderedImage[];
-    bigImages: string[] | SafeResourceUrl[];
+    bigImages: any;
     descriptions: string[];
     links: string[];
     labels: string[];
@@ -64,7 +66,7 @@ export class NgxGalleryComponent implements OnInit, DoCheck, AfterViewInit   {
     @HostBinding('style.height') height: string;
     @HostBinding('style.left') left: string;
 
-    constructor(private myElement: ElementRef) {}
+    constructor(private myElement: ElementRef) { }
 
     ngOnInit() {
         this.options = this.options.map((opt) => new NgxGalleryOptions(opt));
@@ -128,7 +130,7 @@ export class NgxGalleryComponent implements OnInit, DoCheck, AfterViewInit   {
     getThumbnailsHeight(): string {
         if (this.currentOptions && this.currentOptions.image) {
             return 'calc(' + this.currentOptions.thumbnailsPercent + '% - '
-            + this.currentOptions.thumbnailsMargin + 'px)';
+                + this.currentOptions.thumbnailsMargin + 'px)';
         } else {
             return '100%';
         }
@@ -219,7 +221,7 @@ export class NgxGalleryComponent implements OnInit, DoCheck, AfterViewInit   {
     }
 
     previewSelect(index: number) {
-        this.previewChange.emit({index, image: this.images[index]});
+        this.previewChange.emit({ index, image: this.images[index] });
     }
 
     private resetThumbnails() {
@@ -247,14 +249,38 @@ export class NgxGalleryComponent implements OnInit, DoCheck, AfterViewInit   {
 
     private setImages(): void {
         this.smallImages = this.images.map((img) => <string>img.small);
+        this.smallImages = this.filterImages(this.smallImages);
         this.mediumImages = this.images.map((img, i) => new NgxGalleryOrderedImage({
             src: img.medium,
             index: i
         }));
         this.bigImages = this.images.map((img) => <string>img.big);
+        this.bigImages = this.filterImages(this.bigImages);
+
         this.descriptions = this.images.map((img) => <string>img.description);
         this.links = this.images.map((img) => <string>img.url);
         this.labels = this.images.map((img) => <string>img.label);
+    }
+
+    filterImages(images) {
+        let data = [];
+        images.forEach(image => {
+            if (this.checkVideo(image)) {
+                data.push({
+                    src: image,
+                    type: true
+                })
+            } else {
+                data.push(image);
+            }
+        });
+
+        return data;
+    }
+
+    checkVideo(image) {
+        let type = image.substring(image.lastIndexOf('.'), image.length);
+        return type == '.mp4'
     }
 
     private setBreakpoint(): void {

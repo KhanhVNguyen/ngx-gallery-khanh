@@ -1,5 +1,5 @@
 import { EventEmitter, OnChanges, SimpleChanges, ElementRef } from '@angular/core';
-import { DomSanitizer, SafeStyle, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { NgxGalleryHelperService } from './ngx-gallery-helper.service';
 import { NgxGalleryAction } from './ngx-gallery-action.model';
 export declare class NgxGalleryThumbnailsComponent implements OnChanges {
@@ -12,7 +12,7 @@ export declare class NgxGalleryThumbnailsComponent implements OnChanges {
     remainingCountValue: number;
     firstImg: any;
     minStopIndex: number;
-    images: string[] | SafeResourceUrl[];
+    images: any[];
     links: string[];
     labels: string[];
     linkTarget: string;
@@ -39,8 +39,8 @@ export declare class NgxGalleryThumbnailsComponent implements OnChanges {
     onMouseEnter(): void;
     onMouseLeave(): void;
     reset(index: number): void;
-    getImages(): string[] | SafeResourceUrl[];
-    getImages2(): string[] | SafeResourceUrl[];
+    getImages(): any[];
+    getImages2(): any[];
     handleClick(event: Event, index: number): void;
     hasLinks(): boolean;
     moveRight(): void;

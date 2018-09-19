@@ -25,8 +25,8 @@ export class NgxGalleryPreviewComponent implements OnChanges {
     tab = 1;
     @Input() star: number = 0;
     @Input() isProject: boolean;
-    @Input() images: string[] | SafeResourceUrl[];
-    @Input() smallImages: string[] | SafeResourceUrl[];
+    @Input() images: any[];
+    @Input() smallImages: any[];
     @Input() descriptions: string[];
     @Input() showDescription: boolean;
     @Input() swipe: boolean;
@@ -125,6 +125,7 @@ export class NgxGalleryPreviewComponent implements OnChanges {
         this.onClose.emit();
 
         this.stopAutoPlay();
+        this.previewImage.nativeElement.pause();
 
         if (this.keyDownListener) {
             this.keyDownListener();
@@ -177,6 +178,11 @@ export class NgxGalleryPreviewComponent implements OnChanges {
         }
     }
 
+    selectImage(index) {
+        this.index = index;
+        this.show();
+    }
+
     showPrev(): void {
         if (this.canShowPrev()) {
             this.index--;
@@ -222,7 +228,13 @@ export class NgxGalleryPreviewComponent implements OnChanges {
         }
     }
 
-    getSafeUrl(image: string): SafeUrl {
+    getSafeUrl(image): SafeUrl {
+        if (image.type) {
+            return {
+                src: image.src,
+                type: 'video'
+            }
+        }
         return image.substr(0, 10) === 'data:image' ?
             image : this.sanitization.bypassSecurityTrustUrl(image);
     }
@@ -380,6 +392,11 @@ export class NgxGalleryPreviewComponent implements OnChanges {
         this.srcIndex = this.index;
         this.description = this.descriptions[this.index];
 
+        if (this.src['type']) {
+            this.loading = false;
+            this.showSpinner = false;
+            return;
+        }
         setTimeout(() => {
             if (this.isLoaded(this.previewImage.nativeElement)) {
                 this.loading = false;
@@ -411,10 +428,6 @@ export class NgxGalleryPreviewComponent implements OnChanges {
         }
 
         return true;
-    }
-
-    handleClick(event: Event) {
-        console.log('Click small image');
     }
 
     getThumbnailLeft(index: number): SafeStyle {

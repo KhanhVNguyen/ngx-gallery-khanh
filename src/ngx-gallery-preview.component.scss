@@ -161,10 +161,16 @@ ngx-gallery-preview {
                     background-repeat: no-repeat;
                     padding: 5px;
 
+                    &.active {
+                        border: 1px solid #e75474;
+                        opacity: 1;
+                    }
+
                     .img-thumnails {
                         background-size: cover;
                         width: 100%;
                         height: 110px;
+                        opacity: 0.9;
                     }
                 }
             }
@@ -307,4 +313,16 @@ ngx-gallery-preview {
 .rating label input:focus:not(:checked)~.far:last-child {
     color: #3acaaa;
     text-shadow: 0 0 5px #3acaaa;
+}
+
+.preview {
+    ngx-gallery-arrows {
+        .ngx-gallery-arrow-left {
+            margin-left: 3em;
+        }
+
+        .ngx-gallery-arrow-right {
+            margin-right: em;
+        }
+    }
 }

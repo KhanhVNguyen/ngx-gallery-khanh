@@ -1,5 +1,4 @@
 import { OnInit, DoCheck, ElementRef, AfterViewInit, EventEmitter } from '@angular/core';
-import { SafeResourceUrl } from '@angular/platform-browser';
 import { NgxGalleryPreviewComponent } from './ngx-gallery-preview.component';
 import { NgxGalleryImageComponent } from './ngx-gallery-image.component';
 import { NgxGalleryThumbnailsComponent } from './ngx-gallery-thumbnails.component';
@@ -22,9 +21,9 @@ export declare class NgxGalleryComponent implements OnInit, DoCheck, AfterViewIn
         index: number;
         image: NgxGalleryImage;
     }>;
-    smallImages: string[] | SafeResourceUrl[];
+    smallImages: any;
     mediumImages: NgxGalleryOrderedImage[];
-    bigImages: string[] | SafeResourceUrl[];
+    bigImages: any;
     descriptions: string[];
     links: string[];
     labels: string[];
@@ -66,6 +65,8 @@ export declare class NgxGalleryComponent implements OnInit, DoCheck, AfterViewIn
     private select(index);
     private checkFullWidth();
     private setImages();
+    filterImages(images: any): any[];
+    checkVideo(image: any): boolean;
     private setBreakpoint();
     private sortOptions();
     private setOptions();

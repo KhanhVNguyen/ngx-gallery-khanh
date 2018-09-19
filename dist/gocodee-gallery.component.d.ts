@@ -1,5 +1,4 @@
 import { OnInit, DoCheck, ElementRef, AfterViewInit, EventEmitter } from '@angular/core';
-import { SafeResourceUrl } from '@angular/platform-browser';
 import { NgxGalleryImageComponent } from './ngx-gallery-image.component';
 import { NgxGalleryThumbnailsMobileComponent } from './ngx-gallery-thumbnails-mobile.component';
 import { NgxGalleryOptions } from './ngx-gallery-options.model';
@@ -21,9 +20,9 @@ export declare class GocodeeGalleryComponent implements OnInit, DoCheck, AfterVi
         index: number;
         image: NgxGalleryImage;
     }>;
-    smallImages: string[] | SafeResourceUrl[];
+    smallImages: any[];
     mediumImages: NgxGalleryOrderedImage[];
-    bigImages: string[] | SafeResourceUrl[];
+    bigImages: any[];
     descriptions: string[];
     links: string[];
     labels: string[];
@@ -45,6 +44,8 @@ export declare class GocodeeGalleryComponent implements OnInit, DoCheck, AfterVi
     ngOnInit(): void;
     ngDoCheck(): void;
     ngAfterViewInit(): void;
+    filterImages(images: any): any[];
+    checkVideo(image: any): boolean;
     onResize(): void;
     getImageHeight(): string;
     getThumbnailsHeight(): string;

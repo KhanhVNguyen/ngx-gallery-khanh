@@ -16,7 +16,7 @@ import { GocodeeGalleryPreviewComponent } from './gocodee-gallery-preview.compon
     selector: 'gocodee-gallery',
     template: `
     <div class="ngx-gallery-layout {{currentOptions?.layout}}">
-        <ngx-gallery-image *ngIf="currentOptions?.image" [style.height]="getImageHeight()" [images]="mediumImages" [clickable]="currentOptions?.preview" [selectedIndex]="selectedIndex" [arrows]="currentOptions?.imageArrows" [arrowsAutoHide]="currentOptions?.imageArrowsAutoHide" [arrowPrevIcon]="currentOptions?.arrowPrevIcon" [arrowNextIcon]="currentOptions?.arrowNextIcon" [swipe]="currentOptions?.imageSwipe" [animation]="currentOptions?.imageAnimation" [size]="currentOptions?.imageSize" [autoPlay]="currentOptions?.imageAutoPlay" [autoPlayInterval]="currentOptions?.imageAutoPlayInterval" [autoPlayPauseOnHover]="currentOptions?.imageAutoPlayPauseOnHover" [infinityMove]="currentOptions?.imageInfinityMove"  [lazyLoading]="currentOptions?.lazyLoading" [actions]="currentOptions?.imageActions" [descriptions]="descriptions" [showDescription]="currentOptions?.imageDescription" (onClick)="openPreview($event)" (onActiveChange)="selectFromImage($event)"></ngx-gallery-image>
+        <ngx-gallery-image *ngIf="currentOptions?.image" [style.height]="getImageHeight()" [images]="bigImages" [clickable]="currentOptions?.preview" [selectedIndex]="selectedIndex" [arrows]="currentOptions?.imageArrows" [arrowsAutoHide]="currentOptions?.imageArrowsAutoHide" [arrowPrevIcon]="currentOptions?.arrowPrevIcon" [arrowNextIcon]="currentOptions?.arrowNextIcon" [swipe]="currentOptions?.imageSwipe" [animation]="currentOptions?.imageAnimation" [size]="currentOptions?.imageSize" [autoPlay]="currentOptions?.imageAutoPlay" [autoPlayInterval]="currentOptions?.imageAutoPlayInterval" [autoPlayPauseOnHover]="currentOptions?.imageAutoPlayPauseOnHover" [infinityMove]="currentOptions?.imageInfinityMove"  [lazyLoading]="currentOptions?.lazyLoading" [actions]="currentOptions?.imageActions" [descriptions]="descriptions" [showDescription]="currentOptions?.imageDescription" (onClick)="openPreview($event)" (onActiveChange)="selectFromImage($event)"></ngx-gallery-image>
 
         <ngx-gallery-thumbnails-mobile *ngIf="currentOptions?.thumbnails" [style.marginTop]="getThumbnailsMarginTop()" [style.marginBottom]="getThumbnailsMarginBottom()" [style.height]="getThumbnailsHeight()" [images]="smallImages" [links]="currentOptions?.thumbnailsAsLinks ? links : []" [labels]="labels" [linkTarget]="currentOptions?.linkTarget" [selectedIndex]="selectedIndex" [columns]="currentOptions?.thumbnailsColumns" [rows]="currentOptions?.thumbnailsRows" [margin]="currentOptions?.thumbnailMargin" [arrows]="currentOptions?.thumbnailsArrows" [arrowsAutoHide]="currentOptions?.thumbnailsArrowsAutoHide" [arrowPrevIcon]="currentOptions?.arrowPrevIcon" [arrowNextIcon]="currentOptions?.arrowNextIcon" [clickable]="currentOptions?.image || currentOptions?.preview" [swipe]="currentOptions?.thumbnailsSwipe" [size]="currentOptions?.thumbnailSize" [moveSize]="currentOptions?.thumbnailsMoveSize" [order]="currentOptions?.thumbnailsOrder" [remainingCount]="currentOptions?.thumbnailsRemainingCount" [lazyLoading]="currentOptions?.lazyLoading" [actions]="currentOptions?.thumbnailActions"  (onActiveChange)="selectFromThumbnails($event)"></ngx-gallery-thumbnails-mobile>
 
@@ -36,9 +36,9 @@ export class GocodeeGalleryComponent implements OnInit, DoCheck, AfterViewInit  
     @Output() previewClose = new EventEmitter();
     @Output() previewChange = new EventEmitter<{ index: number; image: NgxGalleryImage; }>();
 
-    smallImages: string[] | SafeResourceUrl[];
+    smallImages: any[];
     mediumImages: NgxGalleryOrderedImage[];
-    bigImages: string[] | SafeResourceUrl[];
+    bigImages: any[];
     descriptions: string[];
     links: string[];
     labels: string[];
@@ -97,6 +97,27 @@ export class GocodeeGalleryComponent implements OnInit, DoCheck, AfterViewInit  
 
     ngAfterViewInit(): void {
         this.checkFullWidth();
+    }
+
+    filterImages(images) {
+        let data = [];
+        images.forEach(image => {
+            if (this.checkVideo(image)) {
+                data.push({
+                    src: image,
+                    type: true
+                })
+            } else {
+                data.push(image);
+            }
+        });
+
+        return data;
+    }
+
+    checkVideo(image) {
+        let type = image.substring(image.lastIndexOf('.'), image.length);
+        return type == '.mp4'
     }
 
     @HostListener('window:resize') onResize() {
@@ -246,11 +267,15 @@ export class GocodeeGalleryComponent implements OnInit, DoCheck, AfterViewInit  
 
     private setImages(): void {
         this.smallImages = this.images.map((img) => <string>img.small);
+        this.smallImages = this.filterImages(this.smallImages);
+
         this.mediumImages = this.images.map((img, i) => new NgxGalleryOrderedImage({
             src: img.medium,
             index: i
         }));
         this.bigImages = this.images.map((img) => <string>img.big);
+        this.bigImages = this.filterImages(this.bigImages);
+
         this.descriptions = this.images.map((img) => <string>img.description);
         this.links = this.images.map((img) => <string>img.url);
         this.labels = this.images.map((img) => <string>img.label);

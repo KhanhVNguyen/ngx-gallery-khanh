@@ -10,7 +10,10 @@ import { NgxGalleryAction } from './ngx-gallery-action.model';
     selector: 'ngx-gallery-image',
     template: `
         <div class="ngx-gallery-image-wrapper ngx-gallery-animation-{{animation}} ngx-gallery-image-size-{{size}}">
-            <div class="ngx-gallery-image" *ngFor="let image of getImages(); let i = index;" [ngClass]="{ 'ngx-gallery-active': selectedIndex == image.index, 'ngx-gallery-inactive-left': selectedIndex > image.index, 'ngx-gallery-inactive-right': selectedIndex < image.index, 'ngx-gallery-clickable': clickable }" [style.background-image]="getSafeUrl(image.src)" (click)="handleClick($event, image.index)">
+            <div class="ngx-gallery-image" *ngFor="let image of getImages(); let i = index;" [ngClass]="{ 'ngx-gallery-active': selectedIndex == image.index, 'ngx-gallery-inactive-left': selectedIndex > image.index, 'ngx-gallery-inactive-right': selectedIndex < image.index, 'ngx-gallery-clickable': clickable }"  [style.background-image]="image?.type ? '' : getSafeUrl(image)" (click)="handleClick($event, image.index)">
+                <video *ngIf="image?.type" preload="false" controls style="width: 100%">
+                    <source [src]="image.src" type="video/mp4">
+                </video>    
                 <div class="ngx-gallery-icons-wrapper">
                     <ngx-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled" [titleText]="action.titleText" (onClick)="action.onClick($event, image.index)"></ngx-gallery-action>
                 </div>
@@ -22,7 +25,7 @@ import { NgxGalleryAction } from './ngx-gallery-action.model';
     styleUrls: ['./ngx-gallery-image.component.scss']
 })
 export class NgxGalleryImageComponent implements OnInit, OnChanges {
-    @Input() images: NgxGalleryOrderedImage[];
+    @Input() images: any[];
     @Input() clickable: boolean;
     @Input() selectedIndex: number;
     @Input() arrows: boolean;
@@ -91,7 +94,7 @@ export class NgxGalleryImageComponent implements OnInit, OnChanges {
         this.selectedIndex = index;
     }
 
-    getImages(): NgxGalleryOrderedImage[] {
+    getImages() {
         if (this.lazyLoading) {
             let indexes = [this.selectedIndex];
             let prevIndex = this.selectedIndex - 1;

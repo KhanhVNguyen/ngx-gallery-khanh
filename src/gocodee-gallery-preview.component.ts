@@ -27,7 +27,10 @@ import { NgxGalleryHelperService } from './ngx-gallery-helper.service';
         </div>
         <div class="ngx-gallery-preview-wrapper" (click)="closeOnClick && close()" (mouseup)="mouseUpHandler($event)" (mousemove)="mouseMoveHandler($event)" (touchend)="mouseUpHandler($event)" (touchmove)="mouseMoveHandler($event)">
             <div class="ngx-gallery-preview-img-wrapper">
-                <img *ngIf="src" #previewImage class="ngx-gallery-preview-img ngx-gallery-center" [src]="src" (click)="$event.stopPropagation()" (mouseenter)="imageMouseEnter()" (mouseleave)="imageMouseLeave()" (mousedown)="mouseDownHandler($event)" (touchstart)="mouseDownHandler($event)" [class.ngx-gallery-active]="!loading" [class.animation]="animation" [class.ngx-gallery-grab]="canDragOnZoom()" [style.transform]="getTransform()" [style.left]="positionLeft + 'px'" [style.top]="positionTop + 'px'"/>
+                <video #previewImage *ngIf="src?.type" preload="auto" controls>
+                    <source [src]="src?.src" type="video/mp4">
+                </video>
+                <img *ngIf="src && !src?.type" #previewImage class="ngx-gallery-preview-img ngx-gallery-center" [src]="src" (click)="$event.stopPropagation()" (mouseenter)="imageMouseEnter()" (mouseleave)="imageMouseLeave()" (mousedown)="mouseDownHandler($event)" (touchstart)="mouseDownHandler($event)" [class.ngx-gallery-active]="!loading" [class.animation]="animation" [class.ngx-gallery-grab]="canDragOnZoom()" [style.transform]="getTransform()" [style.left]="positionLeft + 'px'" [style.top]="positionTop + 'px'"/>
             </div>
             <div class="ngx-gallery-preview-text" *ngIf="showDescription && description" [innerHTML]="description"></div>
         </div>
@@ -47,7 +50,7 @@ export class GocodeeGalleryPreviewComponent implements OnChanges {
     rotateValue = 0;
     index = 0;
 
-    @Input() images: string[] | SafeResourceUrl[];
+    @Input() images: any[];
     @Input() descriptions: string[];
     @Input() showDescription: boolean;
     @Input() swipe: boolean;
@@ -243,7 +246,13 @@ export class GocodeeGalleryPreviewComponent implements OnChanges {
         }
     }
 
-    getSafeUrl(image: string): SafeUrl {
+    getSafeUrl(image): SafeUrl {
+        if (image.type) {
+            return {
+                src: image.src,
+                type: 'video'
+            }
+        }
         return image.substr(0, 10) === 'data:image' ?
             image : this.sanitization.bypassSecurityTrustUrl(image);
     }
@@ -393,7 +402,7 @@ export class GocodeeGalleryPreviewComponent implements OnChanges {
         this.rotateValue = 0;
         this.resetPosition();
 
-        this.src = this.getSafeUrl(<string>this.images[this.index]);
+        this.src = this.getSafeUrl(this.images[this.index]);
         this.srcIndex = this.index;
         this.description = this.descriptions[this.index];
 

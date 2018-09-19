@@ -1,145 +1,155 @@
-<ngx-gallery-arrows (onPrevClick)="showPrev()" (onNextClick)="showNext()" [prevDisabled]="!canShowPrev()"
-    [nextDisabled]="!canShowNext()" [arrowPrevIcon]="arrowPrevIcon" [arrowNextIcon]="arrowNextIcon"></ngx-gallery-arrows>
-<div class="ngx-gallery-preview-top">
+<div class="preview">
+    <ngx-gallery-arrows (onPrevClick)="showPrev()" (onNextClick)="showNext()" [prevDisabled]="!canShowPrev()"
+        [nextDisabled]="!canShowNext()" [arrowPrevIcon]="arrowPrevIcon" [arrowNextIcon]="arrowNextIcon"></ngx-gallery-arrows>
+    <div class="ngx-gallery-preview-top">
 
-    <div class="ngx-gallery-preview-icons">
-        <ngx-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled"
-            [titleText]="action.titleText" (onClick)="action.onClick($event, index)"></ngx-gallery-action>
-        <a *ngIf="download && src" [href]="src" class="ngx-gallery-icon" aria-hidden="true" download>
-            <i class="ngx-gallery-icon-content {{ downloadIcon }}"></i>
-        </a>
-        <ngx-gallery-action *ngIf="zoom" [icon]="zoomOutIcon" [disabled]="!canZoomOut()" (onClick)="zoomOut()"></ngx-gallery-action>
-        <ngx-gallery-action *ngIf="zoom" [icon]="zoomInIcon" [disabled]="!canZoomIn()" (onClick)="zoomIn()"></ngx-gallery-action>
-        <ngx-gallery-action *ngIf="rotate" [icon]="rotateLeftIcon" (onClick)="rotateLeft()"></ngx-gallery-action>
-        <ngx-gallery-action *ngIf="rotate" [icon]="rotateRightIcon" (onClick)="rotateRight()"></ngx-gallery-action>
-        <ngx-gallery-action *ngIf="fullscreen" [icon]="'ngx-gallery-fullscreen ' + fullscreenIcon" (onClick)="manageFullscreen()"></ngx-gallery-action>
-        <ngx-gallery-action [icon]="'ngx-gallery-close ' + closeIcon" (onClick)="close()"></ngx-gallery-action>
+        <div class="ngx-gallery-preview-icons">
+            <ngx-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled"
+                [titleText]="action.titleText" (onClick)="action.onClick($event, index)"></ngx-gallery-action>
+            <a *ngIf="download && src" [href]="src" class="ngx-gallery-icon" aria-hidden="true" download>
+                <i class="ngx-gallery-icon-content {{ downloadIcon }}"></i>
+            </a>
+            <ngx-gallery-action *ngIf="zoom" [icon]="zoomOutIcon" [disabled]="!canZoomOut()" (onClick)="zoomOut()"></ngx-gallery-action>
+            <ngx-gallery-action *ngIf="zoom" [icon]="zoomInIcon" [disabled]="!canZoomIn()" (onClick)="zoomIn()"></ngx-gallery-action>
+            <ngx-gallery-action *ngIf="rotate" [icon]="rotateLeftIcon" (onClick)="rotateLeft()"></ngx-gallery-action>
+            <ngx-gallery-action *ngIf="rotate" [icon]="rotateRightIcon" (onClick)="rotateRight()"></ngx-gallery-action>
+            <ngx-gallery-action *ngIf="fullscreen" [icon]="'ngx-gallery-fullscreen ' + fullscreenIcon" (onClick)="manageFullscreen()"></ngx-gallery-action>
+            <ngx-gallery-action [icon]="'ngx-gallery-close ' + closeIcon" (onClick)="close()"></ngx-gallery-action>
+        </div>
     </div>
-</div>
-<div class="ngx-spinner-wrapper ngx-gallery-center" [class.ngx-gallery-active]="showSpinner">
-    <i class="ngx-gallery-icon ngx-gallery-spinner {{spinnerIcon}}" aria-hidden="true"></i>
-</div>
-<div class="ngx-gallery-preview-wrapper" (click)="closeOnClick && close()" (mouseup)="mouseUpHandler($event)"
-    (mousemove)="mouseMoveHandler($event)" (touchend)="mouseUpHandler($event)" (touchmove)="mouseMoveHandler($event)">
-    <div class="ngx-gallery-preview-img-wrapper">
-        <div class="ngx-gallery-preview-agent-navbar">
-            <ul *ngIf="!isProject" class="ngx-gallery-preview-agent-info">
-                <li class="ngx-gallery-preview-nav-item">
-                    <img *ngIf="src" class="ngx-gallery-preview-company-avatar" [src]="src" alt="" style="width: 70px; height:70px">
-                    <span class="ngx-gallery-preview-company-name">MEKONG REALITY</span>
-                </li>
-                <li class="ngx-gallery-preview-nav-item agent-info">
-                    <div class="agent-avatar-bg">
-                        <p class="agent-name">Hoang Phi Yen</p>
-                        <p class="agent-position">Independent agent</p>
-                    </div>
-                </li>
-                <li class="ngx-gallery-preview-nav-item">
-                    <button class="btn btn-primary btn-call">Call</button>
-                    <button class="btn btn-primary btn-message">Message</button>
-                </li>
-            </ul>
-
-            <div *ngIf="isProject" class="ngx-gallery-preview-project">
-                <div class="row pt-3">
-                    <div class="col-md-6"></div>
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-3">
-                                <button class="btn btn-primary">Listing for sale</button>
-                            </div>
-                            <div class="col-md-3">
-                                <button class="btn btn-primary">Listing for rent</button>
-                            </div>
-                            <div class="border-right"></div>
-                            <div class="col-md-2">
-                                <form class="rating">
-                                    <label>
-                                        <input type="radio" name="stars" value="1" (click)="setStar(1)" [checked]="star == 1"
-                                            [disabled]="!editable" />
-                                        <i class="far fa-star"></i>
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="stars" value="2" (click)="setStar(2)" [checked]="star == 2"
-                                            [disabled]="!editable" />
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="stars" value="3" (click)="setStar(3)" [checked]="star == 3"
-                                            [disabled]="!editable" />
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="stars" value="4" (click)="setStar(4)" [checked]="star == 4"
-                                            [disabled]="!editable" />
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="stars" value="5" (click)="setStar(5)" [checked]="star >= 5"
-                                            [disabled]="!editable" />
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </label>
-                                </form>
-                                <p class="">From 12 views</p>
-                            </div>
+    <div class="ngx-spinner-wrapper ngx-gallery-center" [class.ngx-gallery-active]="showSpinner">
+        <i class="ngx-gallery-icon ngx-gallery-spinner {{spinnerIcon}}" aria-hidden="true"></i>
+    </div>
+    <div class="ngx-gallery-preview-wrapper" (click)="closeOnClick && close()" (mouseup)="mouseUpHandler($event)"
+        (mousemove)="mouseMoveHandler($event)" (touchend)="mouseUpHandler($event)" (touchmove)="mouseMoveHandler($event)">
+        <div class="ngx-gallery-preview-img-wrapper">
+            <div class="ngx-gallery-preview-agent-navbar">
+                <ul *ngIf="!isProject" class="ngx-gallery-preview-agent-info">
+                    <li class="ngx-gallery-preview-nav-item">
+                        <img *ngIf="src" class="ngx-gallery-preview-company-avatar" [src]="src" alt="" style="width: 70px; height:70px">
+                        <span class="ngx-gallery-preview-company-name">MEKONG REALITY</span>
+                    </li>
+                    <li class="ngx-gallery-preview-nav-item agent-info">
+                        <div class="agent-avatar-bg">
+                            <p class="agent-name">Hoang Phi Yen</p>
+                            <p class="agent-position">Independent agent</p>
                         </div>
-                    </div>
-                </div>
-                <div class="dropdown-divider"></div>
-            </div>
-        </div>
-        <div class="ngx-gallery-preview-image">
-            <img *ngIf="src" #previewImage class="ngx-gallery-preview-img ngx-gallery-center" [src]="src" (click)="$event.stopPropagation()"
-                (mouseenter)="imageMouseEnter()" (mouseleave)="imageMouseLeave()" (mousedown)="mouseDownHandler($event)"
-                (touchstart)="mouseDownHandler($event)" [class.ngx-gallery-active]="!loading" [class.animation]="animation"
-                [class.ngx-gallery-grab]="canDragOnZoom()" [style.transform]="getTransform()" [style.left]="positionLeft + 'px'"
-                [style.top]="positionTop + 'px'" />
-        </div>
-
-        <div class="ngx-gallery-preview-tab">
-            <div class="ngx-gallery-preview-menu">
-                <ul class="ngx-gallery-preview-menu-navbar">
-                    <li [class.active]="tab == 1" (click)="tab = 1">
-                        <span>All (30)</span>
                     </li>
-                    <li [class.active]="tab == 2" (click)="tab = 2">
-                        <span>Rooms (10)</span>
-                    </li>
-                    <li [class.active]="tab == 3" (click)="tab = 3">
-                        <span>Property view (5)</span>
-                    </li>
-                    <li [class.active]="tab == 4" (click)="tab = 4">
-                        <span>Facilities (5)</span>
-                    </li>
-                    <li [class.active]="tab == 5" (click)="tab = 5">
-                        <span>Dining (5)</span>
-                    </li>
-                    <li [class.active]="tab == 6" (click)="tab = 6">
-                        <span>Other (5)</span>
+                    <li class="ngx-gallery-preview-nav-item">
+                        <button class="btn btn-primary btn-call">Call</button>
+                        <button class="btn btn-primary btn-message">Message</button>
                     </li>
                 </ul>
+
+                <div *ngIf="isProject" class="ngx-gallery-preview-project">
+                    <div class="row pt-3">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-primary">Listing for sale</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-primary">Listing for rent</button>
+                                </div>
+                                <div class="border-right"></div>
+                                <div class="col-md-2">
+                                    <form class="rating">
+                                        <label>
+                                            <input type="radio" name="stars" value="1" (click)="setStar(1)" [checked]="star == 1"
+                                                [disabled]="!editable" />
+                                            <i class="far fa-star"></i>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="stars" value="2" (click)="setStar(2)" [checked]="star == 2"
+                                                [disabled]="!editable" />
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="stars" value="3" (click)="setStar(3)" [checked]="star == 3"
+                                                [disabled]="!editable" />
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="stars" value="4" (click)="setStar(4)" [checked]="star == 4"
+                                                [disabled]="!editable" />
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="stars" value="5" (click)="setStar(5)" [checked]="star >= 5"
+                                                [disabled]="!editable" />
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </label>
+                                    </form>
+                                    <p class="">From 12 views</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                </div>
             </div>
-            <div class="ngx-gallery-preview-img-list">
-                <div class="row">
-                    <div class="col-3 col-md-1 col-sm-2 img-item" *ngFor="let image of smallImages; let i = index;"
-                        (click)="handleClick($event)">
-                        <div class="img-thumnails" [style.background-image]="getSafeUrl2(image)">
+            <div class="ngx-gallery-preview-image">
+                <video #previewImage *ngIf="src?.type" preload="auto" controls style="height: 500px">
+                    <source [src]="src?.src" type="video/mp4">
+                </video>
+                <img *ngIf="src && !src?.type" #previewImage class="ngx-gallery-preview-img ngx-gallery-center" [src]="src"
+                    style="width: 800px; height: 500px;" (click)="$event.stopPropagation()" (mouseenter)="imageMouseEnter()"
+                    (mouseleave)="imageMouseLeave()" (mousedown)="mouseDownHandler($event)" (touchstart)="mouseDownHandler($event)"
+                    [class.ngx-gallery-active]="!loading" [class.animation]="animation" [class.ngx-gallery-grab]="canDragOnZoom()"
+                    [style.transform]="getTransform()" [style.left]="positionLeft + 'px'" [style.top]="positionTop + 'px'" />
+            </div>
+
+            <div class="ngx-gallery-preview-tab">
+                <div class="ngx-gallery-preview-menu">
+                    <ul class="ngx-gallery-preview-menu-navbar">
+                        <li [class.active]="tab == 1" (click)="tab = 1">
+                            <span>All (30)</span>
+                        </li>
+                        <li [class.active]="tab == 2" (click)="tab = 2">
+                            <span>Rooms (10)</span>
+                        </li>
+                        <li [class.active]="tab == 3" (click)="tab = 3">
+                            <span>Property view (5)</span>
+                        </li>
+                        <li [class.active]="tab == 4" (click)="tab = 4">
+                            <span>Facilities (5)</span>
+                        </li>
+                        <li [class.active]="tab == 5" (click)="tab = 5">
+                            <span>Dining (5)</span>
+                        </li>
+                        <li [class.active]="tab == 6" (click)="tab = 6">
+                            <span>Other (5)</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ngx-gallery-preview-img-list">
+                    <div class="row">
+                        <div class="col-3 col-md-1 col-sm-2 img-item" *ngFor="let image of smallImages; let i = index;"
+                            [class.active]="i == index" (click)="selectImage(i)">
+                            <div *ngIf="image.type" class="img-thumnails">
+                                <video preload="false" style="width: 100%" muted (click)="selectImage(i)">
+                                    <source [src]="image.src" type="video/mp4">
+                                </video>
+                            </div>
+                            <div *ngIf="!image.type" class="img-thumnails" [style.background-image]="getSafeUrl2(image)">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="ngx-gallery-preview-text" *ngIf="showDescription && description" [innerHTML]="description"></div>
     </div>
-    <div class="ngx-gallery-preview-text" *ngIf="showDescription && description" [innerHTML]="description"></div>
 </div>

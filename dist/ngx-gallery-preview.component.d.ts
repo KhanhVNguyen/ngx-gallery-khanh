@@ -1,5 +1,5 @@
 import { EventEmitter, OnChanges, SimpleChanges, ElementRef, Renderer } from '@angular/core';
-import { SafeResourceUrl, DomSanitizer, SafeUrl, SafeStyle } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl, SafeStyle } from '@angular/platform-browser';
 import { NgxGalleryAction } from './ngx-gallery-action.model';
 import { NgxGalleryHelperService } from './ngx-gallery-helper.service';
 export declare class NgxGalleryPreviewComponent implements OnChanges {
@@ -20,8 +20,8 @@ export declare class NgxGalleryPreviewComponent implements OnChanges {
     tab: number;
     star: number;
     isProject: boolean;
-    images: string[] | SafeResourceUrl[];
-    smallImages: string[] | SafeResourceUrl[];
+    images: any[];
+    smallImages: any[];
     descriptions: string[];
     showDescription: boolean;
     swipe: boolean;
@@ -75,11 +75,12 @@ export declare class NgxGalleryPreviewComponent implements OnChanges {
     startAutoPlay(): void;
     stopAutoPlay(): void;
     showNext(): boolean;
+    selectImage(index: any): void;
     showPrev(): void;
     canShowNext(): boolean;
     canShowPrev(): boolean;
     manageFullscreen(): void;
-    getSafeUrl(image: string): SafeUrl;
+    getSafeUrl(image: any): SafeUrl;
     getSafeUrl2(image: string): SafeUrl;
     zoomIn(): void;
     zoomOut(): void;
@@ -103,7 +104,6 @@ export declare class NgxGalleryPreviewComponent implements OnChanges {
     private show(first?);
     private _show();
     private isLoaded(img);
-    handleClick(event: Event): void;
     getThumbnailLeft(index: number): SafeStyle;
     getThumbnailTop(index: number): SafeStyle;
     private getThumbnailPosition(index, count);
