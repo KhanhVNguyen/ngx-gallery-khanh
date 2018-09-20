@@ -63,6 +63,7 @@ export class NgxGalleryPreviewComponent implements OnChanges {
     @Output() onActiveChange = new EventEmitter<number>();
 
     @ViewChild('previewImage') previewImage: ElementRef;
+    @ViewChild('previewVideo') previewVideo: ElementRef;
 
     private isOpen = false;
     private timer;
@@ -125,7 +126,9 @@ export class NgxGalleryPreviewComponent implements OnChanges {
         this.onClose.emit();
 
         this.stopAutoPlay();
-        this.previewImage.nativeElement.pause();
+        if(this.previewVideo) {
+            this.previewVideo.nativeElement.pause();
+        }
 
         if (this.keyDownListener) {
             this.keyDownListener();

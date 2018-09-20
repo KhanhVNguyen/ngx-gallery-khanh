@@ -1,6 +1,6 @@
 {
   "name": "ngx-gallery-gocodee",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "Responsive Angular 2 / 4 image gallery plugin",
   "scripts": {
     "build": "gulp build",
@@ -76,7 +76,8 @@
     "node-watch": "^0.5.2",
     "rollup": "^0.50.0",
     "run-sequence": "^2.2.0",
-    "rxjs": "^5.1.0",
+    "rxjs": "^6.2.2",
+    "rxjs-compat": "^6.2.2",
     "systemjs": "^0.20.12",
     "ts-node": "~3.3.0",
     "tslint": "~5.8.0",

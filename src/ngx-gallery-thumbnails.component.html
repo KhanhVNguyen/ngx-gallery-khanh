@@ -1,7 +1,7 @@
 <div class="ngx-gallery-thumbnails-wrapper ngx-gallery-thumbnail-size-{{size}}">
     <div class="ngx-gallery-thumbnails ngx-gallery-thumbnails-lg" [style.transform]="'translateX(' + thumbnailsLeft + ')'"
         [style.marginLeft]="thumbnailsMarginLeft">
-        <a *ngIf="!firstImg?.type" [href]="hasLinks() ? links[0] : '#'" [target]="linkTarget" class="ngx-gallery-thumbnail"
+        <a [hidden]="firstImg?.type" [href]="hasLinks() ? links[0] : '#'" [target]="linkTarget" class="ngx-gallery-thumbnail"
             [style.background-image]="getSafeUrl(firstImg)" (click)="handleClick($event, 0)" [style.width]="getThumbnailWidth()"
             [style.height]="getThumbnailHeight()" [style.left]="getThumbnailLeft(0)" [style.top]="getThumbnailTop(0)"
             [ngClass]="{ 'ngx-gallery-active': 0 == selectedIndex, 'ngx-gallery-clickable': clickable }"
@@ -14,7 +14,7 @@
                 <span class="ngx-gallery-remaining-count">+{{remainingCountValue}}</span>
             </div>
         </a>
-        <a *ngIf="firstImg?.type" (click)="handleClick($event, 0)" [href]="hasLinks() ? links[0] : '#'" [target]="linkTarget"
+        <a [hidden]="!firstImg?.type" (click)="handleClick($event, 0)" [href]="hasLinks() ? links[0] : '#'" [target]="linkTarget"
             class="ngx-gallery-thumbnail" [style.width]="getThumbnailWidth()" [style.height]="getThumbnailHeight()"
             [style.left]="getThumbnailLeft(0)" [style.top]="getThumbnailTop(0)" [ngClass]="{ 'ngx-gallery-active': 0 == selectedIndex, 'ngx-gallery-clickable': clickable }"
             [attr.aria-label]="labels[0]">

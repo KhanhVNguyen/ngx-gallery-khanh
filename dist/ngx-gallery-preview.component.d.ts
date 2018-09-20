@@ -56,6 +56,7 @@ export declare class NgxGalleryPreviewComponent implements OnChanges {
     onClose: EventEmitter<{}>;
     onActiveChange: EventEmitter<number>;
     previewImage: ElementRef;
+    previewVideo: ElementRef;
     private isOpen;
     private timer;
     private initialX;
