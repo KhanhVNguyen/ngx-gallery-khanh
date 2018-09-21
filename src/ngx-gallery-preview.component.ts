@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef, HostListener, ViewChild, Renderer } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, ElementRef, HostListener, ViewChild, Renderer } from '@angular/core';
 import { SafeResourceUrl, DomSanitizer, SafeUrl, SafeStyle } from '@angular/platform-browser';
 
 import { NgxGalleryAction } from './ngx-gallery-action.model';
@@ -10,7 +10,7 @@ import { NgxGalleryOrder } from 'ngx-gallery-order.model';
     templateUrl: './ngx-gallery-preview.component.html',
     styleUrls: ['./ngx-gallery-preview.component.scss']
 })
-export class NgxGalleryPreviewComponent implements OnChanges {
+export class NgxGalleryPreviewComponent implements OnChanges, OnInit {
 
     src: SafeUrl;
     srcIndex: number;
@@ -23,6 +23,7 @@ export class NgxGalleryPreviewComponent implements OnChanges {
     rotateValue = 0;
     index = 0;
     tab = 1;
+    tabImages: any;
     @Input() star: number = 0;
     @Input() isProject: boolean;
     @Input() images: any[];
@@ -74,10 +75,23 @@ export class NgxGalleryPreviewComponent implements OnChanges {
     private isMove = false;
 
     private keyDownListener: Function;
-
+    rooms: any;
+    propertyView: any;
+    facilities: any;
+    dining: any;
+    other: any;
     constructor(private sanitization: DomSanitizer, private elementRef: ElementRef,
-        private helperService: NgxGalleryHelperService, private renderer: Renderer) { }
+        private helperService: NgxGalleryHelperService, private renderer: Renderer) {
+    }
 
+    ngOnInit() {
+        this.tabImages = this.smallImages;
+        this.rooms = this.smallImages.filter(x => x.category == 2);
+        this.propertyView = this.smallImages.filter(x => x.category == 3);
+        this.facilities = this.smallImages.filter(x => x.category == 4);
+        this.dining = this.smallImages.filter(x => x.category == 5);
+        this.other = this.smallImages.filter(x => x.category == 6);
+    }
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['swipe']) {
             this.helperService.manageSwipe(this.swipe, this.elementRef,
@@ -126,7 +140,7 @@ export class NgxGalleryPreviewComponent implements OnChanges {
         this.onClose.emit();
 
         this.stopAutoPlay();
-        if(this.previewVideo) {
+        if (this.previewVideo) {
             this.previewVideo.nativeElement.pause();
         }
 
@@ -478,5 +492,28 @@ export class NgxGalleryPreviewComponent implements OnChanges {
 
     private getSafeStyle(value: string): SafeStyle {
         return this.sanitization.bypassSecurityTrustStyle(value);
+    }
+
+    private switchTab() {
+        switch (this.tab) {
+            case 1:
+                this.tabImages = this.smallImages;
+                break;
+            case 2:
+                this.tabImages = this.rooms;
+                break;
+            case 3:
+                this.tabImages = this.propertyView;
+                break;
+            case 4:
+                this.tabImages = this.facilities;
+                break;
+            case 5:
+                this.tabImages = this.dining;
+                break;
+            case 6:
+                this.tabImages = this.other;
+                break;
+        }
     }
 }

@@ -114,36 +114,36 @@
             <div class="ngx-gallery-preview-tab">
                 <div class="ngx-gallery-preview-menu">
                     <ul class="ngx-gallery-preview-menu-navbar">
-                        <li [class.active]="tab == 1" (click)="tab = 1">
-                            <span>All (30)</span>
+                        <li [class.active]="tab == 1" (click)="tab = 1; switchTab()">
+                            <span>All ({{smallImages.length}})</span>
                         </li>
-                        <li [class.active]="tab == 2" (click)="tab = 2">
-                            <span>Rooms (10)</span>
+                        <li [class.active]="tab == 2" (click)="tab = 2; switchTab()">
+                            <span>Rooms ({{rooms.length}})</span>
                         </li>
-                        <li [class.active]="tab == 3" (click)="tab = 3">
-                            <span>Property view (5)</span>
+                        <li [class.active]="tab == 3" (click)="tab = 3; switchTab()">
+                            <span>Property view ({{propertyView.length}})</span>
                         </li>
-                        <li [class.active]="tab == 4" (click)="tab = 4">
-                            <span>Facilities (5)</span>
+                        <li [class.active]="tab == 4" (click)="tab = 4; switchTab()">
+                            <span>Facilities ({{facilities.length}})</span>
                         </li>
-                        <li [class.active]="tab == 5" (click)="tab = 5">
-                            <span>Dining (5)</span>
+                        <li [class.active]="tab == 5" (click)="tab = 5; switchTab()">
+                            <span>Dining ({{dining.length}})</span>
                         </li>
-                        <li [class.active]="tab == 6" (click)="tab = 6">
-                            <span>Other (5)</span>
+                        <li [class.active]="tab == 6" (click)="tab = 6; switchTab()">
+                            <span>Other ({{other.length}})</span>
                         </li>
                     </ul>
                 </div>
                 <div class="ngx-gallery-preview-img-list">
-                    <div class="row">
-                        <div class="col-3 col-md-1 col-sm-2 img-item" *ngFor="let image of smallImages; let i = index;"
+                    <div class="row justify-content-md-center">
+                        <div class="col-3 col-md-1 col-sm-2 img-item" *ngFor="let image of tabImages; let i = index;"
                             [class.active]="i == index" (click)="selectImage(i)">
                             <div *ngIf="image.type" class="img-thumnails">
                                 <video preload="false" style="width: 100%" muted (click)="selectImage(i)">
                                     <source [src]="image.src" type="video/mp4">
                                 </video>
                             </div>
-                            <div *ngIf="!image.type" class="img-thumnails" [style.background-image]="getSafeUrl2(image)">
+                            <div *ngIf="!image.type" class="img-thumnails" [style.background-image]="getSafeUrl2(image.src)">
                             </div>
                         </div>
                     </div>
