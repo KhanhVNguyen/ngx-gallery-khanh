@@ -7,6 +7,7 @@ export interface INgxGalleryImage {
     description?: string;
     url?: string;
     label?: string;
+    category?: number;
 }
 
 export class NgxGalleryImage implements INgxGalleryImage {
@@ -16,6 +17,7 @@ export class NgxGalleryImage implements INgxGalleryImage {
     description?: string;
     url?: string;
     label?: string;
+    category?: number;
 
     constructor(obj: INgxGalleryImage) {
         this.small = obj.small;
@@ -24,5 +26,6 @@ export class NgxGalleryImage implements INgxGalleryImage {
         this.description = obj.description;
         this.url = obj.url;
         this.label = obj.label;
+        this.category = obj.category;
     }
 }
