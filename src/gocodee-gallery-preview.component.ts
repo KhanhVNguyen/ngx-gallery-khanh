@@ -39,7 +39,7 @@ import { NgxGalleryHelperService } from './ngx-gallery-helper.service';
 })
 export class GocodeeGalleryPreviewComponent implements OnChanges {
 
-    src: SafeUrl;
+    src: any;
     srcIndex: number;
     description: string;
     showSpinner = false;

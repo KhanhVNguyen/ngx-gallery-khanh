@@ -12,7 +12,7 @@ import { NgxGalleryOrder } from 'ngx-gallery-order.model';
 })
 export class NgxGalleryPreviewComponent implements OnChanges {
 
-    src: SafeUrl;
+    src: any;
     srcIndex: number;
     description: string;
     showSpinner = false;
