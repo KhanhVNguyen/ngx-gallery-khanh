@@ -22,6 +22,7 @@ export declare class NgxGalleryComponent implements OnInit, DoCheck, AfterViewIn
         image: NgxGalleryImage;
     }>;
     smallImages: any;
+    previewImages: any;
     mediumImages: NgxGalleryOrderedImage[];
     bigImages: any;
     descriptions: string[];

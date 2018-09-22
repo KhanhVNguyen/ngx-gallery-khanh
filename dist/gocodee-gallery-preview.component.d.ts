@@ -7,7 +7,7 @@ export declare class GocodeeGalleryPreviewComponent implements OnChanges {
     private elementRef;
     private helperService;
     private renderer;
-    src: SafeUrl;
+    src: any;
     srcIndex: number;
     description: string;
     showSpinner: boolean;

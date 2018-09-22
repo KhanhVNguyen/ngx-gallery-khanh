@@ -1,13 +1,13 @@
-import { EventEmitter, OnChanges, SimpleChanges, ElementRef, Renderer } from '@angular/core';
+import { EventEmitter, OnInit, OnChanges, SimpleChanges, ElementRef, Renderer } from '@angular/core';
 import { DomSanitizer, SafeUrl, SafeStyle } from '@angular/platform-browser';
 import { NgxGalleryAction } from './ngx-gallery-action.model';
 import { NgxGalleryHelperService } from './ngx-gallery-helper.service';
-export declare class NgxGalleryPreviewComponent implements OnChanges {
+export declare class NgxGalleryPreviewComponent implements OnChanges, OnInit {
     private sanitization;
     private elementRef;
     private helperService;
     private renderer;
-    src: SafeUrl;
+    src: any;
     srcIndex: number;
     description: string;
     showSpinner: boolean;
@@ -18,6 +18,7 @@ export declare class NgxGalleryPreviewComponent implements OnChanges {
     rotateValue: number;
     index: number;
     tab: number;
+    tabImages: any;
     star: number;
     isProject: boolean;
     images: any[];
@@ -65,7 +66,13 @@ export declare class NgxGalleryPreviewComponent implements OnChanges {
     private initialTop;
     private isMove;
     private keyDownListener;
+    rooms: any;
+    propertyView: any;
+    facilities: any;
+    dining: any;
+    other: any;
     constructor(sanitization: DomSanitizer, elementRef: ElementRef, helperService: NgxGalleryHelperService, renderer: Renderer);
+    ngOnInit(): void;
     ngOnChanges(changes: SimpleChanges): void;
     ngOnDestroy(): void;
     onKeyDown(e: any): void;
@@ -112,4 +119,5 @@ export declare class NgxGalleryPreviewComponent implements OnChanges {
     getThumbnailHeight(): SafeStyle;
     private getThumbnailDimension(count);
     private getSafeStyle(value);
+    private switchTab();
 }
