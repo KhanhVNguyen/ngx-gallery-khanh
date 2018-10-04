@@ -104,7 +104,7 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
     getImages2() {
         let imgs = this.getImages();
         this.firstImg = imgs[0];
-        return imgs.slice(1);
+        return imgs ? imgs.slice(1) : imgs;
     }
 
     handleClick(event: Event, index: number): void {
