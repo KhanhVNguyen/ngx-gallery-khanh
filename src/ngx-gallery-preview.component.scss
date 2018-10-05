@@ -4,7 +4,7 @@
     position: fixed;
     left: 0;
     top: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     z-index: 10000;
     display: inline-block;
 }
@@ -199,8 +199,8 @@ ngx-gallery-preview {
         .ngx-gallery-preview-agent-info {
             display: inline-flex;
             border-bottom: 1px solid white;
-            padding-top: 15px;
-            padding-bottom: 15px;
+            padding-top: 46px;
+            padding-bottom: 21px;
             list-style-type: none;
 
             .ngx-gallery-preview-nav-item {
@@ -212,8 +212,8 @@ ngx-gallery-preview {
                 }
 
                 &.agent-info {
-                    padding-left: 250px;
-                    padding-right: 250px;
+                    padding-left: 160px;
+                    padding-right: 160px;
                 }
 
                 .agent-avatar-bg {
@@ -226,6 +226,7 @@ ngx-gallery-preview {
 
                     .agent-name {
                         font-size: 22px;
+                        font-weight: bold;
                     }
 
                     .agent-position {
@@ -235,6 +236,8 @@ ngx-gallery-preview {
 
                 .btn-call {
                     margin-right: 15px;
+                    font-size: 16px;
+                    font-weight: bold;
                 }
             }
         }
@@ -322,7 +325,30 @@ ngx-gallery-preview {
         }
 
         .ngx-gallery-arrow-right {
-            margin-right: em;
+            margin-right: 3em;
         }
+    }
+}
+
+.ngx-gallery-preview-nav-item {
+    .btn-call {
+        width: 170px;
+        height: 40px;
+        background-image: url(/assets/images/phone-white.svg);
+        background-position: 50px;
+        background-repeat: no-repeat;
+        padding: 0px 0px 0px 25px !important;
+    }
+
+    .btn-white {
+        width: 170px;
+        height: 40px;
+        background-color: #ffffff;
+        color: #555555;
+        font-size: 16px;
+        background-image: url(/assets/images/boxchat-black.svg);
+        background-repeat: no-repeat;
+        padding: 0px 0px 0px 40px !important;
+        background-position: 36px;
     }
 }
