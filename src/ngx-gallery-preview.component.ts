@@ -66,22 +66,22 @@ export class NgxGalleryPreviewComponent implements OnChanges, OnInit {
     @ViewChild('previewImage') previewImage: ElementRef;
     @ViewChild('previewVideo') previewVideo: ElementRef;
 
-    private isOpen = false;
-    private timer;
-    private initialX = 0;
-    private initialY = 0;
-    private initialLeft = 0;
-    private initialTop = 0;
-    private isMove = false;
+    public isOpen = false;
+    public timer;
+    public initialX = 0;
+    public initialY = 0;
+    public initialLeft = 0;
+    public initialTop = 0;
+    public isMove = false;
 
-    private keyDownListener: Function;
+    public keyDownListener: Function;
     rooms: any;
     propertyView: any;
     facilities: any;
     dining: any;
     other: any;
-    constructor(private sanitization: DomSanitizer, private elementRef: ElementRef,
-        private helperService: NgxGalleryHelperService, private renderer: Renderer) {
+    constructor(public sanitization: DomSanitizer, public elementRef: ElementRef,
+        public helperService: NgxGalleryHelperService, public renderer: Renderer) {
     }
 
     ngOnInit() {
@@ -331,34 +331,34 @@ export class NgxGalleryPreviewComponent implements OnChanges, OnInit {
         }
     }
 
-    private getClientX(e): number {
+    public getClientX(e): number {
         return e.touches && e.touches.length ? e.touches[0].clientX : e.clientX;
     }
 
-    private getClientY(e): number {
+    public getClientY(e): number {
         return e.touches && e.touches.length ? e.touches[0].clientY : e.clientY;
     }
 
-    private resetPosition() {
+    public resetPosition() {
         if (this.zoom) {
             this.positionLeft = 0;
             this.positionTop = 0;
         }
     }
 
-    private isKeyboardNext(e): boolean {
+    public isKeyboardNext(e): boolean {
         return e.keyCode === 39 ? true : false;
     }
 
-    private isKeyboardPrev(e): boolean {
+    public isKeyboardPrev(e): boolean {
         return e.keyCode === 37 ? true : false;
     }
 
-    private isKeyboardEsc(e): boolean {
+    public isKeyboardEsc(e): boolean {
         return e.keyCode === 27 ? true : false;
     }
 
-    private openFullscreen(): void {
+    public openFullscreen(): void {
         const element = <any>document.documentElement;
 
         if (element.requestFullscreen) {
@@ -372,7 +372,7 @@ export class NgxGalleryPreviewComponent implements OnChanges, OnInit {
         }
     }
 
-    private closeFullscreen(): void {
+    public closeFullscreen(): void {
 
         const doc = <any>document;
 
@@ -387,7 +387,7 @@ export class NgxGalleryPreviewComponent implements OnChanges, OnInit {
         }
     }
 
-    private show(first = false) {
+    public show(first = false) {
         this.loading = true;
         this.stopAutoPlay();
 
@@ -400,7 +400,7 @@ export class NgxGalleryPreviewComponent implements OnChanges, OnInit {
         }
     }
 
-    private _show() {
+    public _show() {
         this.zoomValue = 1;
         this.rotateValue = 0;
         this.resetPosition();
@@ -435,7 +435,7 @@ export class NgxGalleryPreviewComponent implements OnChanges, OnInit {
         })
     }
 
-    private isLoaded(img): boolean {
+    public isLoaded(img): boolean {
         if (!img.complete) {
             return false;
         }
@@ -471,7 +471,7 @@ export class NgxGalleryPreviewComponent implements OnChanges, OnInit {
         return this.getThumbnailPosition(calculatedIndex, rows);
     }
 
-    private getThumbnailPosition(index: number, count: number): SafeStyle {
+    public getThumbnailPosition(index: number, count: number): SafeStyle {
         return this.getSafeStyle('calc(' + ((100 / count) * index) + '% + '
             + ((10 - (((count - 1) * 10) / count)) * index) + 'px)');
     }
@@ -484,17 +484,17 @@ export class NgxGalleryPreviewComponent implements OnChanges, OnInit {
         return this.getThumbnailDimension(Math.floor(this.smallImages.length / 6));
     }
 
-    private getThumbnailDimension(count: number): SafeStyle {
+    public getThumbnailDimension(count: number): SafeStyle {
         return this.getSafeStyle('calc(' + (100 / count) + '% - '
             + (((count - 1) * 10) / count) + 'px)');
 
     }
 
-    private getSafeStyle(value: string): SafeStyle {
+    public getSafeStyle(value: string): SafeStyle {
         return this.sanitization.bypassSecurityTrustStyle(value);
     }
 
-    private switchTab() {
+    public switchTab() {
         switch (this.tab) {
             case 1:
                 this.tabImages = this.smallImages;
