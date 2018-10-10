@@ -6,40 +6,11 @@ import { NgxGalleryHelperService } from './ngx-gallery-helper.service';
 
 @Component({
     selector: 'gocodee-gallery-preview',
-    template: `
-        <ngx-gallery-arrows (onPrevClick)="showPrev()" (onNextClick)="showNext()" [prevDisabled]="!canShowPrev()" [nextDisabled]="!canShowNext()" [arrowPrevIcon]="arrowPrevIcon" [arrowNextIcon]="arrowNextIcon"></ngx-gallery-arrows>
-        <div class="ngx-gallery-preview-top">
-            <div class="ngx-gallery-preview-icons">
-                <ngx-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled" [titleText]="action.titleText" (onClick)="action.onClick($event, index)"></ngx-gallery-action>
-                <a *ngIf="download && src" [href]="src" class="ngx-gallery-icon" aria-hidden="true" download>
-                    <i class="ngx-gallery-icon-content {{ downloadIcon }}"></i>
-                </a>
-                <ngx-gallery-action *ngIf="zoom" [icon]="zoomOutIcon" [disabled]="!canZoomOut()" (onClick)="zoomOut()"></ngx-gallery-action>
-                <ngx-gallery-action *ngIf="zoom" [icon]="zoomInIcon" [disabled]="!canZoomIn()" (onClick)="zoomIn()"></ngx-gallery-action>
-                <ngx-gallery-action *ngIf="rotate" [icon]="rotateLeftIcon" (onClick)="rotateLeft()"></ngx-gallery-action>
-                <ngx-gallery-action *ngIf="rotate" [icon]="rotateRightIcon" (onClick)="rotateRight()"></ngx-gallery-action>
-                <ngx-gallery-action *ngIf="fullscreen" [icon]="'ngx-gallery-fullscreen ' + fullscreenIcon" (onClick)="manageFullscreen()"></ngx-gallery-action>
-                <ngx-gallery-action [icon]="'ngx-gallery-close ' + closeIcon" (onClick)="close()"></ngx-gallery-action>
-            </div>
-        </div>
-        <div class="ngx-spinner-wrapper ngx-gallery-center" [class.ngx-gallery-active]="showSpinner">
-            <i class="ngx-gallery-icon ngx-gallery-spinner {{spinnerIcon}}" aria-hidden="true"></i>
-        </div>
-        <div class="ngx-gallery-preview-wrapper" (click)="closeOnClick && close()" (mouseup)="mouseUpHandler($event)" (mousemove)="mouseMoveHandler($event)" (touchend)="mouseUpHandler($event)" (touchmove)="mouseMoveHandler($event)">
-            <div class="ngx-gallery-preview-img-wrapper">
-                <video #previewImage *ngIf="src?.type" preload="auto" controls>
-                    <source [src]="src?.src" type="video/mp4">
-                </video>
-                <img *ngIf="src && !src?.type" #previewImage class="ngx-gallery-preview-img ngx-gallery-center" [src]="src" (click)="$event.stopPropagation()" (mouseenter)="imageMouseEnter()" (mouseleave)="imageMouseLeave()" (mousedown)="mouseDownHandler($event)" (touchstart)="mouseDownHandler($event)" [class.ngx-gallery-active]="!loading" [class.animation]="animation" [class.ngx-gallery-grab]="canDragOnZoom()" [style.transform]="getTransform()" [style.left]="positionLeft + 'px'" [style.top]="positionTop + 'px'"/>
-            </div>
-            <div class="ngx-gallery-preview-text" *ngIf="showDescription && description" [innerHTML]="description"></div>
-        </div>
-    `,
+    templateUrl: './gocodee-gallery-preview.component.html',
     styleUrls: ['./gocodee-gallery-preview.component.scss']
 })
 export class GocodeeGalleryPreviewComponent implements OnChanges {
-
-    src: any;
+    src: SafeUrl;
     srcIndex: number;
     description: string;
     showSpinner = false;
@@ -50,7 +21,7 @@ export class GocodeeGalleryPreviewComponent implements OnChanges {
     rotateValue = 0;
     index = 0;
 
-    @Input() images: any[];
+    @Input() images: string[] | SafeResourceUrl[];
     @Input() descriptions: string[];
     @Input() showDescription: boolean;
     @Input() swipe: boolean;
@@ -99,7 +70,11 @@ export class GocodeeGalleryPreviewComponent implements OnChanges {
     private keyDownListener: Function;
 
     constructor(private sanitization: DomSanitizer, private elementRef: ElementRef,
-        private helperService: NgxGalleryHelperService, private renderer: Renderer) {}
+        private helperService: NgxGalleryHelperService, private renderer: Renderer) {
+            console.log('preview');
+            console.log(this.images);
+            
+        }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['swipe']) {
@@ -246,13 +221,7 @@ export class GocodeeGalleryPreviewComponent implements OnChanges {
         }
     }
 
-    getSafeUrl(image): SafeUrl {
-        if (image.type) {
-            return {
-                src: image.src,
-                type: 'video'
-            }
-        }
+    getSafeUrl(image: string): SafeUrl {
         return image.substr(0, 10) === 'data:image' ?
             image : this.sanitization.bypassSecurityTrustUrl(image);
     }
@@ -402,7 +371,7 @@ export class GocodeeGalleryPreviewComponent implements OnChanges {
         this.rotateValue = 0;
         this.resetPosition();
 
-        this.src = this.getSafeUrl(this.images[this.index]);
+        this.src = this.getSafeUrl(<string>this.images[this.index]);
         this.srcIndex = this.index;
         this.description = this.descriptions[this.index];
 

@@ -1,11 +1,12 @@
 <div class="ngx-gallery-thumbnails-wrapper ngx-gallery-thumbnail-size-{{size}}">
     <div class="ngx-gallery-thumbnails ngx-gallery-thumbnails-lg" [style.transform]="'translateX(' + thumbnailsLeft + ')'"
         [style.marginLeft]="thumbnailsMarginLeft">
-        <a [hidden]="firstImg?.type" [href]="hasLinks() ? links[0] : '#'" [target]="linkTarget" class="ngx-gallery-thumbnail"
+        <a [href]="hasLinks() ? links[0] : '#'" [target]="linkTarget" class="ngx-gallery-thumbnail"
             [style.background-image]="getSafeUrl(firstImg)" (click)="handleClick($event, 0)" [style.width]="getThumbnailWidth()"
             [style.height]="getThumbnailHeight()" [style.left]="getThumbnailLeft(0)" [style.top]="getThumbnailTop(0)"
             [ngClass]="{ 'ngx-gallery-active': 0 == selectedIndex, 'ngx-gallery-clickable': clickable }"
             [attr.aria-label]="labels[0]">
+            <img-view *ngIf="firstImg" [src]="firstImg"></img-view>
             <div class="ngx-gallery-icons-wrapper">
                 <ngx-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled"
                     [titleText]="action.titleText" (onClick)="action.onClick($event, 0)"></ngx-gallery-action>
@@ -14,25 +15,19 @@
                 <span class="ngx-gallery-remaining-count">+{{remainingCountValue}}</span>
             </div>
         </a>
-        <a [hidden]="!firstImg?.type" (click)="handleClick($event, 0)" [href]="hasLinks() ? links[0] : '#'" [target]="linkTarget"
-            class="ngx-gallery-thumbnail" [style.width]="getThumbnailWidth()" [style.height]="getThumbnailHeight()"
-            [style.left]="getThumbnailLeft(0)" [style.top]="getThumbnailTop(0)" [ngClass]="{ 'ngx-gallery-active': 0 == selectedIndex, 'ngx-gallery-clickable': clickable }"
-            [attr.aria-label]="labels[0]">
-            <video #media id="singleVideo" preload="false" controls style="width: 100%">
-                <source [src]="firstImg.src" type="video/mp4">
-            </video>
-        </a>
     </div>
     <div class="ngx-gallery-thumbnails ngx-gallery-thumbnails-sm" [style.transform]="'translateX(' + thumbnailsLeft + ')'"
         [style.marginLeft]="thumbnailsMarginLeft">
         <a [href]="hasLinks() ? links[i] : '#'" [target]="linkTarget" class="ngx-gallery-thumbnail" *ngFor="let image of getImages2(); let i = index;"
-            [style.background-image]="image?.type ? '' : getSafeUrl(image)" (click)="handleClick($event, i+1)" [style.width]="getThumbnailWidth()"
-            [style.height]="getThumbnailHeight()" [style.left]="getThumbnailLeft(i)" [style.top]="getThumbnailTop(i)"
-            [ngClass]="{ 'ngx-gallery-active': i == selectedIndex, 'ngx-gallery-clickable': clickable }"
+            [style.background-image]="image?.type ? '' : getSafeUrl(image)" (click)="handleClick($event, i+1)"
+            [style.width]="getThumbnailWidth()" [style.height]="getThumbnailHeight()" [style.left]="getThumbnailLeft(i)"
+            [style.top]="getThumbnailTop(i)" [ngClass]="{ 'ngx-gallery-active': i == selectedIndex, 'ngx-gallery-clickable': clickable }"
             [attr.aria-label]="labels[i]">
-            <video *ngIf="image?.type" preload="false" controls style="width: 100%">
+            <!-- <video *ngIf="image?.type" preload="false" controls style="width: 100%">
                 <source [src]="image.src" type="video/mp4">
-            </video>
+            </video> -->
+            <img-view *ngIf="image.src" [src]="image.src"></img-view>
+
             <div class="ngx-gallery-icons-wrapper">
                 <ngx-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled"
                     [titleText]="action.titleText" (onClick)="action.onClick($event, i)"></ngx-gallery-action>

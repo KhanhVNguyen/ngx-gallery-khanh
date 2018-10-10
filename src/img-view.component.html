@@ -1,0 +1,30 @@
+<div *ngIf="isVideo;else thumb" class="w-100 h-100 pointer position-relative">
+    <div class="gradient-bg " [hidden]="clickable">
+        <div class="play-button">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="79" height="79"
+                viewBox="0 0 79 79">
+                <defs>
+                    <path id="a" d="M0 0h48v47.94H0z" />
+                </defs>
+                <g fill="none" fill-rule="evenodd">
+                    <path fill="#FFF" d="M34 27.058V53l19.624-12.971z" />
+                    <g transform="translate(16 16)">
+                        <mask id="b" fill="#fff">
+                            <use xlink:href="#a" />
+                        </mask>
+                        <path fill="#000" fill-opacity=".5" d="M24 0C10.766 0 0 10.766 0 24s10.766 24 24 24 24-10.766 24-24S37.234 0 24 0zm12.449 24.66l-17.597 12a.796.796 0 0 1-1.25-.66V12a.798.798 0 0 1 1.25-.66l17.601 12a.796.796 0 0 1-.004 1.32z"
+                            mask="url(#b)" />
+                    </g>
+                    <circle cx="40" cy="40" r="26" stroke="#FFF" stroke-width="5" />
+                </g>
+            </svg>
+        </div>
+
+    </div>
+    <video class="video-content" preload="false" width="100%" [controls]="clickable">
+        <source [src]="src" [type]="type">
+    </video>
+</div>
+<ng-template #thumb>
+    <div class="image-content pointer w-100 h-100" [ngStyle]="{'background-image': 'url(' + src + ')'}"></div>
+</ng-template>

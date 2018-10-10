@@ -1,12 +1,13 @@
 import { EventEmitter, ElementRef, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { NgxGalleryHelperService } from './ngx-gallery-helper.service';
+import { NgxGalleryOrderedImage } from './ngx-gallery-ordered-image.model';
 import { NgxGalleryAction } from './ngx-gallery-action.model';
 export declare class NgxGalleryImageComponent implements OnInit, OnChanges {
     private sanitization;
     private elementRef;
     private helperService;
-    images: any[];
+    images: NgxGalleryOrderedImage[];
     clickable: boolean;
     selectedIndex: number;
     arrows: boolean;
@@ -26,6 +27,7 @@ export declare class NgxGalleryImageComponent implements OnInit, OnChanges {
     showDescription: boolean;
     onClick: EventEmitter<{}>;
     onActiveChange: EventEmitter<{}>;
+    showImages: any;
     canChangeImage: boolean;
     private timer;
     constructor(sanitization: DomSanitizer, elementRef: ElementRef, helperService: NgxGalleryHelperService);
@@ -34,7 +36,7 @@ export declare class NgxGalleryImageComponent implements OnInit, OnChanges {
     onMouseEnter(): void;
     onMouseLeave(): void;
     reset(index: number): void;
-    getImages(): any[];
+    getImages(): void;
     startAutoPlay(): void;
     stopAutoPlay(): void;
     handleClick(event: Event, index: number): void;

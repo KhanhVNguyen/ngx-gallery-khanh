@@ -116,7 +116,7 @@ var NgxGalleryHelperService = /** @class */ (function () {
      * @return {?}
      */
     NgxGalleryHelperService.prototype.validateUrl = function (url) {
-        if (url.replace) {
+        if (url && url.replace) {
             return url.replace(new RegExp(' ', 'g'), '%20');
         }
         else {
@@ -190,6 +190,7 @@ var NgxGalleryImageComponent = /** @class */ (function () {
         if (this.autoPlay) {
             this.startAutoPlay();
         }
+        this.getImages();
     };
     /**
      * @param {?} changes
@@ -234,27 +235,27 @@ var NgxGalleryImageComponent = /** @class */ (function () {
      * @return {?}
      */
     NgxGalleryImageComponent.prototype.getImages = function () {
-        if (this.lazyLoading) {
-            var /** @type {?} */ indexes_1 = [this.selectedIndex];
-            var /** @type {?} */ prevIndex = this.selectedIndex - 1;
-            if (prevIndex === -1 && this.infinityMove) {
-                indexes_1.push(this.images.length - 1);
-            }
-            else if (prevIndex >= 0) {
-                indexes_1.push(prevIndex);
-            }
-            var /** @type {?} */ nextIndex = this.selectedIndex + 1;
-            if (nextIndex == this.images.length && this.infinityMove) {
-                indexes_1.push(0);
-            }
-            else if (nextIndex < this.images.length) {
-                indexes_1.push(nextIndex);
-            }
-            return this.images.filter(function (img, i) { return indexes_1.indexOf(i) != -1; });
-        }
-        else {
-            return this.images;
-        }
+        // if (this.lazyLoading) {
+        //     let indexes = [this.selectedIndex];
+        //     let prevIndex = this.selectedIndex - 1;
+        //     if (prevIndex === -1 && this.infinityMove) {
+        //         indexes.push(this.images.length - 1)
+        //     } else if (prevIndex >= 0) {
+        //         indexes.push(prevIndex);
+        //     }
+        //     let nextIndex = this.selectedIndex + 1;
+        //     if (nextIndex == this.images.length && this.infinityMove) {
+        //         indexes.push(0);
+        //     } else if (nextIndex < this.images.length) {
+        //         indexes.push(nextIndex);
+        //     }
+        //     this.showImages = this.images.filter((img, i) => indexes.indexOf(i) != -1);
+        //     console.log(this.showImages);
+        //     // return images;
+        // } else {
+        //     console.log(this.images);
+        // }
+        this.showImages = this.images;
     };
     /**
      * @return {?}
@@ -367,7 +368,7 @@ var NgxGalleryImageComponent = /** @class */ (function () {
     NgxGalleryImageComponent.decorators = [
         { type: Component, args: [{
                     selector: 'ngx-gallery-image',
-                    template: "\n        <div class=\"ngx-gallery-image-wrapper ngx-gallery-animation-{{animation}} ngx-gallery-image-size-{{size}}\">\n            <div class=\"ngx-gallery-image\" *ngFor=\"let image of getImages(); let i = index;\" [ngClass]=\"{ 'ngx-gallery-active': selectedIndex == image.index, 'ngx-gallery-inactive-left': selectedIndex > image.index, 'ngx-gallery-inactive-right': selectedIndex < image.index, 'ngx-gallery-clickable': clickable }\"  [style.background-image]=\"image?.type ? '' : getSafeUrl(image)\" (click)=\"handleClick($event, image.index)\">\n                <video *ngIf=\"image?.type\" preload=\"false\" controls style=\"width: 100%\">\n                    <source [src]=\"image.src\" type=\"video/mp4\">\n                </video>    \n                <div class=\"ngx-gallery-icons-wrapper\">\n                    <ngx-gallery-action *ngFor=\"let action of actions\" [icon]=\"action.icon\" [disabled]=\"action.disabled\" [titleText]=\"action.titleText\" (onClick)=\"action.onClick($event, image.index)\"></ngx-gallery-action>\n                </div>\n                <div class=\"ngx-gallery-image-text\" *ngIf=\"showDescription && descriptions[image.index]\" [innerHTML]=\"descriptions[image.index]\"></div>\n            </div>\n        </div>\n        <ngx-gallery-arrows class=\"ngx-gallery-image-size-{{size}}\" *ngIf=\"arrows\" (onPrevClick)=\"showPrev()\" (onNextClick)=\"showNext()\" [prevDisabled]=\"!canShowPrev()\" [nextDisabled]=\"!canShowNext()\" [arrowPrevIcon]=\"arrowPrevIcon\" [arrowNextIcon]=\"arrowNextIcon\"></ngx-gallery-arrows>\n    ",
+                    template: "\n        <div class=\"ngx-gallery-image-wrapper ngx-gallery-animation-{{animation}} ngx-gallery-image-size-{{size}}\">\n            <div class=\"ngx-gallery-image\" *ngFor=\"let image of images; let i = index;\" [ngClass]=\"{ 'ngx-gallery-active': selectedIndex == image.index, 'ngx-gallery-inactive-left': selectedIndex > image.index, 'ngx-gallery-inactive-right': selectedIndex < image.index, 'ngx-gallery-clickable': clickable }\" [style.background-image]=\"getSafeUrl(image.src)\" (click)=\"handleClick($event, image.index)\">\n            <img-view [src]=\"image.src\"></img-view>    \n            <div class=\"ngx-gallery-icons-wrapper\">\n                    <ngx-gallery-action *ngFor=\"let action of actions\" [icon]=\"action.icon\" [disabled]=\"action.disabled\" [titleText]=\"action.titleText\" (onClick)=\"action.onClick($event, image.index)\"></ngx-gallery-action>\n                </div>\n                <div class=\"ngx-gallery-image-text\" *ngIf=\"showDescription && descriptions[image.index]\" [innerHTML]=\"descriptions[image.index]\"></div>\n            </div>\n        </div>\n        <ngx-gallery-arrows class=\"ngx-gallery-image-size-{{size}}\" *ngIf=\"arrows\" (onPrevClick)=\"showPrev()\" (onNextClick)=\"showNext()\" [prevDisabled]=\"!canShowPrev()\" [nextDisabled]=\"!canShowNext()\" [arrowPrevIcon]=\"arrowPrevIcon\" [arrowNextIcon]=\"arrowNextIcon\"></ngx-gallery-arrows>\n    ",
                     styles: [":host { width: 100%; display: inline-block; position: relative; } .ngx-gallery-image-wrapper { width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; overflow: hidden; } .ngx-gallery-image { background-position: center; background-repeat: no-repeat; height: 100%; width: 100%; top: 0px; } .ngx-gallery-image.ngx-gallery-active { z-index: 1000; } .ngx-gallery-image-size-cover .ngx-gallery-image { background-size: cover; } .ngx-gallery-image-size-contain .ngx-gallery-image { background-size: contain; } .ngx-gallery-animation-fade .ngx-gallery-image { left: 0px; opacity: 0; transition: 0.5s ease-in-out; } .ngx-gallery-animation-fade .ngx-gallery-image.ngx-gallery-active { opacity: 1; } .ngx-gallery-animation-slide .ngx-gallery-image { transition: 0.5s ease-in-out; } .ngx-gallery-animation-slide .ngx-gallery-image.ngx-gallery-active { left: 0px; } .ngx-gallery-animation-slide .ngx-gallery-image.ngx-gallery-inactive-left { left: -100%; } .ngx-gallery-animation-slide .ngx-gallery-image.ngx-gallery-inactive-right { left: 100%; } .ngx-gallery-animation-rotate .ngx-gallery-image { transition: 1s ease; transform: scale(3.5, 3.5) rotate(90deg); left: 0px; opacity: 0; } .ngx-gallery-animation-rotate .ngx-gallery-image.ngx-gallery-active { transform: scale(1, 1) rotate(0deg); opacity: 1; } .ngx-gallery-animation-zoom .ngx-gallery-image { transition: 1s ease; transform: scale(2.5, 2.5); left: 0px; opacity: 0; } .ngx-gallery-animation-zoom .ngx-gallery-image.ngx-gallery-active { transform: scale(1, 1); opacity: 1; } .ngx-gallery-image-text { width: 100%; background: rgba(0, 0, 0, 0.7); padding: 10px; text-align: center; color: white; font-size: 16px; position: absolute; bottom: 0px; z-index: 10; } "]
                 },] },
     ];
@@ -496,7 +497,7 @@ var NgxGalleryThumbnailsComponent = /** @class */ (function () {
     NgxGalleryThumbnailsComponent.prototype.getImages2 = function () {
         var /** @type {?} */ imgs = this.getImages();
         this.firstImg = imgs[0];
-        return imgs.slice(1);
+        return imgs ? imgs.slice(1) : imgs;
     };
     /**
      * @param {?} event
@@ -708,7 +709,7 @@ var NgxGalleryThumbnailsComponent = /** @class */ (function () {
     NgxGalleryThumbnailsComponent.decorators = [
         { type: Component, args: [{
                     selector: 'ngx-gallery-thumbnails',
-                    template: "<div class=\"ngx-gallery-thumbnails-wrapper ngx-gallery-thumbnail-size-{{size}}\"> <div class=\"ngx-gallery-thumbnails ngx-gallery-thumbnails-lg\" [style.transform]=\"'translateX(' + thumbnailsLeft + ')'\" [style.marginLeft]=\"thumbnailsMarginLeft\"> <a [hidden]=\"firstImg?.type\" [href]=\"hasLinks() ? links[0] : '#'\" [target]=\"linkTarget\" class=\"ngx-gallery-thumbnail\" [style.background-image]=\"getSafeUrl(firstImg)\" (click)=\"handleClick($event, 0)\" [style.width]=\"getThumbnailWidth()\" [style.height]=\"getThumbnailHeight()\" [style.left]=\"getThumbnailLeft(0)\" [style.top]=\"getThumbnailTop(0)\" [ngClass]=\"{ 'ngx-gallery-active': 0 == selectedIndex, 'ngx-gallery-clickable': clickable }\" [attr.aria-label]=\"labels[0]\"> <div class=\"ngx-gallery-icons-wrapper\"> <ngx-gallery-action *ngFor=\"let action of actions\" [icon]=\"action.icon\" [disabled]=\"action.disabled\" [titleText]=\"action.titleText\" (onClick)=\"action.onClick($event, 0)\"></ngx-gallery-action> </div> <div class=\"ngx-gallery-remaining-count-overlay\" *ngIf=\"remainingCount && remainingCountValue && (0 == (rows * columns) - 1)\"> <span class=\"ngx-gallery-remaining-count\">+{{remainingCountValue}}</span> </div> </a> <a [hidden]=\"!firstImg?.type\" (click)=\"handleClick($event, 0)\" [href]=\"hasLinks() ? links[0] : '#'\" [target]=\"linkTarget\" class=\"ngx-gallery-thumbnail\" [style.width]=\"getThumbnailWidth()\" [style.height]=\"getThumbnailHeight()\" [style.left]=\"getThumbnailLeft(0)\" [style.top]=\"getThumbnailTop(0)\" [ngClass]=\"{ 'ngx-gallery-active': 0 == selectedIndex, 'ngx-gallery-clickable': clickable }\" [attr.aria-label]=\"labels[0]\"> <video #media id=\"singleVideo\" preload=\"false\" controls style=\"width: 100%\"> <source [src]=\"firstImg.src\" type=\"video/mp4\"> </video> </a> </div> <div class=\"ngx-gallery-thumbnails ngx-gallery-thumbnails-sm\" [style.transform]=\"'translateX(' + thumbnailsLeft + ')'\" [style.marginLeft]=\"thumbnailsMarginLeft\"> <a [href]=\"hasLinks() ? links[i] : '#'\" [target]=\"linkTarget\" class=\"ngx-gallery-thumbnail\" *ngFor=\"let image of getImages2(); let i = index;\" [style.background-image]=\"image?.type ? '' : getSafeUrl(image)\" (click)=\"handleClick($event, i+1)\" [style.width]=\"getThumbnailWidth()\" [style.height]=\"getThumbnailHeight()\" [style.left]=\"getThumbnailLeft(i)\" [style.top]=\"getThumbnailTop(i)\" [ngClass]=\"{ 'ngx-gallery-active': i == selectedIndex, 'ngx-gallery-clickable': clickable }\" [attr.aria-label]=\"labels[i]\"> <video *ngIf=\"image?.type\" preload=\"false\" controls style=\"width: 100%\"> <source [src]=\"image.src\" type=\"video/mp4\"> </video> <div class=\"ngx-gallery-icons-wrapper\"> <ngx-gallery-action *ngFor=\"let action of actions\" [icon]=\"action.icon\" [disabled]=\"action.disabled\" [titleText]=\"action.titleText\" (onClick)=\"action.onClick($event, i)\"></ngx-gallery-action> </div> <div class=\"ngx-gallery-remaining-count-overlay\" *ngIf=\"remainingCount && remainingCountValue && (i == (rows * columns) - 1)\"> <span class=\"ngx-gallery-remaining-count\">+{{remainingCountValue}}</span> </div> </a> </div> </div> <ngx-gallery-arrows *ngIf=\"canShowArrows()\" (onPrevClick)=\"moveLeft()\" (onNextClick)=\"moveRight()\" [prevDisabled]=\"!canMoveLeft()\" [nextDisabled]=\"!canMoveRight()\" [arrowPrevIcon]=\"arrowPrevIcon\" [arrowNextIcon]=\"arrowNextIcon\"></ngx-gallery-arrows> ",
+                    template: "<div class=\"ngx-gallery-thumbnails-wrapper ngx-gallery-thumbnail-size-{{size}}\"> <div class=\"ngx-gallery-thumbnails ngx-gallery-thumbnails-lg\" [style.transform]=\"'translateX(' + thumbnailsLeft + ')'\" [style.marginLeft]=\"thumbnailsMarginLeft\"> <a [href]=\"hasLinks() ? links[0] : '#'\" [target]=\"linkTarget\" class=\"ngx-gallery-thumbnail\" [style.background-image]=\"getSafeUrl(firstImg)\" (click)=\"handleClick($event, 0)\" [style.width]=\"getThumbnailWidth()\" [style.height]=\"getThumbnailHeight()\" [style.left]=\"getThumbnailLeft(0)\" [style.top]=\"getThumbnailTop(0)\" [ngClass]=\"{ 'ngx-gallery-active': 0 == selectedIndex, 'ngx-gallery-clickable': clickable }\" [attr.aria-label]=\"labels[0]\"> <img-view *ngIf=\"firstImg\" [src]=\"firstImg\"></img-view> <div class=\"ngx-gallery-icons-wrapper\"> <ngx-gallery-action *ngFor=\"let action of actions\" [icon]=\"action.icon\" [disabled]=\"action.disabled\" [titleText]=\"action.titleText\" (onClick)=\"action.onClick($event, 0)\"></ngx-gallery-action> </div> <div class=\"ngx-gallery-remaining-count-overlay\" *ngIf=\"remainingCount && remainingCountValue && (0 == (rows * columns) - 1)\"> <span class=\"ngx-gallery-remaining-count\">+{{remainingCountValue}}</span> </div> </a> </div> <div class=\"ngx-gallery-thumbnails ngx-gallery-thumbnails-sm\" [style.transform]=\"'translateX(' + thumbnailsLeft + ')'\" [style.marginLeft]=\"thumbnailsMarginLeft\"> <a [href]=\"hasLinks() ? links[i] : '#'\" [target]=\"linkTarget\" class=\"ngx-gallery-thumbnail\" *ngFor=\"let image of getImages2(); let i = index;\" [style.background-image]=\"image?.type ? '' : getSafeUrl(image)\" (click)=\"handleClick($event, i+1)\" [style.width]=\"getThumbnailWidth()\" [style.height]=\"getThumbnailHeight()\" [style.left]=\"getThumbnailLeft(i)\" [style.top]=\"getThumbnailTop(i)\" [ngClass]=\"{ 'ngx-gallery-active': i == selectedIndex, 'ngx-gallery-clickable': clickable }\" [attr.aria-label]=\"labels[i]\"> <!-- <video *ngIf=\"image?.type\" preload=\"false\" controls style=\"width: 100%\"> <source [src]=\"image.src\" type=\"video/mp4\"> </video> --> <img-view *ngIf=\"image.src\" [src]=\"image.src\"></img-view> <div class=\"ngx-gallery-icons-wrapper\"> <ngx-gallery-action *ngFor=\"let action of actions\" [icon]=\"action.icon\" [disabled]=\"action.disabled\" [titleText]=\"action.titleText\" (onClick)=\"action.onClick($event, i)\"></ngx-gallery-action> </div> <div class=\"ngx-gallery-remaining-count-overlay\" *ngIf=\"remainingCount && remainingCountValue && (i == (rows * columns) - 1)\"> <span class=\"ngx-gallery-remaining-count\">+{{remainingCountValue}}</span> </div> </a> </div> </div> <ngx-gallery-arrows *ngIf=\"canShowArrows()\" (onPrevClick)=\"moveLeft()\" (onNextClick)=\"moveRight()\" [prevDisabled]=\"!canMoveLeft()\" [nextDisabled]=\"!canMoveRight()\" [arrowPrevIcon]=\"arrowPrevIcon\" [arrowNextIcon]=\"arrowNextIcon\"></ngx-gallery-arrows> ",
                     styles: [":host { width: 100%; display: inline-block; position: relative; } .ngx-gallery-thumbnails-wrapper { width: 100%; height: 100%; position: absolute; overflow: hidden; } .ngx-gallery-thumbnails { height: 100%; width: 100%; position: absolute; left: 0px; transform: translateX(0); transition: transform 0.5s ease-in-out; will-change: transform; } .ngx-gallery-thumbnails .ngx-gallery-thumbnail { position: absolute; height: 100%; background-position: center; background-repeat: no-repeat; text-decoration: none; } .ngx-gallery-thumbnail-size-cover .ngx-gallery-thumbnails .ngx-gallery-thumbnail { background-size: cover; } .ngx-gallery-thumbnail-size-contain .ngx-gallery-thumbnails .ngx-gallery-thumbnail { background-size: contain; } .ngx-gallery-remaining-count-overlay { width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; background-color: rgba(0, 0, 0, 0.4); } .ngx-gallery-remaining-count { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 30px; } "]
                 },] },
     ];
@@ -778,6 +779,9 @@ var NgxGalleryPreviewComponent = /** @class */ (function () {
         this.initialLeft = 0;
         this.initialTop = 0;
         this.isMove = false;
+        this.isVideo = false;
+        this.type = 'video/mp4';
+        this.supported = ['mp4', 'webm', 'ogg'];
     }
     /**
      * @return {?}
@@ -913,6 +917,27 @@ var NgxGalleryPreviewComponent = /** @class */ (function () {
         }
     };
     /**
+     * @param {?} image
+     * @return {?}
+     */
+    NgxGalleryPreviewComponent.prototype.checkVideo = function (image) {
+        var /** @type {?} */ type = image.substring(image.lastIndexOf('.') + 1, image.length);
+        return this.checkMatch(type, this.supported);
+    };
+    /**
+     * @param {?} src
+     * @param {?} supported
+     * @return {?}
+     */
+    NgxGalleryPreviewComponent.prototype.checkMatch = function (src, supported) {
+        var /** @type {?} */ filters = supported.filter(function (support) { return src.toLowerCase() === support; });
+        if (filters.length > 0) {
+            this.type = "video/" + filters[0];
+            return true;
+        }
+        return false;
+    };
+    /**
      * @param {?} index
      * @return {?}
      */
@@ -980,12 +1005,6 @@ var NgxGalleryPreviewComponent = /** @class */ (function () {
      * @return {?}
      */
     NgxGalleryPreviewComponent.prototype.getSafeUrl = function (image) {
-        if (image.type) {
-            return {
-                src: image.src,
-                type: 'video'
-            };
-        }
         return image.substr(0, 10) === 'data:image' ?
             image : this.sanitization.bypassSecurityTrustUrl(image);
     };
@@ -1189,37 +1208,35 @@ var NgxGalleryPreviewComponent = /** @class */ (function () {
      * @return {?}
      */
     NgxGalleryPreviewComponent.prototype._show = function () {
-        var _this = this;
         this.zoomValue = 1;
         this.rotateValue = 0;
         this.resetPosition();
-        this.src = this.getSafeUrl(/** @type {?} */ (this.images[this.index]));
+        this.src = this.images[this.index];
         this.srcIndex = this.index;
         this.description = this.descriptions[this.index];
-        if (this.src['type']) {
-            this.loading = false;
-            this.showSpinner = false;
-            return;
-        }
-        setTimeout(function () {
-            if (_this.isLoaded(_this.previewImage.nativeElement)) {
-                _this.loading = false;
-                _this.startAutoPlay();
-            }
-            else {
-                setTimeout(function () {
-                    if (_this.loading) {
-                        _this.showSpinner = true;
-                    }
-                });
-                _this.previewImage.nativeElement.onload = function () {
-                    _this.loading = false;
-                    _this.showSpinner = false;
-                    _this.previewImage.nativeElement.onload = null;
-                    _this.startAutoPlay();
-                };
-            }
-        });
+        this.loading = false;
+        this.showSpinner = false;
+        // return;
+        // if (this.isVideo) {
+        // }
+        // setTimeout(() => {
+        //     if (this.isLoaded(this.previewImage.nativeElement)) {
+        //         this.loading = false;
+        //         this.startAutoPlay();
+        //     } else {
+        //         setTimeout(() => {
+        //             if (this.loading) {
+        //                 this.showSpinner = true;
+        //             }
+        //         })
+        //         this.previewImage.nativeElement.onload = () => {
+        //             this.loading = false;
+        //             this.showSpinner = false;
+        //             this.previewImage.nativeElement.onload = null;
+        //             this.startAutoPlay();
+        //         }
+        //     }
+        // })
     };
     /**
      * @param {?} img
@@ -1326,8 +1343,8 @@ var NgxGalleryPreviewComponent = /** @class */ (function () {
     NgxGalleryPreviewComponent.decorators = [
         { type: Component, args: [{
                     selector: 'ngx-gallery-preview',
-                    template: "<div class=\"preview\"> <ngx-gallery-arrows (onPrevClick)=\"showPrev()\" (onNextClick)=\"showNext()\" [prevDisabled]=\"!canShowPrev()\" [nextDisabled]=\"!canShowNext()\" [arrowPrevIcon]=\"arrowPrevIcon\" [arrowNextIcon]=\"arrowNextIcon\"></ngx-gallery-arrows> <div class=\"ngx-gallery-preview-top\"> <div class=\"ngx-gallery-preview-icons\"> <ngx-gallery-action *ngFor=\"let action of actions\" [icon]=\"action.icon\" [disabled]=\"action.disabled\" [titleText]=\"action.titleText\" (onClick)=\"action.onClick($event, index)\"></ngx-gallery-action> <a *ngIf=\"download && src\" [href]=\"src\" class=\"ngx-gallery-icon\" aria-hidden=\"true\" download> <i class=\"ngx-gallery-icon-content {{ downloadIcon }}\"></i> </a> <ngx-gallery-action *ngIf=\"zoom\" [icon]=\"zoomOutIcon\" [disabled]=\"!canZoomOut()\" (onClick)=\"zoomOut()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"zoom\" [icon]=\"zoomInIcon\" [disabled]=\"!canZoomIn()\" (onClick)=\"zoomIn()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"rotate\" [icon]=\"rotateLeftIcon\" (onClick)=\"rotateLeft()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"rotate\" [icon]=\"rotateRightIcon\" (onClick)=\"rotateRight()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"fullscreen\" [icon]=\"'ngx-gallery-fullscreen ' + fullscreenIcon\" (onClick)=\"manageFullscreen()\"></ngx-gallery-action> <ngx-gallery-action [icon]=\"'ngx-gallery-close ' + closeIcon\" (onClick)=\"close()\"></ngx-gallery-action> </div> </div> <div class=\"ngx-spinner-wrapper ngx-gallery-center\" [class.ngx-gallery-active]=\"showSpinner\"> <i class=\"ngx-gallery-icon ngx-gallery-spinner {{spinnerIcon}}\" aria-hidden=\"true\"></i> </div> <div class=\"ngx-gallery-preview-wrapper\" (click)=\"closeOnClick && close()\" (mouseup)=\"mouseUpHandler($event)\" (mousemove)=\"mouseMoveHandler($event)\" (touchend)=\"mouseUpHandler($event)\" (touchmove)=\"mouseMoveHandler($event)\"> <div class=\"ngx-gallery-preview-img-wrapper\"> <div class=\"ngx-gallery-preview-agent-navbar\"> <ul *ngIf=\"!isProject\" class=\"ngx-gallery-preview-agent-info\"> <li class=\"ngx-gallery-preview-nav-item\"> <img *ngIf=\"src\" class=\"ngx-gallery-preview-company-avatar\" [src]=\"src\" alt=\"\" style=\"width: 70px; height:70px\"> <span class=\"ngx-gallery-preview-company-name\">MEKONG REALITY</span> </li> <li class=\"ngx-gallery-preview-nav-item agent-info\"> <div class=\"agent-avatar-bg\"> <p class=\"agent-name\">Hoang Phi Yen</p> <p class=\"agent-position\">Independent agent</p> </div> </li> <li class=\"ngx-gallery-preview-nav-item\"> <button class=\"btn btn-primary btn-call\">Call</button> <button class=\"btn btn-primary btn-message\">Message</button> </li> </ul> <div *ngIf=\"isProject\" class=\"ngx-gallery-preview-project\"> <div class=\"row pt-3\"> <div class=\"col-md-6\"></div> <div class=\"col-md-6\"> <div class=\"row\"> <div class=\"col-md-1\"></div> <div class=\"col-md-3\"> <button class=\"btn btn-primary\">Listing for sale</button> </div> <div class=\"col-md-3\"> <button class=\"btn btn-primary\">Listing for rent</button> </div> <div class=\"border-right\"></div> <div class=\"col-md-2\"> <form class=\"rating\"> <label> <input type=\"radio\" name=\"stars\" value=\"1\" (click)=\"setStar(1)\" [checked]=\"star == 1\" [disabled]=\"!editable\" /> <i class=\"far fa-star\"></i> </label> <label> <input type=\"radio\" name=\"stars\" value=\"2\" (click)=\"setStar(2)\" [checked]=\"star == 2\" [disabled]=\"!editable\" /> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> </label> <label> <input type=\"radio\" name=\"stars\" value=\"3\" (click)=\"setStar(3)\" [checked]=\"star == 3\" [disabled]=\"!editable\" /> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> </label> <label> <input type=\"radio\" name=\"stars\" value=\"4\" (click)=\"setStar(4)\" [checked]=\"star == 4\" [disabled]=\"!editable\" /> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> </label> <label> <input type=\"radio\" name=\"stars\" value=\"5\" (click)=\"setStar(5)\" [checked]=\"star >= 5\" [disabled]=\"!editable\" /> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> </label> </form> <p class=\"\">From 12 views</p> </div> </div> </div> </div> <div class=\"dropdown-divider\"></div> </div> </div> <div class=\"ngx-gallery-preview-image\"> <video #previewVideo *ngIf=\"src?.type\" preload=\"auto\" controls style=\"height: 500px\"> <source [src]=\"src?.src\" type=\"video/mp4\"> </video> <img *ngIf=\"src && !src?.type\" #previewImage class=\"ngx-gallery-preview-img ngx-gallery-center\" [src]=\"src\" style=\"width: 800px; height: 500px;\" (click)=\"$event.stopPropagation()\" (mouseenter)=\"imageMouseEnter()\" (mouseleave)=\"imageMouseLeave()\" (mousedown)=\"mouseDownHandler($event)\" (touchstart)=\"mouseDownHandler($event)\" [class.ngx-gallery-active]=\"!loading\" [class.animation]=\"animation\" [class.ngx-gallery-grab]=\"canDragOnZoom()\" [style.transform]=\"getTransform()\" [style.left]=\"positionLeft + 'px'\" [style.top]=\"positionTop + 'px'\" /> </div> <div class=\"ngx-gallery-preview-tab\"> <div class=\"ngx-gallery-preview-menu\"> <ul class=\"ngx-gallery-preview-menu-navbar\"> <li [class.active]=\"tab == 1\" (click)=\"tab = 1; switchTab()\"> <span>All ({{smallImages.length}})</span> </li> <li [class.active]=\"tab == 2\" (click)=\"tab = 2; switchTab()\"> <span>Rooms ({{rooms.length}})</span> </li> <li [class.active]=\"tab == 3\" (click)=\"tab = 3; switchTab()\"> <span>Property view ({{propertyView.length}})</span> </li> <li [class.active]=\"tab == 4\" (click)=\"tab = 4; switchTab()\"> <span>Facilities ({{facilities.length}})</span> </li> <li [class.active]=\"tab == 5\" (click)=\"tab = 5; switchTab()\"> <span>Dining ({{dining.length}})</span> </li> <li [class.active]=\"tab == 6\" (click)=\"tab = 6; switchTab()\"> <span>Other ({{other.length}})</span> </li> </ul> </div> <div class=\"ngx-gallery-preview-img-list\"> <div class=\"row justify-content-md-center\"> <div class=\"col-3 col-md-1 col-sm-2 img-item\" *ngFor=\"let image of tabImages; let i = index;\" [class.active]=\"i == index\" (click)=\"selectImage(i)\"> <div *ngIf=\"image.type\" class=\"img-thumnails\"> <video preload=\"false\" style=\"width: 100%\" muted (click)=\"selectImage(i)\"> <source [src]=\"image.src\" type=\"video/mp4\"> </video> </div> <div *ngIf=\"!image.type\" class=\"img-thumnails\" [style.background-image]=\"getSafeUrl2(image.src)\"> </div> </div> </div> </div> </div> </div> <div class=\"ngx-gallery-preview-text\" *ngIf=\"showDescription && description\" [innerHTML]=\"description\"></div> </div> </div> ",
-                    styles: [":host(.ngx-gallery-active) { width: 100%; height: 100%; position: fixed; left: 0; top: 0; background: rgba(0, 0, 0, 0.7); z-index: 10000; display: inline-block; } :host { display: none; } :host /deep/ .ngx-gallery-arrow { font-size: 50px; } .ngx-gallery-preview-img { opacity: 0; max-width: 72%; max-height: 80%; top: 5.8rem !important; user-select: none; transition: transform .5s; } .ngx-gallery-preview-img.animation { transition: opacity 0.5s linear, transform .5s; } .ngx-gallery-preview-img.ngx-gallery-active { opacity: 1; } .ngx-gallery-preview-img.ngx-gallery-grab { cursor: grab; cursor: -webkit-grab; } .ngx-gallery-icon.ngx-gallery-spinner { font-size: 50px; left: 0; display: inline-block; } :host /deep/ .ngx-gallery-preview-top { position: absolute; width: 100%; user-select: none; } :host /deep/ .ngx-gallery-preview-icons { float: right; } :host /deep/ .ngx-gallery-preview-icons .ngx-gallery-icon { position: relative; margin-right: 10px; margin-top: 10px; font-size: 25px; cursor: pointer; text-decoration: none; } :host /deep/ .ngx-gallery-preview-icons .ngx-gallery-icon.ngx-gallery-icon-disabled { cursor: default; opacity: 0.4; } .ngx-spinner-wrapper { width: 50px; height: 50px; display: none; } .ngx-spinner-wrapper.ngx-gallery-active { display: inline-block; } .ngx-gallery-center { left: 0; right: 0; bottom: 0; margin: auto; top: 0; } .ngx-gallery-preview-text { width: 100%; background: rgba(0, 0, 0, 0.7); padding: 10px; text-align: center; color: white; font-size: 16px; flex: 0 1 auto; z-index: 10; } ngx-gallery-preview ngx-gallery-arrows .ngx-gallery-arrow-wrapper .ngx-gallery-icon { background-color: transparent !important; } .ngx-gallery-preview-wrapper { width: 100%; height: 100%; display: flex; flex-flow: column; overflow: scroll; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper { flex: 1 1 auto; position: relative; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-image { position: relative; text-align: center; padding-top: 15px; padding-bottom: 40px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-menu { text-align: center; padding-bottom: 10px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-menu .ngx-gallery-preview-menu-navbar { color: white; display: inline-flex; list-style-type: none; border-bottom: 1px solid #ffffff; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-menu .ngx-gallery-preview-menu-navbar .active { border-bottom: 2px solid #e4375c; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-menu .ngx-gallery-preview-menu-navbar li { padding: 0px 25px 25px 25px; display: inline-block; margin: 0 auto; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-img-list .row { padding-left: 7em; padding-right: 7em; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-img-list .img-item { width: 100%; height: 100%; background-repeat: no-repeat; padding: 5px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-img-list .img-item.active { border: 1px solid #e75474; opacity: 1; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-img-list .img-item .img-thumnails { background-size: cover; width: 100%; height: 110px; opacity: 0.9; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-navbar { text-align: center; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-project .col-md-2 { flex: 0 0 20% !important; max-width: 20% !important; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-project p { color: #ffffff; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-project .btn { width: 140px !important; border-radius: 0 !important; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info { display: inline-flex; border-bottom: 1px solid white; padding-top: 15px; padding-bottom: 15px; list-style-type: none; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .ngx-gallery-preview-company-name { color: white; padding-left: 10px; font-weight: 700; font-size: 18px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item.agent-info { padding-left: 250px; padding-right: 250px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .agent-avatar-bg { background-image: url(/assets/images/user.png); background-repeat: no-repeat; padding-left: 70px; height: 100%; text-align: left; color: white; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .agent-avatar-bg .agent-name { font-size: 22px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .agent-avatar-bg .agent-position { font-size: 12px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .btn-call { margin-right: 15px; } @media (min-width: 768px) { .col-md-1 { flex: 0 0 10%; max-width: 10%; } } .rating { display: inline-block; position: relative; height: 30px; font-size: 14px; margin-right: 10px; } .rating label { position: absolute; top: 0; left: 0; height: 100%; cursor: pointer; } .rating label:last-child { position: static; } .rating label:nth-child(1) { z-index: 5; } .rating label:nth-child(2) { z-index: 4; } .rating label:nth-child(3) { z-index: 3; } .rating label:nth-child(4) { z-index: 2; } .rating label:nth-child(5) { z-index: 1; } .rating label input { position: absolute; top: 0; left: 0; opacity: 0; } .rating label .icon { float: left; color: transparent; } .rating label .far { color: #3acaaa; } .rating:not(:hover) label input:checked ~ .far, .rating:hover label:hover input ~ .far { font-weight: 900; color: #3acaaa; } .rating label input:focus:not(:checked) ~ .far:last-child { color: #3acaaa; text-shadow: 0 0 5px #3acaaa; } .preview ngx-gallery-arrows .ngx-gallery-arrow-left { margin-left: 3em; } .preview ngx-gallery-arrows .ngx-gallery-arrow-right { margin-right: em; } "]
+                    template: "<div class=\"preview\"> <ngx-gallery-arrows (onPrevClick)=\"showPrev()\" (onNextClick)=\"showNext()\" [prevDisabled]=\"!canShowPrev()\" [nextDisabled]=\"!canShowNext()\" [arrowPrevIcon]=\"arrowPrevIcon\" [arrowNextIcon]=\"arrowNextIcon\"></ngx-gallery-arrows> <div class=\"ngx-gallery-preview-top\"> <div class=\"ngx-gallery-preview-icons\"> <ngx-gallery-action *ngFor=\"let action of actions\" [icon]=\"action.icon\" [disabled]=\"action.disabled\" [titleText]=\"action.titleText\" (onClick)=\"action.onClick($event, index)\"></ngx-gallery-action> <a *ngIf=\"download && src\" [href]=\"src\" class=\"ngx-gallery-icon\" aria-hidden=\"true\" download> <i class=\"ngx-gallery-icon-content {{ downloadIcon }}\"></i> </a> <ngx-gallery-action *ngIf=\"zoom\" [icon]=\"zoomOutIcon\" [disabled]=\"!canZoomOut()\" (onClick)=\"zoomOut()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"zoom\" [icon]=\"zoomInIcon\" [disabled]=\"!canZoomIn()\" (onClick)=\"zoomIn()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"rotate\" [icon]=\"rotateLeftIcon\" (onClick)=\"rotateLeft()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"rotate\" [icon]=\"rotateRightIcon\" (onClick)=\"rotateRight()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"fullscreen\" [icon]=\"'ngx-gallery-fullscreen ' + fullscreenIcon\" (onClick)=\"manageFullscreen()\"></ngx-gallery-action> <ngx-gallery-action [icon]=\"'ngx-gallery-close ' + closeIcon\" (onClick)=\"close()\"></ngx-gallery-action> </div> </div> <div class=\"ngx-spinner-wrapper ngx-gallery-center\" [class.ngx-gallery-active]=\"showSpinner\"> <i class=\"ngx-gallery-icon ngx-gallery-spinner {{spinnerIcon}}\" aria-hidden=\"true\"></i> </div> <div class=\"ngx-gallery-preview-wrapper\" (click)=\"closeOnClick && close()\" (mouseup)=\"mouseUpHandler($event)\" (mousemove)=\"mouseMoveHandler($event)\" (touchend)=\"mouseUpHandler($event)\" (touchmove)=\"mouseMoveHandler($event)\"> <div class=\"container\"> <div class=\"ngx-gallery-preview-img-wrapper\"> <div class=\"ngx-gallery-preview-agent-navbar\"> <ul *ngIf=\"!isProject\" class=\"ngx-gallery-preview-agent-info\"> <li class=\"ngx-gallery-preview-nav-item\"> <img *ngIf=\"src\" class=\"ngx-gallery-preview-company-avatar\" src=\"/assets/images/mobile_bg.jpg\" alt=\"\" style=\"width: 70px; height:70px\"> <span class=\"ngx-gallery-preview-company-name\">MEKONG REALITY</span> </li> <li class=\"ngx-gallery-preview-nav-item agent-info\"> <div class=\"agent-avatar-bg\"> <p class=\"agent-name\">Hoang Phi Yen</p> <p class=\"agent-position\">Independent agent</p> </div> </li> <li class=\"ngx-gallery-preview-nav-item\"> <button class=\"btn btn-primary btn-call\">Call</button> <button class=\"btn btn-primary btn-white\" style=\"background-position-y:8px\">Message</button> </li> </ul> <div *ngIf=\"isProject\" class=\"ngx-gallery-preview-project\"> <div class=\"row pt-3\"> <div class=\"col-md-6\"></div> <div class=\"col-md-6\"> <div class=\"row\"> <div class=\"col-md-1\"></div> <div class=\"col-md-3\"> <button class=\"btn btn-primary\">Listing for sale</button> </div> <div class=\"col-md-3\"> <button class=\"btn btn-primary\">Listing for rent</button> </div> <div class=\"border-right\"></div> <div class=\"col-md-2\"> <form class=\"rating\"> <label> <input type=\"radio\" name=\"stars\" value=\"1\" (click)=\"setStar(1)\" [checked]=\"star == 1\" [disabled]=\"!editable\" /> <i class=\"far fa-star\"></i> </label> <label> <input type=\"radio\" name=\"stars\" value=\"2\" (click)=\"setStar(2)\" [checked]=\"star == 2\" [disabled]=\"!editable\" /> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> </label> <label> <input type=\"radio\" name=\"stars\" value=\"3\" (click)=\"setStar(3)\" [checked]=\"star == 3\" [disabled]=\"!editable\" /> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> </label> <label> <input type=\"radio\" name=\"stars\" value=\"4\" (click)=\"setStar(4)\" [checked]=\"star == 4\" [disabled]=\"!editable\" /> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> </label> <label> <input type=\"radio\" name=\"stars\" value=\"5\" (click)=\"setStar(5)\" [checked]=\"star >= 5\" [disabled]=\"!editable\" /> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> <i class=\"far fa-star\"></i> </label> </form> <p class=\"\">From 12 views</p> </div> </div> </div> </div> <div class=\"dropdown-divider\"></div> </div> </div> <div class=\"ngx-gallery-preview-image\"> <!-- <video *ngIf=\"isVideo\" preload=\"auto\" controls style=\"height: 500px\"> <source [src]=\"src\" [type]=\"type\"> </video> --> <!-- <div *ngIf=\"isVideo;else thumb\" class=\"w-100 pointer position-relative\" style=\"height: 500px\"> <div class=\"gradient-bg \"></div> <video #previewVideo preload=\"false\" width=\"100%\" controls> <source [src]=\"src\" [type]=\"type\"> </video> </div> <ng-template #thumb> <img #previewImage class=\"ngx-gallery-preview-img ngx-gallery-center\" [src]=\"src\" style=\"width: 800px; height: 500px;\" (click)=\"$event.stopPropagation()\" (mouseenter)=\"imageMouseEnter()\" (mouseleave)=\"imageMouseLeave()\" (mousedown)=\"mouseDownHandler($event)\" (touchstart)=\"mouseDownHandler($event)\" [class.ngx-gallery-active]=\"!loading\" [class.animation]=\"animation\" [class.ngx-gallery-grab]=\"canDragOnZoom()\" [style.transform]=\"getTransform()\" [style.left]=\"positionLeft + 'px'\" [style.top]=\"positionTop + 'px'\" /> </ng-template> --> <div #previewImage class=\"ngx-gallery-preview-img ngx-gallery-center\" style=\"width: 800px; height: 500px;\" (click)=\"$event.stopPropagation()\" (mouseenter)=\"imageMouseEnter()\" (mouseleave)=\"imageMouseLeave()\" (mousedown)=\"mouseDownHandler($event)\" (touchstart)=\"mouseDownHandler($event)\" [class.ngx-gallery-active]=\"!loading\" [class.animation]=\"animation\" [class.ngx-gallery-grab]=\"canDragOnZoom()\" [style.transform]=\"getTransform()\" [style.left]=\"positionLeft + 'px'\" [style.top]=\"positionTop + 'px'\" *ngIf=\"src\">                       <img-view [src]=\"data\" *ngFor=\"let data of [src]\" [clickable]=\"true\"></img-view> </div> </div> <div class=\"ngx-gallery-preview-tab\"> <div class=\"ngx-gallery-preview-menu\"> <ul class=\"ngx-gallery-preview-menu-navbar\"> <li [class.active]=\"tab == 1\" (click)=\"tab = 1; switchTab()\"> <span>All ({{smallImages.length}})</span> </li> <li [class.active]=\"tab == 2\" (click)=\"tab = 2; switchTab()\"> <span>Rooms ({{rooms.length}})</span> </li> <li [class.active]=\"tab == 3\" (click)=\"tab = 3; switchTab()\"> <span>Property view ({{propertyView.length}})</span> </li> <li [class.active]=\"tab == 4\" (click)=\"tab = 4; switchTab()\"> <span>Facilities ({{facilities.length}})</span> </li> <li [class.active]=\"tab == 5\" (click)=\"tab = 5; switchTab()\"> <span>Dining ({{dining.length}})</span> </li> <li [class.active]=\"tab == 6\" (click)=\"tab = 6; switchTab()\"> <span>Other ({{other.length}})</span> </li> </ul> </div> <div class=\"ngx-gallery-preview-img-list\"> <div class=\"row\"> <div class=\"col-md-1 col-3 col-sm-2 img-item\" *ngFor=\"let image of tabImages; let i = index;\" [class.active]=\"i == index\" (click)=\"selectImage(i)\"> <img-view [src]=\"image.src\"></img-view> </div> </div> </div> </div> </div> <div class=\"ngx-gallery-preview-text\" *ngIf=\"showDescription && description\" [innerHTML]=\"description\"></div> </div> </div> </div> ",
+                    styles: [":host(.ngx-gallery-active) { width: 100%; height: 100%; position: fixed; left: 0; top: 0; background: rgba(0, 0, 0, 0.8); z-index: 10000; display: inline-block; } :host { display: none; } :host /deep/ .ngx-gallery-arrow { font-size: 50px; } .ngx-gallery-preview-img { opacity: 0; max-width: 72%; max-height: 80%; top: 5.8rem !important; user-select: none; transition: transform .5s; } .ngx-gallery-preview-img.animation { transition: opacity 0.5s linear, transform .5s; } .ngx-gallery-preview-img.ngx-gallery-active { opacity: 1; } .ngx-gallery-preview-img.ngx-gallery-grab { cursor: grab; cursor: -webkit-grab; } .ngx-gallery-icon.ngx-gallery-spinner { font-size: 50px; left: 0; display: inline-block; } :host /deep/ .ngx-gallery-preview-top { position: absolute; width: 100%; user-select: none; } :host /deep/ .ngx-gallery-preview-icons { float: right; } :host /deep/ .ngx-gallery-preview-icons .ngx-gallery-icon { position: relative; margin-right: 10px; margin-top: 10px; font-size: 25px; cursor: pointer; text-decoration: none; } :host /deep/ .ngx-gallery-preview-icons .ngx-gallery-icon.ngx-gallery-icon-disabled { cursor: default; opacity: 0.4; } .ngx-spinner-wrapper { width: 50px; height: 50px; display: none; } .ngx-spinner-wrapper.ngx-gallery-active { display: inline-block; } .ngx-gallery-center { left: 0; right: 0; bottom: 0; margin: auto; top: 0; } .ngx-gallery-preview-text { width: 100%; background: rgba(0, 0, 0, 0.7); padding: 10px; text-align: center; color: white; font-size: 16px; flex: 0 1 auto; z-index: 10; } ngx-gallery-preview ngx-gallery-arrows .ngx-gallery-arrow-wrapper .ngx-gallery-icon { background-color: transparent !important; } .ngx-gallery-preview-wrapper { width: 100%; height: 100%; display: flex; flex-flow: column; overflow: scroll; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper { flex: 1 1 auto; position: relative; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-image { position: relative; text-align: center; padding-top: 15px; padding-bottom: 40px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-menu { text-align: center; padding-bottom: 10px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-menu .ngx-gallery-preview-menu-navbar { color: white; display: inline-flex; list-style-type: none; border-bottom: 1px solid #ffffff; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-menu .ngx-gallery-preview-menu-navbar .active { border-bottom: 2px solid #e4375c; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-menu .ngx-gallery-preview-menu-navbar li { padding: 0px 25px 25px 25px; display: inline-block; margin: 0 auto; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-img-list .row { padding-left: 7em; padding-right: 7em; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-img-list .img-item { width: 100%; height: 100%; background-repeat: no-repeat; padding: 5px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-img-list .img-item.active { border: 1px solid #e75474; opacity: 1; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-tab .ngx-gallery-preview-img-list .img-item .img-thumnails { background-size: cover; width: 100%; height: 110px; opacity: 0.9; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-navbar { text-align: center; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-project .col-md-2 { flex: 0 0 20% !important; max-width: 20% !important; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-project p { color: #ffffff; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-project .btn { width: 140px !important; border-radius: 0 !important; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info { display: inline-flex; border-bottom: 1px solid white; padding-top: 46px; padding-bottom: 21px; list-style-type: none; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .ngx-gallery-preview-company-name { color: white; padding-left: 10px; font-weight: 700; font-size: 18px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item.agent-info { padding-left: 160px; padding-right: 160px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .agent-avatar-bg { background-image: url(/assets/images/user.png); background-repeat: no-repeat; padding-left: 70px; height: 100%; text-align: left; color: white; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .agent-avatar-bg .agent-name { font-size: 22px; font-weight: bold; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .agent-avatar-bg .agent-position { font-size: 12px; } .ngx-gallery-preview-wrapper .ngx-gallery-preview-img-wrapper .ngx-gallery-preview-agent-info .ngx-gallery-preview-nav-item .btn-call { margin-right: 15px; font-size: 16px; font-weight: bold; } @media (min-width: 768px) { .col-md-1 { flex: 0 0 10%; max-width: 10%; } } .rating { display: inline-block; position: relative; height: 30px; font-size: 14px; margin-right: 10px; } .rating label { position: absolute; top: 0; left: 0; height: 100%; cursor: pointer; } .rating label:last-child { position: static; } .rating label:nth-child(1) { z-index: 5; } .rating label:nth-child(2) { z-index: 4; } .rating label:nth-child(3) { z-index: 3; } .rating label:nth-child(4) { z-index: 2; } .rating label:nth-child(5) { z-index: 1; } .rating label input { position: absolute; top: 0; left: 0; opacity: 0; } .rating label .icon { float: left; color: transparent; } .rating label .far { color: #3acaaa; } .rating:not(:hover) label input:checked ~ .far, .rating:hover label:hover input ~ .far { font-weight: 900; color: #3acaaa; } .rating label input:focus:not(:checked) ~ .far:last-child { color: #3acaaa; text-shadow: 0 0 5px #3acaaa; } .preview ngx-gallery-arrows .ngx-gallery-arrow-left { margin-left: 3em; } .preview ngx-gallery-arrows .ngx-gallery-arrow-right { margin-right: 3em; } .ngx-gallery-preview-nav-item .btn-call { width: 170px; height: 40px; background-image: url(/assets/images/phone-white.svg); background-position: 50px; background-repeat: no-repeat; padding: 0px 0px 0px 25px !important; } .ngx-gallery-preview-nav-item .btn-white { width: 170px; height: 40px; background-color: #ffffff; color: #555555; font-size: 16px; background-image: url(/assets/images/boxchat-black.svg); background-repeat: no-repeat; padding: 0px 0px 0px 40px !important; background-position: 36px; } .image-content { background-repeat: no-repeat; width: 100%; height: 100%; background-size: cover; max-width: 350px; min-height: 100px; background-position: center; } .gradient-bg { position: absolute; width: 100%; height: 100%; top: 0; z-index: 100; } "]
                 },] },
     ];
     /**
@@ -1759,7 +1776,7 @@ var NgxGalleryComponent = /** @class */ (function () {
      */
     NgxGalleryComponent.prototype.setImages = function () {
         this.smallImages = this.images.map(function (img) { /** @type {?} */ return (img.small); });
-        this.smallImages = this.filterImages(this.smallImages);
+        // this.smallImages = this.filterImages(this.smallImages);
         this.previewImages = this.images.map(function (img) {
             return {
                 src: /** @type {?} */ (img.small),
@@ -1771,38 +1788,10 @@ var NgxGalleryComponent = /** @class */ (function () {
             index: i
         }); });
         this.bigImages = this.images.map(function (img) { /** @type {?} */ return (img.big); });
-        this.bigImages = this.filterImages(this.bigImages);
+        // this.bigImages = this.filterImages(this.bigImages);
         this.descriptions = this.images.map(function (img) { /** @type {?} */ return (img.description); });
         this.links = this.images.map(function (img) { /** @type {?} */ return (img.url); });
         this.labels = this.images.map(function (img) { /** @type {?} */ return (img.label); });
-    };
-    /**
-     * @param {?} images
-     * @return {?}
-     */
-    NgxGalleryComponent.prototype.filterImages = function (images) {
-        var _this = this;
-        var /** @type {?} */ data = [];
-        images.forEach(function (image) {
-            if (_this.checkVideo(image)) {
-                data.push({
-                    src: image,
-                    type: true
-                });
-            }
-            else {
-                data.push(image);
-            }
-        });
-        return data;
-    };
-    /**
-     * @param {?} image
-     * @return {?}
-     */
-    NgxGalleryComponent.prototype.checkVideo = function (image) {
-        var /** @type {?} */ type = image.substring(image.lastIndexOf('.'), image.length);
-        return type == '.mp4';
     };
     /**
      * @return {?}
@@ -1966,8 +1955,8 @@ var NgxGalleryThumbnailsMobileComponent = /** @class */ (function () {
      */
     NgxGalleryThumbnailsMobileComponent.prototype.handleClick = function (event, index) {
         if (!this.hasLinks()) {
-            this.selectedIndex = index;
-            this.onActiveChange.emit(index);
+            this.selectedIndex = index + 1;
+            this.onActiveChange.emit(index + 1);
             event.stopPropagation();
             event.preventDefault();
         }
@@ -2157,7 +2146,7 @@ var NgxGalleryThumbnailsMobileComponent = /** @class */ (function () {
     NgxGalleryThumbnailsMobileComponent.decorators = [
         { type: Component, args: [{
                     selector: 'ngx-gallery-thumbnails-mobile',
-                    template: "\n    <div class=\"ngx-gallery-thumbnails-wrapper ngx-gallery-thumbnail-size-{{size}}\">\n        <div class=\"ngx-gallery-thumbnails\" [style.transform]=\"'translateX(' + thumbnailsLeft + ')'\" [style.marginLeft]=\"thumbnailsMarginLeft\">\n            <a [href]=\"hasLinks() ? links[i] : '#'\" [target]=\"linkTarget\" class=\"ngx-gallery-thumbnail\" *ngFor=\"let image of getImages(); let i = index;\" [style.background-image]=\"image?.type ? '' : getSafeUrl(image)\" (click)=\"handleClick($event, i)\" [style.width]=\"getThumbnailWidth()\" [style.height]=\"getThumbnailHeight()\" [style.left]=\"getThumbnailLeft(i)\" [style.top]=\"getThumbnailTop(i)\" [ngClass]=\"{ 'ngx-gallery-active': i == selectedIndex, 'ngx-gallery-clickable': clickable }\" [attr.aria-label]=\"labels[i]\">\n                <video *ngIf=\"image?.type\" preload=\"false\" controls style=\"width: 100%\">\n                    <source [src]=\"image.src\" type=\"video/mp4\">\n                </video>\n                <div class=\"ngx-gallery-icons-wrapper\">\n                    <ngx-gallery-action *ngFor=\"let action of actions\" [icon]=\"action.icon\" [disabled]=\"action.disabled\" [titleText]=\"action.titleText\" (onClick)=\"action.onClick($event, i)\"></ngx-gallery-action>\n                </div>\n                <div class=\"ngx-gallery-remaining-count-overlay\" *ngIf=\"remainingCount && remainingCountValue && (i == (rows * columns) - 1)\">\n                    <span class=\"ngx-gallery-remaining-count\">+{{remainingCountValue}}</span>\n                </div>\n            </a>\n        </div>\n    </div>\n    <ngx-gallery-arrows *ngIf=\"canShowArrows()\" (onPrevClick)=\"moveLeft()\" (onNextClick)=\"moveRight()\" [prevDisabled]=\"!canMoveLeft()\" [nextDisabled]=\"!canMoveRight()\" [arrowPrevIcon]=\"arrowPrevIcon\" [arrowNextIcon]=\"arrowNextIcon\"></ngx-gallery-arrows>\n    ",
+                    template: "\n    <div class=\"ngx-gallery-thumbnails-wrapper ngx-gallery-thumbnail-size-{{size}}\">\n        <div class=\"ngx-gallery-thumbnails\" [style.transform]=\"'translateX(' + thumbnailsLeft + ')'\" [style.marginLeft]=\"thumbnailsMarginLeft\">\n            <a [href]=\"hasLinks() ? links[i] : '#'\" [target]=\"linkTarget\" class=\"ngx-gallery-thumbnail\" *ngFor=\"let image of getImages(); let i = index\" (click)=\"handleClick($event, i)\" [style.width]=\"getThumbnailWidth()\" [style.height]=\"getThumbnailHeight()\" [style.left]=\"getThumbnailLeft(i)\" [style.top]=\"getThumbnailTop(i)\" [ngClass]=\"{ 'ngx-gallery-active': i == selectedIndex, 'ngx-gallery-clickable': clickable }\" [attr.aria-label]=\"labels[i]\">\n                <img-view *ngIf=\"image\" [src]=\"image\"></img-view>\n                <div class=\"ngx-gallery-icons-wrapper\">\n                    <ngx-gallery-action *ngFor=\"let action of actions\" [icon]=\"action.icon\" [disabled]=\"action.disabled\" [titleText]=\"action.titleText\" (onClick)=\"action.onClick($event, i)\"></ngx-gallery-action>\n                </div>\n                <div class=\"ngx-gallery-remaining-count-overlay\" *ngIf=\"remainingCount && remainingCountValue && (i == (rows * columns) - 1)\">\n                    <span class=\"ngx-gallery-remaining-count\">+{{remainingCountValue}}</span>\n                </div>\n            </a>\n        </div>\n    </div>\n    <ngx-gallery-arrows *ngIf=\"canShowArrows()\" (onPrevClick)=\"moveLeft()\" (onNextClick)=\"moveRight()\" [prevDisabled]=\"!canMoveLeft()\" [nextDisabled]=\"!canMoveRight()\" [arrowPrevIcon]=\"arrowPrevIcon\" [arrowNextIcon]=\"arrowNextIcon\"></ngx-gallery-arrows>\n    ",
                     styles: [":host { width: 100%; display: inline-block; position: relative; } .ngx-gallery-thumbnails-wrapper { width: 100%; height: 100%; position: absolute; overflow: hidden; } .ngx-gallery-thumbnails { height: 100%; width: 100%; position: absolute; left: 0px; transform: translateX(0); transition: transform 0.5s ease-in-out; will-change: transform; } .ngx-gallery-thumbnails .ngx-gallery-thumbnail { position: absolute; height: 100%; background-position: center; background-repeat: no-repeat; text-decoration: none; } .ngx-gallery-thumbnail-size-cover .ngx-gallery-thumbnails .ngx-gallery-thumbnail { background-size: cover; } .ngx-gallery-thumbnail-size-contain .ngx-gallery-thumbnails .ngx-gallery-thumbnail { background-size: contain; } .ngx-gallery-remaining-count-overlay { width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; background-color: rgba(0, 0, 0, 0.4); } .ngx-gallery-remaining-count { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 30px; } "]
                 },] },
     ];
@@ -2225,6 +2214,8 @@ var GocodeeGalleryPreviewComponent = /** @class */ (function () {
         this.initialLeft = 0;
         this.initialTop = 0;
         this.isMove = false;
+        console.log('preview');
+        console.log(this.images);
     }
     /**
      * @param {?} changes
@@ -2405,12 +2396,6 @@ var GocodeeGalleryPreviewComponent = /** @class */ (function () {
      * @return {?}
      */
     GocodeeGalleryPreviewComponent.prototype.getSafeUrl = function (image) {
-        if (image.type) {
-            return {
-                src: image.src,
-                type: 'video'
-            };
-        }
         return image.substr(0, 10) === 'data:image' ?
             image : this.sanitization.bypassSecurityTrustUrl(image);
     };
@@ -2611,7 +2596,7 @@ var GocodeeGalleryPreviewComponent = /** @class */ (function () {
         this.zoomValue = 1;
         this.rotateValue = 0;
         this.resetPosition();
-        this.src = this.getSafeUrl(this.images[this.index]);
+        this.src = this.getSafeUrl(/** @type {?} */ (this.images[this.index]));
         this.srcIndex = this.index;
         this.description = this.descriptions[this.index];
         setTimeout(function () {
@@ -2650,8 +2635,8 @@ var GocodeeGalleryPreviewComponent = /** @class */ (function () {
     GocodeeGalleryPreviewComponent.decorators = [
         { type: Component, args: [{
                     selector: 'gocodee-gallery-preview',
-                    template: "\n        <ngx-gallery-arrows (onPrevClick)=\"showPrev()\" (onNextClick)=\"showNext()\" [prevDisabled]=\"!canShowPrev()\" [nextDisabled]=\"!canShowNext()\" [arrowPrevIcon]=\"arrowPrevIcon\" [arrowNextIcon]=\"arrowNextIcon\"></ngx-gallery-arrows>\n        <div class=\"ngx-gallery-preview-top\">\n            <div class=\"ngx-gallery-preview-icons\">\n                <ngx-gallery-action *ngFor=\"let action of actions\" [icon]=\"action.icon\" [disabled]=\"action.disabled\" [titleText]=\"action.titleText\" (onClick)=\"action.onClick($event, index)\"></ngx-gallery-action>\n                <a *ngIf=\"download && src\" [href]=\"src\" class=\"ngx-gallery-icon\" aria-hidden=\"true\" download>\n                    <i class=\"ngx-gallery-icon-content {{ downloadIcon }}\"></i>\n                </a>\n                <ngx-gallery-action *ngIf=\"zoom\" [icon]=\"zoomOutIcon\" [disabled]=\"!canZoomOut()\" (onClick)=\"zoomOut()\"></ngx-gallery-action>\n                <ngx-gallery-action *ngIf=\"zoom\" [icon]=\"zoomInIcon\" [disabled]=\"!canZoomIn()\" (onClick)=\"zoomIn()\"></ngx-gallery-action>\n                <ngx-gallery-action *ngIf=\"rotate\" [icon]=\"rotateLeftIcon\" (onClick)=\"rotateLeft()\"></ngx-gallery-action>\n                <ngx-gallery-action *ngIf=\"rotate\" [icon]=\"rotateRightIcon\" (onClick)=\"rotateRight()\"></ngx-gallery-action>\n                <ngx-gallery-action *ngIf=\"fullscreen\" [icon]=\"'ngx-gallery-fullscreen ' + fullscreenIcon\" (onClick)=\"manageFullscreen()\"></ngx-gallery-action>\n                <ngx-gallery-action [icon]=\"'ngx-gallery-close ' + closeIcon\" (onClick)=\"close()\"></ngx-gallery-action>\n            </div>\n        </div>\n        <div class=\"ngx-spinner-wrapper ngx-gallery-center\" [class.ngx-gallery-active]=\"showSpinner\">\n            <i class=\"ngx-gallery-icon ngx-gallery-spinner {{spinnerIcon}}\" aria-hidden=\"true\"></i>\n        </div>\n        <div class=\"ngx-gallery-preview-wrapper\" (click)=\"closeOnClick && close()\" (mouseup)=\"mouseUpHandler($event)\" (mousemove)=\"mouseMoveHandler($event)\" (touchend)=\"mouseUpHandler($event)\" (touchmove)=\"mouseMoveHandler($event)\">\n            <div class=\"ngx-gallery-preview-img-wrapper\">\n                <video #previewImage *ngIf=\"src?.type\" preload=\"auto\" controls>\n                    <source [src]=\"src?.src\" type=\"video/mp4\">\n                </video>\n                <img *ngIf=\"src && !src?.type\" #previewImage class=\"ngx-gallery-preview-img ngx-gallery-center\" [src]=\"src\" (click)=\"$event.stopPropagation()\" (mouseenter)=\"imageMouseEnter()\" (mouseleave)=\"imageMouseLeave()\" (mousedown)=\"mouseDownHandler($event)\" (touchstart)=\"mouseDownHandler($event)\" [class.ngx-gallery-active]=\"!loading\" [class.animation]=\"animation\" [class.ngx-gallery-grab]=\"canDragOnZoom()\" [style.transform]=\"getTransform()\" [style.left]=\"positionLeft + 'px'\" [style.top]=\"positionTop + 'px'\"/>\n            </div>\n            <div class=\"ngx-gallery-preview-text\" *ngIf=\"showDescription && description\" [innerHTML]=\"description\"></div>\n        </div>\n    ",
-                    styles: [":host(.ngx-gallery-active) { width: 100%; height: 100%; position: fixed; left: 0; top: 0; background: rgba(0, 0, 0, 0.7); z-index: 10000; display: inline-block; } :host { display: none; } :host /deep/ .ngx-gallery-arrow { font-size: 50px; } .ngx-gallery-preview-img { opacity: 0; max-width: 90%; max-height: 90%; user-select: none; transition: transform .5s; } .ngx-gallery-preview-img.animation { transition: opacity 0.5s linear, transform .5s; } .ngx-gallery-preview-img.ngx-gallery-active { opacity: 1; } .ngx-gallery-preview-img.ngx-gallery-grab { cursor: grab; cursor: -webkit-grab; } .ngx-gallery-icon.ngx-gallery-spinner { font-size: 50px; left: 0; display: inline-block; } :host /deep/ .ngx-gallery-preview-top { position: absolute; width: 100%; user-select: none; } :host /deep/ .ngx-gallery-preview-icons { float: right; } :host /deep/ .ngx-gallery-preview-icons .ngx-gallery-icon { position: relative; margin-right: 10px; margin-top: 10px; font-size: 25px; cursor: pointer; text-decoration: none; } :host /deep/ .ngx-gallery-preview-icons .ngx-gallery-icon.ngx-gallery-icon-disabled { cursor: default; opacity: 0.4; } .ngx-spinner-wrapper { width: 50px; height: 50px; display: none; } .ngx-spinner-wrapper.ngx-gallery-active { display: inline-block; } .ngx-gallery-center { position: absolute; left: 0; right: 0; bottom: 0; margin: auto; top: 0; } .ngx-gallery-preview-text { width: 100%; background: rgba(0, 0, 0, 0.7); padding: 10px; text-align: center; color: white; font-size: 16px; flex: 0 1 auto; z-index: 10; } .ngx-gallery-preview-wrapper { width: 100%; height: 100%; display: flex; flex-flow: column; } .ngx-gallery-preview-img-wrapper { flex: 1 1 auto; position: relative; } "]
+                    template: "<ngx-gallery-arrows (onPrevClick)=\"showPrev()\" (onNextClick)=\"showNext()\" [prevDisabled]=\"!canShowPrev()\" [nextDisabled]=\"!canShowNext()\" [arrowPrevIcon]=\"arrowPrevIcon\" [arrowNextIcon]=\"arrowNextIcon\"></ngx-gallery-arrows> <div class=\"ngx-gallery-preview-top\"> <div class=\"ngx-gallery-preview-icons\"> <ngx-gallery-action *ngFor=\"let action of actions\" [icon]=\"action.icon\" [disabled]=\"action.disabled\" [titleText]=\"action.titleText\" (onClick)=\"action.onClick($event, index)\"></ngx-gallery-action> <a *ngIf=\"download && src\" [href]=\"src\" class=\"ngx-gallery-icon\" aria-hidden=\"true\" download> <i class=\"ngx-gallery-icon-content {{ downloadIcon }}\"></i> </a> <ngx-gallery-action *ngIf=\"zoom\" [icon]=\"zoomOutIcon\" [disabled]=\"!canZoomOut()\" (onClick)=\"zoomOut()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"zoom\" [icon]=\"zoomInIcon\" [disabled]=\"!canZoomIn()\" (onClick)=\"zoomIn()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"rotate\" [icon]=\"rotateLeftIcon\" (onClick)=\"rotateLeft()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"rotate\" [icon]=\"rotateRightIcon\" (onClick)=\"rotateRight()\"></ngx-gallery-action> <ngx-gallery-action *ngIf=\"fullscreen\" [icon]=\"'ngx-gallery-fullscreen ' + fullscreenIcon\" (onClick)=\"manageFullscreen()\"></ngx-gallery-action> <ngx-gallery-action [icon]=\"'ngx-gallery-close ' + closeIcon\" (onClick)=\"close()\"></ngx-gallery-action> </div> </div> <div class=\"ngx-spinner-wrapper ngx-gallery-center\" [class.ngx-gallery-active]=\"showSpinner\"> <i class=\"ngx-gallery-icon ngx-gallery-spinner {{spinnerIcon}}\" aria-hidden=\"true\"></i> </div> <div class=\"ngx-gallery-preview-wrapper\" (click)=\"closeOnClick && close()\" (mouseup)=\"mouseUpHandler($event)\" (mousemove)=\"mouseMoveHandler($event)\" (touchend)=\"mouseUpHandler($event)\" (touchmove)=\"mouseMoveHandler($event)\"> <div class=\"ngx-gallery-preview-img-wrapper\"> <div #previewImage class=\"ngx-gallery-preview-img ngx-gallery-center\" (click)=\"$event.stopPropagation()\" (mouseenter)=\"imageMouseEnter()\" (mouseleave)=\"imageMouseLeave()\" (mousedown)=\"mouseDownHandler($event)\" (touchstart)=\"mouseDownHandler($event)\" [class.ngx-gallery-active]=\"!loading\" [class.animation]=\"animation\" [class.ngx-gallery-grab]=\"canDragOnZoom()\" [style.transform]=\"getTransform()\" [style.left]=\"positionLeft + 'px'\" [style.top]=\"positionTop + 'px'\" *ngIf=\"src\"> <img-view [src]=\"data\" *ngFor=\"let data of [src]\" [clickable]=\"true\"></img-view> </div> </div> <div class=\"ngx-gallery-preview-text\" *ngIf=\"showDescription && description\" [innerHTML]=\"description\"></div> </div> ",
+                    styles: [":host(.ngx-gallery-active) { width: 100%; height: 100%; position: fixed; left: 0; top: 0; background: rgba(0, 0, 0, 0.8); z-index: 10000; display: inline-block; } :host { display: none; } :host /deep/ .ngx-gallery-arrow { font-size: 50px; } .ngx-gallery-preview-img { opacity: 0; max-width: 90%; max-height: 90%; user-select: none; transition: transform .5s; } .ngx-gallery-preview-img.animation { transition: opacity 0.5s linear, transform .5s; } .ngx-gallery-preview-img.ngx-gallery-active { opacity: 1; } .ngx-gallery-preview-img.ngx-gallery-grab { cursor: grab; cursor: -webkit-grab; } .ngx-gallery-icon.ngx-gallery-spinner { font-size: 50px; left: 0; display: inline-block; } :host /deep/ .ngx-gallery-preview-top { position: absolute; width: 100%; user-select: none; } :host /deep/ .ngx-gallery-preview-icons { float: right; } :host /deep/ .ngx-gallery-preview-icons .ngx-gallery-icon { position: relative; margin-right: 10px; margin-top: 10px; font-size: 25px; cursor: pointer; text-decoration: none; } :host /deep/ .ngx-gallery-preview-icons .ngx-gallery-icon.ngx-gallery-icon-disabled { cursor: default; opacity: 0.4; } .ngx-spinner-wrapper { width: 50px; height: 50px; display: none; } .ngx-spinner-wrapper.ngx-gallery-active { display: inline-block; } .ngx-gallery-center { position: absolute; left: 0; right: 0; bottom: 0; margin: auto; top: 0; } .ngx-gallery-preview-text { width: 100%; background: rgba(0, 0, 0, 0.7); padding: 10px; text-align: center; color: white; font-size: 16px; flex: 0 1 auto; z-index: 10; } .ngx-gallery-preview-wrapper { width: 100%; height: 100%; display: flex; flex-flow: column; } .ngx-gallery-preview-img-wrapper { flex: 1 1 auto; position: relative; } "]
                 },] },
     ];
     /**
@@ -2715,7 +2700,7 @@ var GocodeeGalleryComponent = /** @class */ (function () {
         this.previewClose = new EventEmitter();
         this.previewChange = new EventEmitter();
         this.oldImagesLength = 0;
-        this.selectedIndex = 0;
+        this.selectedIndex = 1;
         this.breakpoint = undefined;
         this.prevBreakpoint = undefined;
     }
@@ -2731,6 +2716,8 @@ var GocodeeGalleryComponent = /** @class */ (function () {
         if (this.currentOptions) {
             this.selectedIndex = /** @type {?} */ (this.currentOptions.startIndex);
         }
+        console.log('gallery');
+        console.log(this.images);
     };
     /**
      * @return {?}
@@ -2755,34 +2742,6 @@ var GocodeeGalleryComponent = /** @class */ (function () {
      */
     GocodeeGalleryComponent.prototype.ngAfterViewInit = function () {
         this.checkFullWidth();
-    };
-    /**
-     * @param {?} images
-     * @return {?}
-     */
-    GocodeeGalleryComponent.prototype.filterImages = function (images) {
-        var _this = this;
-        var /** @type {?} */ data = [];
-        images.forEach(function (image) {
-            if (_this.checkVideo(image)) {
-                data.push({
-                    src: image,
-                    type: true
-                });
-            }
-            else {
-                data.push(image);
-            }
-        });
-        return data;
-    };
-    /**
-     * @param {?} image
-     * @return {?}
-     */
-    GocodeeGalleryComponent.prototype.checkVideo = function (image) {
-        var /** @type {?} */ type = image.substring(image.lastIndexOf('.'), image.length);
-        return type == '.mp4';
     };
     /**
      * @return {?}
@@ -2946,6 +2905,30 @@ var GocodeeGalleryComponent = /** @class */ (function () {
     /**
      * @return {?}
      */
+    GocodeeGalleryComponent.prototype.moveThumbnailsRight = function () {
+        this.thubmnails.moveRight();
+    };
+    /**
+     * @return {?}
+     */
+    GocodeeGalleryComponent.prototype.moveThumbnailsLeft = function () {
+        this.thubmnails.moveLeft();
+    };
+    /**
+     * @return {?}
+     */
+    GocodeeGalleryComponent.prototype.canMoveThumbnailsRight = function () {
+        this.thubmnails.canMoveRight();
+    };
+    /**
+     * @return {?}
+     */
+    GocodeeGalleryComponent.prototype.canMoveThumbnailsLeft = function () {
+        this.thubmnails.canMoveLeft();
+    };
+    /**
+     * @return {?}
+     */
     GocodeeGalleryComponent.prototype.resetThumbnails = function () {
         if (this.thubmnails) {
             this.thubmnails.reset(/** @type {?} */ (this.currentOptions.startIndex));
@@ -2977,13 +2960,13 @@ var GocodeeGalleryComponent = /** @class */ (function () {
      */
     GocodeeGalleryComponent.prototype.setImages = function () {
         this.smallImages = this.images.map(function (img) { /** @type {?} */ return (img.small); });
-        this.smallImages = this.filterImages(this.smallImages);
         this.mediumImages = this.images.map(function (img, i) { return new NgxGalleryOrderedImage({
             src: img.medium,
             index: i
         }); });
         this.bigImages = this.images.map(function (img) { /** @type {?} */ return (img.big); });
-        this.bigImages = this.filterImages(this.bigImages);
+        console.log(this.images);
+        console.log(this.bigImages);
         this.descriptions = this.images.map(function (img) { /** @type {?} */ return (img.description); });
         this.links = this.images.map(function (img) { /** @type {?} */ return (img.url); });
         this.labels = this.images.map(function (img) { /** @type {?} */ return (img.label); });
@@ -3066,6 +3049,65 @@ var GocodeeGalleryComponent = /** @class */ (function () {
     return GocodeeGalleryComponent;
 }());
 
+var ImgViewComponent = /** @class */ (function () {
+    function ImgViewComponent() {
+        this.src = '';
+        this.linkTo = "['/']";
+        this.clickable = false;
+        this.isVideo = false;
+        this.type = 'video/mp4';
+        this.supported = ['mp4', 'webm', 'ogg'];
+    }
+    /**
+     * @return {?}
+     */
+    ImgViewComponent.prototype.ngOnInit = function () {
+        var /** @type {?} */ cloneSrc = this.src + '';
+        if (this.checkVideo(cloneSrc)) {
+            this.isVideo = true;
+        }
+        console.log(this.isVideo);
+    };
+    /**
+     * @param {?} image
+     * @return {?}
+     */
+    ImgViewComponent.prototype.checkVideo = function (image) {
+        var /** @type {?} */ type = image.substring(image.lastIndexOf('.') + 1, image.length);
+        return this.checkMatch(type, this.supported);
+    };
+    /**
+     * @param {?} src
+     * @param {?} supported
+     * @return {?}
+     */
+    ImgViewComponent.prototype.checkMatch = function (src, supported) {
+        var /** @type {?} */ filters = supported.filter(function (support) { return src.toLowerCase() === support; });
+        if (filters.length > 0) {
+            this.type = "video/" + filters[0];
+            return true;
+        }
+        return false;
+    };
+    ImgViewComponent.decorators = [
+        { type: Component, args: [{
+                    selector: 'img-view',
+                    template: "<div *ngIf=\"isVideo;else thumb\" class=\"w-100 h-100 pointer position-relative\"> <div class=\"gradient-bg \" [hidden]=\"clickable\"> <div class=\"play-button\"> <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"79\" height=\"79\" viewBox=\"0 0 79 79\"> <defs> <path id=\"a\" d=\"M0 0h48v47.94H0z\" /> </defs> <g fill=\"none\" fill-rule=\"evenodd\"> <path fill=\"#FFF\" d=\"M34 27.058V53l19.624-12.971z\" /> <g transform=\"translate(16 16)\"> <mask id=\"b\" fill=\"#fff\"> <use xlink:href=\"#a\" /> </mask> <path fill=\"#000\" fill-opacity=\".5\" d=\"M24 0C10.766 0 0 10.766 0 24s10.766 24 24 24 24-10.766 24-24S37.234 0 24 0zm12.449 24.66l-17.597 12a.796.796 0 0 1-1.25-.66V12a.798.798 0 0 1 1.25-.66l17.601 12a.796.796 0 0 1-.004 1.32z\" mask=\"url(#b)\" /> </g> <circle cx=\"40\" cy=\"40\" r=\"26\" stroke=\"#FFF\" stroke-width=\"5\" /> </g> </svg> </div> </div> <video class=\"video-content\" preload=\"false\" width=\"100%\" [controls]=\"clickable\"> <source [src]=\"src\" [type]=\"type\"> </video> </div> <ng-template #thumb> <div class=\"image-content pointer w-100 h-100\" [ngStyle]=\"{'background-image': 'url(' + src + ')'}\"></div> </ng-template> ",
+                    styles: [".image-content { background-repeat: no-repeat; width: 100%; height: 100%; background-size: cover; min-height: 100px; background-position: center; } .gradient-bg { position: absolute; width: 100%; height: 100%; top: 0; z-index: 100; display: flex; justify-content: center; } .gradient-bg .play-button { display: flex; flex-direction: column; justify-content: center; } .video-content { width: 100%; height: 100%; min-height: 100px; object-fit: fill; } "]
+                },] },
+    ];
+    /**
+     * @nocollapse
+     */
+    ImgViewComponent.ctorParameters = function () { return []; };
+    ImgViewComponent.propDecorators = {
+        'src': [{ type: Input },],
+        'linkTo': [{ type: Input },],
+        'clickable': [{ type: Input },],
+    };
+    return ImgViewComponent;
+}());
+
 var NgxGalleryImage = /** @class */ (function () {
     /**
      * @param {?} obj
@@ -3121,7 +3163,8 @@ var NgxGalleryGoCodeeModule = /** @class */ (function () {
                         NgxGalleryPreviewComponent,
                         GocodeeGalleryComponent,
                         GocodeeGalleryPreviewComponent,
-                        NgxGalleryComponent
+                        NgxGalleryComponent,
+                        ImgViewComponent
                     ],
                     exports: [
                         NgxGalleryComponent,
@@ -3139,4 +3182,4 @@ var NgxGalleryGoCodeeModule = /** @class */ (function () {
     return NgxGalleryGoCodeeModule;
 }());
 
-export { CustomHammerConfig, NgxGalleryGoCodeeModule, NgxGalleryComponent, GocodeeGalleryComponent, GocodeeGalleryPreviewComponent, NgxGalleryActionComponent, NgxGalleryImageComponent, NgxGalleryThumbnailsComponent, NgxGalleryThumbnailsMobileComponent, NgxGalleryPreviewComponent, NgxGalleryArrowsComponent, NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation, NgxGalleryHelperService, NgxGalleryImageSize, NgxGalleryLayout, NgxGalleryOrder, NgxGalleryOrderedImage, NgxGalleryAction };
+export { CustomHammerConfig, NgxGalleryGoCodeeModule, NgxGalleryComponent, ImgViewComponent, GocodeeGalleryComponent, GocodeeGalleryPreviewComponent, NgxGalleryActionComponent, NgxGalleryImageComponent, NgxGalleryThumbnailsComponent, NgxGalleryThumbnailsMobileComponent, NgxGalleryPreviewComponent, NgxGalleryArrowsComponent, NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation, NgxGalleryHelperService, NgxGalleryImageSize, NgxGalleryLayout, NgxGalleryOrder, NgxGalleryOrderedImage, NgxGalleryAction };

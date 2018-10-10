@@ -1,5 +1,6 @@
 import { HammerGestureConfig } from '@angular/platform-browser';
 export * from './ngx-gallery.component';
+export * from './img-view.component';
 export * from './gocodee-gallery.component';
 export * from './gocodee-gallery-preview.component';
 export * from './ngx-gallery-action.component';

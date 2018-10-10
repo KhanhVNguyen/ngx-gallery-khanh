@@ -66,8 +66,6 @@ export declare class NgxGalleryComponent implements OnInit, DoCheck, AfterViewIn
     private select(index);
     private checkFullWidth();
     private setImages();
-    filterImages(images: any): any[];
-    checkVideo(image: any): boolean;
     private setBreakpoint();
     private sortOptions();
     private setOptions();

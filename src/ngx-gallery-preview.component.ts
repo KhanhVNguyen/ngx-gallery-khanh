@@ -195,6 +195,24 @@ export class NgxGalleryPreviewComponent implements OnChanges, OnInit {
         }
     }
 
+    isVideo: boolean = false;
+    type: string = 'video/mp4';
+    supported = ['mp4', 'webm', 'ogg'];
+    checkVideo(image) {
+        let type = image.substring(image.lastIndexOf('.') + 1, image.length);
+        return this.checkMatch(type, this.supported);
+    }
+
+    checkMatch(src: string, supported: Array<string>): boolean {
+        let filters = supported.filter(support => src.toLowerCase() === support);
+        if (filters.length > 0) {
+            this.type = `video/${filters[0]}`;
+            return true;
+        }
+        return false;
+    }
+
+
     selectImage(index) {
         this.index = index;
         this.show();
@@ -246,12 +264,6 @@ export class NgxGalleryPreviewComponent implements OnChanges, OnInit {
     }
 
     getSafeUrl(image): SafeUrl {
-        if (image.type) {
-            return {
-                src: image.src,
-                type: 'video'
-            }
-        }
         return image.substr(0, 10) === 'data:image' ?
             image : this.sanitization.bypassSecurityTrustUrl(image);
     }
@@ -405,34 +417,34 @@ export class NgxGalleryPreviewComponent implements OnChanges, OnInit {
         this.rotateValue = 0;
         this.resetPosition();
 
-        this.src = this.getSafeUrl(<string>this.images[this.index]);
+        this.src = this.images[this.index];
         this.srcIndex = this.index;
         this.description = this.descriptions[this.index];
 
-        if (this.src['type']) {
-            this.loading = false;
-            this.showSpinner = false;
-            return;
-        }
-        setTimeout(() => {
-            if (this.isLoaded(this.previewImage.nativeElement)) {
-                this.loading = false;
-                this.startAutoPlay();
-            } else {
-                setTimeout(() => {
-                    if (this.loading) {
-                        this.showSpinner = true;
-                    }
-                })
+        this.loading = false;
+        this.showSpinner = false;
+        // return;
+        // if (this.isVideo) {
+        // }
+        // setTimeout(() => {
+        //     if (this.isLoaded(this.previewImage.nativeElement)) {
+        //         this.loading = false;
+        //         this.startAutoPlay();
+        //     } else {
+        //         setTimeout(() => {
+        //             if (this.loading) {
+        //                 this.showSpinner = true;
+        //             }
+        //         })
 
-                this.previewImage.nativeElement.onload = () => {
-                    this.loading = false;
-                    this.showSpinner = false;
-                    this.previewImage.nativeElement.onload = null;
-                    this.startAutoPlay();
-                }
-            }
-        })
+        //         this.previewImage.nativeElement.onload = () => {
+        //             this.loading = false;
+        //             this.showSpinner = false;
+        //             this.previewImage.nativeElement.onload = null;
+        //             this.startAutoPlay();
+        //         }
+        //     }
+        // })
     }
 
     public isLoaded(img): boolean {

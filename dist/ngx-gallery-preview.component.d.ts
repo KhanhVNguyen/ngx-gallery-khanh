@@ -83,6 +83,11 @@ export declare class NgxGalleryPreviewComponent implements OnChanges, OnInit {
     startAutoPlay(): void;
     stopAutoPlay(): void;
     showNext(): boolean;
+    isVideo: boolean;
+    type: string;
+    supported: string[];
+    checkVideo(image: any): boolean;
+    checkMatch(src: string, supported: Array<string>): boolean;
     selectImage(index: any): void;
     showPrev(): void;
     canShowNext(): boolean;

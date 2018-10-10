@@ -36,9 +36,9 @@ export class GocodeeGalleryComponent implements OnInit, DoCheck, AfterViewInit  
     @Output() previewClose = new EventEmitter();
     @Output() previewChange = new EventEmitter<{ index: number; image: NgxGalleryImage; }>();
 
-    smallImages: any[];
+    smallImages: string[] | SafeResourceUrl[];
     mediumImages: NgxGalleryOrderedImage[];
-    bigImages: any[];
+    bigImages: string[] | SafeResourceUrl[];
     descriptions: string[];
     links: string[];
     labels: string[];
@@ -46,7 +46,7 @@ export class GocodeeGalleryComponent implements OnInit, DoCheck, AfterViewInit  
     oldImages: NgxGalleryImage[];
     oldImagesLength = 0;
 
-    selectedIndex = 0;
+    selectedIndex = 1;
     previewEnabled: boolean;
 
     currentOptions: NgxGalleryOptions;
@@ -74,6 +74,10 @@ export class GocodeeGalleryComponent implements OnInit, DoCheck, AfterViewInit  
         if (this.currentOptions) {
             this.selectedIndex = <number>this.currentOptions.startIndex;
         }
+        console.log('gallery');
+        
+        console.log(this.images);
+        
     }
 
     ngDoCheck(): void {
@@ -97,27 +101,6 @@ export class GocodeeGalleryComponent implements OnInit, DoCheck, AfterViewInit  
 
     ngAfterViewInit(): void {
         this.checkFullWidth();
-    }
-
-    filterImages(images) {
-        let data = [];
-        images.forEach(image => {
-            if (this.checkVideo(image)) {
-                data.push({
-                    src: image,
-                    type: true
-                })
-            } else {
-                data.push(image);
-            }
-        });
-
-        return data;
-    }
-
-    checkVideo(image) {
-        let type = image.substring(image.lastIndexOf('.'), image.length);
-        return type == '.mp4'
     }
 
     @HostListener('window:resize') onResize() {
@@ -242,6 +225,22 @@ export class GocodeeGalleryComponent implements OnInit, DoCheck, AfterViewInit  
         this.previewChange.emit({index, image: this.images[index]});
     }
 
+    moveThumbnailsRight() {
+        this.thubmnails.moveRight();
+    }
+
+    moveThumbnailsLeft() {
+        this.thubmnails.moveLeft();
+    }
+
+    canMoveThumbnailsRight() {
+        this.thubmnails.canMoveRight();
+    }
+
+    canMoveThumbnailsLeft() {
+        this.thubmnails.canMoveLeft();
+    }
+
     private resetThumbnails() {
         if (this.thubmnails) {
             this.thubmnails.reset(<number>this.currentOptions.startIndex);
@@ -267,15 +266,14 @@ export class GocodeeGalleryComponent implements OnInit, DoCheck, AfterViewInit  
 
     private setImages(): void {
         this.smallImages = this.images.map((img) => <string>img.small);
-        this.smallImages = this.filterImages(this.smallImages);
-
         this.mediumImages = this.images.map((img, i) => new NgxGalleryOrderedImage({
             src: img.medium,
             index: i
         }));
         this.bigImages = this.images.map((img) => <string>img.big);
-        this.bigImages = this.filterImages(this.bigImages);
-
+        console.log(this.images);
+        
+        console.log(this.bigImages);
         this.descriptions = this.images.map((img) => <string>img.description);
         this.links = this.images.map((img) => <string>img.url);
         this.labels = this.images.map((img) => <string>img.label);

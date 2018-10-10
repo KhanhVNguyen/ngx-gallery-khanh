@@ -11,8 +11,10 @@ import { NgxGalleryComponent } from './ngx-gallery.component';
 import { NgxGalleryThumbnailsMobileComponent } from './ngx-gallery-thumbnails-mobile.component';
 import { GocodeeGalleryComponent } from './gocodee-gallery.component';
 import { GocodeeGalleryPreviewComponent } from './gocodee-gallery-preview.component';
+import { ImgViewComponent } from './img-view.component';
 
 export * from './ngx-gallery.component';
+export * from './img-view.component';
 export * from './gocodee-gallery.component';
 export * from './gocodee-gallery-preview.component';
 export * from './ngx-gallery-action.component';
@@ -51,7 +53,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
         NgxGalleryPreviewComponent,
         GocodeeGalleryComponent,
         GocodeeGalleryPreviewComponent,
-        NgxGalleryComponent
+        NgxGalleryComponent,
+        ImgViewComponent
     ],
     exports: [
         NgxGalleryComponent,

@@ -26,7 +26,7 @@ export class NgxGalleryHelperService {
     }
 
     validateUrl(url: string): string {
-        if (url.replace) {
+        if (url && url.replace) {
             return url.replace(new RegExp(' ', 'g'), '%20');
         } else {
             return url;

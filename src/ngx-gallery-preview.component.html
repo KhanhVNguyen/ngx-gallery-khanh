@@ -28,7 +28,8 @@
 
                     <ul *ngIf="!isProject" class="ngx-gallery-preview-agent-info">
                         <li class="ngx-gallery-preview-nav-item">
-                            <img *ngIf="src" class="ngx-gallery-preview-company-avatar" src="/assets/images/mobile_bg.jpg" alt="" style="width: 70px; height:70px">
+                            <img *ngIf="src" class="ngx-gallery-preview-company-avatar" src="/assets/images/mobile_bg.jpg"
+                                alt="" style="width: 70px; height:70px">
                             <span class="ngx-gallery-preview-company-name">MEKONG REALITY</span>
                         </li>
                         <li class="ngx-gallery-preview-nav-item agent-info">
@@ -103,15 +104,31 @@
                     </div>
                 </div>
                 <div class="ngx-gallery-preview-image">
-                    <video #previewVideo *ngIf="src?.type" preload="auto" controls style="height: 500px">
-                        <source [src]="src?.src" type="video/mp4">
-                    </video>
-                    <img *ngIf="src && !src?.type" #previewImage class="ngx-gallery-preview-img ngx-gallery-center"
-                        [src]="src" style="width: 800px; height: 500px;" (click)="$event.stopPropagation()"
-                        (mouseenter)="imageMouseEnter()" (mouseleave)="imageMouseLeave()" (mousedown)="mouseDownHandler($event)"
-                        (touchstart)="mouseDownHandler($event)" [class.ngx-gallery-active]="!loading" [class.animation]="animation"
-                        [class.ngx-gallery-grab]="canDragOnZoom()" [style.transform]="getTransform()" [style.left]="positionLeft + 'px'"
-                        [style.top]="positionTop + 'px'" />
+                    <!-- <video *ngIf="isVideo" preload="auto" controls style="height: 500px">
+                        <source [src]="src" [type]="type">
+                    </video> -->
+                    <!-- <div *ngIf="isVideo;else thumb" class="w-100 pointer position-relative" style="height: 500px">
+                        <div class="gradient-bg "></div>
+                        <video #previewVideo preload="false" width="100%" controls>
+                            <source [src]="src" [type]="type">
+                        </video>
+                    </div>
+
+                    <ng-template #thumb>
+                        <img #previewImage class="ngx-gallery-preview-img ngx-gallery-center"
+                            [src]="src" style="width: 800px; height: 500px;" (click)="$event.stopPropagation()"
+                            (mouseenter)="imageMouseEnter()" (mouseleave)="imageMouseLeave()" (mousedown)="mouseDownHandler($event)"
+                            (touchstart)="mouseDownHandler($event)" [class.ngx-gallery-active]="!loading"
+                            [class.animation]="animation" [class.ngx-gallery-grab]="canDragOnZoom()" [style.transform]="getTransform()"
+                            [style.left]="positionLeft + 'px'" [style.top]="positionTop + 'px'" />
+                    </ng-template> -->
+                    <div #previewImage class="ngx-gallery-preview-img ngx-gallery-center" style="width: 800px; height: 500px;"
+                        (click)="$event.stopPropagation()" (mouseenter)="imageMouseEnter()" (mouseleave)="imageMouseLeave()"
+                        (mousedown)="mouseDownHandler($event)" (touchstart)="mouseDownHandler($event)"
+                        [class.ngx-gallery-active]="!loading" [class.animation]="animation" [class.ngx-gallery-grab]="canDragOnZoom()"
+                        [style.transform]="getTransform()" [style.left]="positionLeft + 'px'" [style.top]="positionTop + 'px'" *ngIf="src">                      
+                        <img-view [src]="data" *ngFor="let data of [src]" [clickable]="true"></img-view>
+                    </div>
                 </div>
 
                 <div class="ngx-gallery-preview-tab">
@@ -139,15 +156,9 @@
                     </div>
                     <div class="ngx-gallery-preview-img-list">
                         <div class="row">
-                            <div class="col-3 col-md-1 col-sm-2 img-item" *ngFor="let image of tabImages; let i = index;"
+                            <div class="col-md-1 col-3 col-sm-2 img-item" *ngFor="let image of tabImages; let i = index;"
                                 [class.active]="i == index" (click)="selectImage(i)">
-                                <div *ngIf="image.type" class="img-thumnails">
-                                    <video preload="false" style="width: 100%" muted (click)="selectImage(i)">
-                                        <source [src]="image.src" type="video/mp4">
-                                    </video>
-                                </div>
-                                <div *ngIf="!image.type" class="img-thumnails" [style.background-image]="getSafeUrl2(image.src)">
-                                </div>
+                                <img-view [src]="image.src"></img-view>
                             </div>
                         </div>
                     </div>

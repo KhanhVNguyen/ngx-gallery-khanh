@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener,  ElementRef, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ElementRef, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { SafeResourceUrl, DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 import { NgxGalleryHelperService } from './ngx-gallery-helper.service';
@@ -10,11 +10,9 @@ import { NgxGalleryAction } from './ngx-gallery-action.model';
     selector: 'ngx-gallery-image',
     template: `
         <div class="ngx-gallery-image-wrapper ngx-gallery-animation-{{animation}} ngx-gallery-image-size-{{size}}">
-            <div class="ngx-gallery-image" *ngFor="let image of getImages(); let i = index;" [ngClass]="{ 'ngx-gallery-active': selectedIndex == image.index, 'ngx-gallery-inactive-left': selectedIndex > image.index, 'ngx-gallery-inactive-right': selectedIndex < image.index, 'ngx-gallery-clickable': clickable }"  [style.background-image]="image?.type ? '' : getSafeUrl(image)" (click)="handleClick($event, image.index)">
-                <video *ngIf="image?.type" preload="false" controls style="width: 100%">
-                    <source [src]="image.src" type="video/mp4">
-                </video>    
-                <div class="ngx-gallery-icons-wrapper">
+            <div class="ngx-gallery-image" *ngFor="let image of images; let i = index;" [ngClass]="{ 'ngx-gallery-active': selectedIndex == image.index, 'ngx-gallery-inactive-left': selectedIndex > image.index, 'ngx-gallery-inactive-right': selectedIndex < image.index, 'ngx-gallery-clickable': clickable }" [style.background-image]="getSafeUrl(image.src)" (click)="handleClick($event, image.index)">
+            <img-view [src]="image.src"></img-view>    
+            <div class="ngx-gallery-icons-wrapper">
                     <ngx-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled" [titleText]="action.titleText" (onClick)="action.onClick($event, image.index)"></ngx-gallery-action>
                 </div>
                 <div class="ngx-gallery-image-text" *ngIf="showDescription && descriptions[image.index]" [innerHTML]="descriptions[image.index]"></div>
@@ -25,7 +23,7 @@ import { NgxGalleryAction } from './ngx-gallery-action.model';
     styleUrls: ['./ngx-gallery-image.component.scss']
 })
 export class NgxGalleryImageComponent implements OnInit, OnChanges {
-    @Input() images: any[];
+    @Input() images: NgxGalleryOrderedImage[];
     @Input() clickable: boolean;
     @Input() selectedIndex: number;
     @Input() arrows: boolean;
@@ -47,12 +45,14 @@ export class NgxGalleryImageComponent implements OnInit, OnChanges {
     @Output() onClick = new EventEmitter();
     @Output() onActiveChange = new EventEmitter();
 
+    showImages: any;
+
     canChangeImage = true;
 
     private timer;
 
     constructor(private sanitization: DomSanitizer,
-        private elementRef: ElementRef, private helperService: NgxGalleryHelperService) {}
+        private elementRef: ElementRef, private helperService: NgxGalleryHelperService) { }
 
     ngOnInit(): void {
         if (this.arrows && this.arrowsAutoHide) {
@@ -62,6 +62,8 @@ export class NgxGalleryImageComponent implements OnInit, OnChanges {
         if (this.autoPlay) {
             this.startAutoPlay();
         }
+
+        this.getImages();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -95,28 +97,33 @@ export class NgxGalleryImageComponent implements OnInit, OnChanges {
     }
 
     getImages() {
-        if (this.lazyLoading) {
-            let indexes = [this.selectedIndex];
-            let prevIndex = this.selectedIndex - 1;
+        // if (this.lazyLoading) {
+        //     let indexes = [this.selectedIndex];
+        //     let prevIndex = this.selectedIndex - 1;
 
-            if (prevIndex === -1 && this.infinityMove) {
-                indexes.push(this.images.length - 1)
-            } else if (prevIndex >= 0) {
-                indexes.push(prevIndex);
-            }
+        //     if (prevIndex === -1 && this.infinityMove) {
+        //         indexes.push(this.images.length - 1)
+        //     } else if (prevIndex >= 0) {
+        //         indexes.push(prevIndex);
+        //     }
 
-            let nextIndex = this.selectedIndex + 1;
+        //     let nextIndex = this.selectedIndex + 1;
 
-            if (nextIndex == this.images.length && this.infinityMove) {
-                indexes.push(0);
-            } else if (nextIndex < this.images.length) {
-                indexes.push(nextIndex);
-            }
+        //     if (nextIndex == this.images.length && this.infinityMove) {
+        //         indexes.push(0);
+        //     } else if (nextIndex < this.images.length) {
+        //         indexes.push(nextIndex);
+        //     }
 
-            return this.images.filter((img, i) => indexes.indexOf(i) != -1);
-        } else {
-            return this.images;
-        }
+        //     this.showImages = this.images.filter((img, i) => indexes.indexOf(i) != -1);
+        //     console.log(this.showImages);
+
+        //     // return images;
+        // } else {
+        //     console.log(this.images);
+
+        // }
+        this.showImages = this.images;
     }
 
     startAutoPlay(): void {
@@ -181,7 +188,7 @@ export class NgxGalleryImageComponent implements OnInit, OnChanges {
 
         if (this.animation === NgxGalleryAnimation.Slide
             || this.animation === NgxGalleryAnimation.Fade) {
-                timeout = 500;
+            timeout = 500;
         }
 
         setTimeout(() => {
