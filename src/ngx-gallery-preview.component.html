@@ -104,24 +104,6 @@
                     </div>
                 </div>
                 <div class="ngx-gallery-preview-image">
-                    <!-- <video *ngIf="isVideo" preload="auto" controls style="height: 500px">
-                        <source [src]="src" [type]="type">
-                    </video> -->
-                    <!-- <div *ngIf="isVideo;else thumb" class="w-100 pointer position-relative" style="height: 500px">
-                        <div class="gradient-bg "></div>
-                        <video #previewVideo preload="false" width="100%" controls>
-                            <source [src]="src" [type]="type">
-                        </video>
-                    </div>
-
-                    <ng-template #thumb>
-                        <img #previewImage class="ngx-gallery-preview-img ngx-gallery-center"
-                            [src]="src" style="width: 800px; height: 500px;" (click)="$event.stopPropagation()"
-                            (mouseenter)="imageMouseEnter()" (mouseleave)="imageMouseLeave()" (mousedown)="mouseDownHandler($event)"
-                            (touchstart)="mouseDownHandler($event)" [class.ngx-gallery-active]="!loading"
-                            [class.animation]="animation" [class.ngx-gallery-grab]="canDragOnZoom()" [style.transform]="getTransform()"
-                            [style.left]="positionLeft + 'px'" [style.top]="positionTop + 'px'" />
-                    </ng-template> -->
                     <div #previewImage class="ngx-gallery-preview-img ngx-gallery-center" style="width: 800px; height: 500px;"
                         (click)="$event.stopPropagation()" (mouseenter)="imageMouseEnter()" (mouseleave)="imageMouseLeave()"
                         (mousedown)="mouseDownHandler($event)" (touchstart)="mouseDownHandler($event)"

@@ -32,6 +32,7 @@ export declare class NgxGalleryThumbnailsComponent implements OnChanges {
     remainingCount: boolean;
     lazyLoading: boolean;
     actions: NgxGalleryAction[];
+    numberShowArrow: number;
     onActiveChange: EventEmitter<{}>;
     private index;
     constructor(sanitization: DomSanitizer, elementRef: ElementRef, helperService: NgxGalleryHelperService);

@@ -57,8 +57,7 @@ export class CustomHammerConfig extends HammerGestureConfig  {
         ImgViewComponent
     ],
     exports: [
-        NgxGalleryComponent,
-        GocodeeGalleryComponent
+        NgxGalleryComponent
     ],
     providers: [
         { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig }

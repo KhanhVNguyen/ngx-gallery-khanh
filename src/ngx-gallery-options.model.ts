@@ -63,6 +63,7 @@ export interface INgxGalleryOptions {
     previewCustom?: (index: number) => void;
     arrowPrevIcon?: string;
     arrowNextIcon?: string;
+    numberShowArrow?:number;
     closeIcon?: string;
     fullscreenIcon?: string;
     spinnerIcon?: string;
@@ -111,6 +112,7 @@ export class NgxGalleryOptions implements INgxGalleryOptions {
     thumbnailsAsLinks?: boolean;
     thumbnailMargin?: number;
     thumbnailSize?: string;
+    numberShowArrow?:number;
     thumbnailActions?: NgxGalleryAction[];
     preview?: boolean;
     previewDescription?: boolean;

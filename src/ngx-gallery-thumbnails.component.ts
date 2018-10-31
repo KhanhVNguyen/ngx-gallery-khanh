@@ -40,6 +40,7 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
     @Input() remainingCount: boolean;
     @Input() lazyLoading: boolean;
     @Input() actions: NgxGalleryAction[];
+    @Input() numberShowArrow: number;
 
     @Output() onActiveChange = new EventEmitter();
 
@@ -201,7 +202,10 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
     canShowArrows(): boolean {
         if (this.remainingCount) {
             return false;
-        } else if (this.arrows && this.images && this.images.length > this.getVisibleCount()
+        } else if (this.images.length < 4) {
+            return false;
+        }
+        else if (this.arrows && this.images.length > this.getVisibleCount()
             && (!this.arrowsAutoHide || this.mouseenter)) {
             return true;
         } else {
@@ -261,7 +265,10 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
     }
 
     private getVisibleCount(): number {
-        return this.columns * this.rows;
+        // if(this.numberShowArrow) {
+        //     return this.numberShowArrow;
+        // }
+        return 3;
     }
 
     private getSafeStyle(value: string): SafeStyle {
