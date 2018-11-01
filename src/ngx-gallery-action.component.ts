@@ -9,6 +9,8 @@ import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from 
             (click)="handleClick($event)">
                 <i class="ngx-gallery-icon-content {{ icon }}"></i>
         </div>`,
+    styleUrls: ['./ngx-gallery-action.component.scss'],
+
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgxGalleryActionComponent {

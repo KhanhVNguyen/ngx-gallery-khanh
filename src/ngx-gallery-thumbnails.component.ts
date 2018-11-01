@@ -148,7 +148,7 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
     }
 
     canMoveRight(): boolean {
-        return this.index + this.columns < this.getMaxIndex() ? true : false;
+        return this.index + this.columns < this.getMaxIndex()  ? true : false;
     }
 
     canMoveLeft(): boolean {
@@ -253,10 +253,11 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
     }
 
     private getMaxIndex(): number {
-        if (this.isEven(this.images.length)) {
-            return Math.ceil(this.images.length / this.rows) + (this.images.length / 4);
+        let length = this.images.length;
+        if (this.isEven(length)) {
+            return Math.ceil((length + 4) / this.rows) + ((length + 4) / 4);
         } else {
-            return Math.ceil(this.images.length / this.rows) + ((this.images.length / 4) - 1);
+            return Math.ceil((length + 4) / this.rows) + (((length + 4) / 4) - 1);
         }
     }
 

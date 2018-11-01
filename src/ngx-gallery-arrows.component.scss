@@ -37,3 +37,20 @@
         right: 10px;
     }
 }
+
+.ngx-gallery-icon-content {
+    background-size: 50px;
+    margin-top: 0px !important;
+    padding-top: 50px;
+}
+
+.ngx-gallery-icon-content-prev {
+    background-image: url(/assets/images/prev-btn.svg);
+    background-repeat: no-repeat;
+    transform: rotate(180deg);
+}
+
+.ngx-gallery-icon-content-next {
+    background-image: url(/assets/images/next-btn.svg);
+    background-repeat: no-repeat;
+}
