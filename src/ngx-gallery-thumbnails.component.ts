@@ -255,9 +255,9 @@ export class NgxGalleryThumbnailsComponent implements OnChanges {
     private getMaxIndex(): number {
         let length = this.images.length;
         if (this.isEven(length)) {
-            return Math.ceil((length + 4) / this.rows) + ((length + 4) / 4);
+            return Math.ceil((length + 2) / this.rows) + ((length + 2) / 4);
         } else {
-            return Math.ceil((length + 4) / this.rows) + (((length + 4) / 4) - 1);
+            return Math.ceil((length + 3) / this.rows) + (((length + 3) / 4) - 1);
         }
     }
 
