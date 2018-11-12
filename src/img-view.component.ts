@@ -9,6 +9,7 @@ export class ImgViewComponent implements OnInit {
     @Input() src: string = '';
     @Input() linkTo: string = `['/']`;
     @Input() clickable: boolean = false;
+    @Input() contain: boolean = false;
 
     isVideo: boolean = false;
     type: string = 'video/mp4';
@@ -20,9 +21,6 @@ export class ImgViewComponent implements OnInit {
         if (this.checkVideo(cloneSrc)) {
             this.isVideo = true;
         }
-
-        console.log(this.isVideo);
-        
     }
 
     checkVideo(image) {
