@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
     selector: 'img-view',
@@ -10,6 +10,8 @@ export class ImgViewComponent implements OnInit {
     @Input() linkTo: string = `['/']`;
     @Input() clickable: boolean = false;
     @Input() contain: boolean = false;
+    @ViewChild('image') img: ElementRef;
+    error: boolean = false;
 
     isVideo: boolean = false;
     type: string = 'video/mp4';
@@ -20,6 +22,16 @@ export class ImgViewComponent implements OnInit {
         let cloneSrc = this.src + '';
         if (this.checkVideo(cloneSrc)) {
             this.isVideo = true;
+        }
+    }
+    success() {
+        let n_width = this.img.nativeElement.naturalWidth;
+        let n_height = this.img.nativeElement.naturalHeight;
+        let ratio = n_width / n_height;
+        if (ratio > 1.42) {
+            this.contain = false;
+        } else {
+            this.contain = true;
         }
     }
 
@@ -36,5 +48,4 @@ export class ImgViewComponent implements OnInit {
         }
         return false;
     }
-
 }

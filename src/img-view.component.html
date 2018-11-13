@@ -26,5 +26,6 @@
     </video>
 </div>
 <ng-template #thumb>
+    <img #image [src]="src" (load)="success()" hidden/>
     <div class="image-content pointer w-100 h-100" [ngStyle]="{'background-image': 'url(' + src + ')'}" [class.contain]="contain"></div>
 </ng-template>
